@@ -45,4 +45,63 @@ body {
 
 body {
   background-color: #f2f2f2;
+}
+
+site-header {
+  display: grid;
+  background-color: #e5e5e5;
+}
+site-header * {
+  width: -moz-fit-content;
+  width: fit-content;
+  grid-area: 1/1;
+}
+site-header button {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+site-header h3 {
+  align-self: center;
+  justify-self: center;
+}
+site-header dark-mode-toggle {
+  align-self: center;
+  justify-self: right;
+}
+site-header dark-mode-toggle input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+  font-size: inherit;
+  width: 2em;
+  height: 1em;
+  box-sizing: content-box;
+  border: 2px solid;
+  border-radius: 1em;
+  vertical-align: text-bottom;
+  margin: auto;
+  color: inherit;
+  cursor: pointer;
+}
+site-header dark-mode-toggle input:active {
+  opacity: 0.6;
+}
+site-header dark-mode-toggle input:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  box-sizing: border-box;
+  width: 0.7em;
+  height: 0.7em;
+  margin: 0 0.15em;
+  border: 1px solid;
+  border-radius: 50%;
+  background: currentcolor;
+  transition: 300ms left;
+}
+site-header dark-mode-toggle input:checked:before {
+  left: 1em;
 }/*# sourceMappingURL=index.css.map */
