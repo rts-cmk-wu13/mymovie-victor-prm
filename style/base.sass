@@ -1,0 +1,81 @@
+@use 'sass:math'
+@use 'sass:color'
+
+$gray-000: #000000
+$gray-100: #1a1a1a
+$gray-200: #333333
+$gray-300: #4d4d4d
+$gray-400: #666666
+$gray-500: #7f7f7f
+$gray-600: #999999
+$gray-700: #b3b3b3
+$gray-750: #bfbfbf
+$gray-800: #cccccc
+$gray-850: #d9d9d9
+$gray-900: #e5e5e5
+$gray-950: #f2f2f2
+$gray-1000: #ffffff
+
+$color-primary: #88A4E8
+$color-primary-dark: #110E47
+$color-primary-light: #DBE3FF
+
+$black-tint-100: rgba($gray-100, .2)
+$box-shadow-6r: 0 0 6rem $black-tint-100
+
+$max-width-content: 70rem
+$max-width-page: 80rem
+$tablet-breakpoint: 40rem
+$spacing-1x: 0.5rem
+$spacing-2x: $spacing-1x*2
+$spacing-3x: $spacing-1x*3
+$spacing-4x: $spacing-1x*4
+$spacing-05x: math.div($spacing-1x,2)
+$spacing-025x: math.div($spacing-1x,4)
+
+$svg-white: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg) brightness(110%) contrast(110%)
+
+$text-headline: 1.5rem/2rem Roboto_Reg, Arial, Helvetica, sans-serif
+$grid-item-size: 8rem
+
+@font-face
+    font-family: Mulish
+    src: url(/fonts/Mulish/Mulish-Variable.ttf)
+
+@font-face
+    font-family: Merriweather
+    src: url(/fonts/Merriweather/Merriweather-Black.ttf)
+
+*,
+*::before,
+*::after
+    padding: 0
+    margin: 0
+    box-sizing: border-box
+
+-webkit-scrollbar
+    display: none
+
+body
+    font-family: Helvetica, Arial, sans-serif
+    -ms-overflow-style: none
+    scrollbar-width: none
+
+    max-width: $max-width-page
+    margin: 0 auto
+
+.fxcol
+    display: flex
+    flex-direction: column
+
+.fxrow
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+
+.standard-grid
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr))
+    gap: $spacing-1x
+
+@media only screen and (max-width: $tablet-breakpoint)
