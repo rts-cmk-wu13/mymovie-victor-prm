@@ -110,6 +110,7 @@ clickable-image .clickable-image__wrapper {
 }
 clickable-image .clickable-image__wrapper img {
   position: relative;
+  border-radius: 0.5rem;
   height: 100%;
   width: 100%;
   -o-object-fit: cover;

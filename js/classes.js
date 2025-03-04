@@ -67,7 +67,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
             <div class= "clickable-image__backlight-wrapper">
                 <img class="now-playing-card__backlight" src="${backlightSrc}" alt="">
             </div>
-            <a href="#" aria-label="Test Label"><img src="${imgSource}" alt=""></a>
+            <a href="#" aria-label="Go to detail page for movie ${title}"><img src="${imgSource}" alt=""></a>
         </div>
         `
         template = imgSource ? template : ""
