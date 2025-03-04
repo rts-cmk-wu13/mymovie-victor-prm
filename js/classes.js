@@ -44,7 +44,7 @@ customElements.define("now-playing-card", class NowPlayingCard extends HTMLEleme
         template = imgSource ? template : ""
 
         //INNER HTML
-        this.innerHTML =  template;
+        this.innerHTML = template;
     }
 })
 
@@ -58,17 +58,67 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         let imgSource = this.getAttribute("image-src");
 
         //TEMPLATES(S)
-        let template = `
+        let template = `    
         <div class= "clickable-image-wrapper">
-            <img src="${imgSource}" alt="">
+            <a href="#" aria-label="Test Label"><img src="${imgSource}" alt=""></a>
         </div>
         `
         template = imgSource ? template : ""
 
         //INNER HTML
-        this.innerHTML =  template;
+        this.innerHTML = template;
     }
 })
+
+//NOW PLAYING CAROUSEL
+customElements.define("now-playing-carousel", class NowPlayingCarousel extends HTMLElement {
+    constructor() {
+        super();
+
+        //PROPERTIES
+        this.className = "now-playing-carousel"
+
+        //TEMPLATES(S)
+        let template = `
+        <section-subheader title="Now Showing" button="true"></section-subheader>
+        <div class="now-playing-carousel__items-container">
+            <now-playing-card image-src="https://picsum.photos/900/300" title="Title 1" rating="6.5"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/800/300" title="Title 2" rating="7.6"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/240/800" title="Title 3" rating="6.8"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/900/300" title="Title 1" rating="6.5"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/800/300" title="Title 2" rating="7.6"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/240/800" title="Title 3" rating="6.8"></now-playing-card>
+        </div>
+        `
+        //template = imgSource ? template : ""
+
+        //INNER HTML
+        this.innerHTML = template;
+    }
+})
+
+//DARKMODE TOGGLE
+customElements.define("section-subheader", class SectionSubheader extends HTMLElement {
+    constructor() {
+        super();
+
+        //PROPERTIES
+        this.className = "section-subheader"
+        let title = this.getAttribute("title");
+        //let button = this.getAttribute("button");
+
+        //TEMPLATES(S)
+        let template = `
+        <h2>${title}</h2>
+        <button>See more</button>
+        `
+        template = title ? template : ""
+
+        //INNER HTML
+        this.innerHTML = template;
+    }
+})
+
 
 //DARKMODE TOGGLE
 customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLElement {

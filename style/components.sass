@@ -59,10 +59,27 @@ site-header
             left: 1em
 
 clickable-image
+    
     .clickable-image-wrapper
         width: 200px
-        aspect-ratio: 1 / 1.5
+        aspect-ratio: 1 / 1.6
+
         img
             height: 100%
             width: 100%
             object-fit: cover
+            display: block
+
+section-subheader
+    display: flex
+    justify-content: space-between
+
+now-playing-carousel
+    @include base.fxcol()
+    gap: base.$unit-2x
+
+    .now-playing-carousel__items-container
+        display: flex
+        overflow-x: scroll
+        padding: base.$unit-05x   
+        gap: base.$unit-2x

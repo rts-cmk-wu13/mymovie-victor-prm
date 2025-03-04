@@ -57,22 +57,26 @@ $grid-item-size: 8rem
     margin: 0
     box-sizing: border-box
 
--webkit-scrollbar
-    display: none
+*
+    -ms-overflow-style: none
+    scrollbar-width: none    
+    -webkit-scrollbar
+        display: none
+
+a, button
+    cursor: pointer
 
 body
     font-family: Mulish, Helvetica, Arial, sans-serif
-    -ms-overflow-style: none
-    scrollbar-width: none
 
     max-width: $max-width-page
     margin: 0 auto
 
-.fxcol
+@mixin fxcol
     display: flex
     flex-direction: column
 
-.fxrow
+@mixin fxrow
     display: flex
     flex-direction: row
     align-items: flex-start
@@ -82,7 +86,7 @@ body
     grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
     gap: $unit-1x
 
-.clickable-card
+@mixin clickable-card
     position: relative
 
     a::before

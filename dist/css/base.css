@@ -14,48 +14,26 @@
   box-sizing: border-box;
 }
 
--webkit-scrollbar {
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+* -webkit-scrollbar {
   display: none;
+}
+
+a, button {
+  cursor: pointer;
 }
 
 body {
   font-family: Mulish, Helvetica, Arial, sans-serif;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   max-width: 54rem;
   margin: 0 auto;
-}
-
-.fxcol {
-  display: flex;
-  flex-direction: column;
-}
-
-.fxrow {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
 }
 
 .standard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   gap: 0.5rem;
-}
-
-.clickable-card {
-  position: relative;
-}
-.clickable-card a::before {
-  content: "";
-  position: absolute;
-  z-index: 100;
-  inset: 0;
-}
-.clickable-card a:focus {
-  box-shadow: none;
-  outline: none;
-}
-.clickable-card:focus-within {
-  box-shadow: 0 0 0 1px blue;
 }/*# sourceMappingURL=base.css.map */
