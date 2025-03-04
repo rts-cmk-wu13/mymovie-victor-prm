@@ -40,7 +40,13 @@ $unit-025x: math.div( $unit-1x,4)
 
 $svg-white: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg) brightness(110%) contrast(110%)
 
-$text-headline: 1.5rem/2rem Mulish, Arial, Helvetica, sans-serif
+$text-headline: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-subtitle-1: 1.25rem/normal Merriweather,Georgia, 'Times New Roman', Times, serif
+$text-subtitle-2: 800 1.25rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-body-2: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-body-2: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-caption: 0.5rem/normal Mulish, Arial, Helvetica, sans-serif
+
 $grid-item-size: 8rem
 
 @font-face
@@ -60,9 +66,8 @@ $grid-item-size: 8rem
 
 *
     -ms-overflow-style: none
+    -webkit-scrollbar: none
     scrollbar-width: none
-    -webkit-scrollbar
-        display: none
 
 a, button
     cursor: pointer
@@ -94,7 +99,7 @@ body
 
 @mixin linear-fade($lin-color-1, $lin-color-2, $lin-deg)
     background: transparent
-    background: -webkit-linear-gradient($lin-deg, $lin-color-1, $lin-color-2) 
+    background: -webkit-linear-gradient($lin-deg, $lin-color-1, $lin-color-2)
     background: -moz-linear-gradient($lin-deg, $lin-color-1, $lin-color-2)
     background: -ms-linear-gradient($lin-deg, $lin-color-1, $lin-color-2)
     background: -o-linear-gradient($lin-deg, $lin-color-1, $lin-color-2)

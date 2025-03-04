@@ -32,3 +32,11 @@ function createNPCard(movieObj) {
   return `<now-playing-card item-title="${movTitle}" rating="${movRating}" image-src="${movPoster}"></now-playing-card>`
 }
 
+
+function getLS(key){
+  return JSON.parse(localStorage.getItem(key))
+}
+
+function setLS(key,value){
+  localStorage.setItem(key,JSON.stringify(value))
+}

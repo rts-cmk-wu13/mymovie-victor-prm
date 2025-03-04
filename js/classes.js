@@ -5,12 +5,12 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
         //PROPERTIES
         this.className = "site-header"
-        let backButton = this.getAttribute("back");
+        let backButton = this.hasAttribute("back");
         let title = this.getAttribute("item-title");
         let toggle = this.getAttribute("toggle");
 
         //TEMPLATES(S)
-        backButton = backButton ? `<button>Back</button>` : ""
+        backButton = backButton ? `<button><i class="fas fa-arrow-left site-header__back-button"></i></button>` : ""
         title = title ? `<h1>${title}</h1>` : ""
         toggle = toggle ? `<dark-mode-toggle mounted="true"></dark-mode-toggle>` : ""
 
@@ -58,8 +58,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         this.className = "clickable-image"
         let imgSource = this.getAttribute("image-src");
         let title = this.getAttribute("item-title");
-        let backlightSrc = imgSource.replace("/w500/","/w200");
-        console.log(backlightSrc)
+        let backlightSrc = imgSource.replace("/w500/", "/w200");
 
         //TEMPLATES(S)
         let template = `    
@@ -112,7 +111,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
 
         //TEMPLATES(S)
         let template = `
-        <h2>${title}</h2>
+        <h2 class="section-subheader__title">${title}</h2>
         <button>See more</button>
         `
         template = title ? template : ""
@@ -131,16 +130,37 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         //PROPERTIES
         this.className = "dark-mode-toggle"
         let mounted = this.getAttribute("mounted");
+        let isDarkMode = getLS("dark-mode")
 
         //TEMPLATES(S)
         let template = `
-        <label for="ms1">Light mode</label>
-        <input type="checkbox" role="switch" id="ms1" />
+        <label for="ms1" aria-label="Dark mode"><i class="dark-mode__toggle-icon"></i></label>
+        <input type="checkbox" role="switch" id="ms1"/>
         `
         template = mounted ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
+        this.checkbox = this.querySelector("input");
+        this.checkbox.checked = isDarkMode;
+
+    }
+    connectedCallback() {
+        if (this.hasAttribute("checked")) this.checkbox.checked = true;
+        changeIcon(this)
+
+        this.checkbox.addEventListener("change", () => {
+            this.toggleAttribute("checked", this.checkbox.checked);
+            setLS("dark-mode", this.checkbox.checked)
+            changeIcon(this)
+        });
+
+        function changeIcon(thisElm) {
+            let iconElement = thisElm.parentNode.querySelector(".dark-mode__toggle-icon");
+            let isDarkMode = getLS("dark-mode")
+            let iconSource = isDarkMode ? "far fa-moon" : "far fa-sun";
+            iconElement.className = `dark-mode__toggle-icon ${iconSource}`
+        }
     }
 })
 

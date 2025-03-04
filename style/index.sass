@@ -1,11 +1,10 @@
 @use "base"
-@use "components"
 
 html
-    background-color: base.$gray-1000
+    background: base.$gray-950
+    /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
 
 body
-    background-color: base.$gray-900
     min-height: 100dvh
 
 button
@@ -17,3 +16,133 @@ button
     max-width: base.$max-width-content
     margin: 0 auto
     gap: base.$unit-2x
+
+site-header
+    display: grid
+    height: base.$unit-8x
+    align-items: center
+
+    *
+        width: fit-content
+        grid-area: 1/1
+
+    button
+        background-color: transparent
+        border: none
+
+    h1
+        align-self: center
+        justify-self: center
+        font: base.$text-headline
+
+    dark-mode-toggle
+        align-self: center
+        justify-self: right
+        input
+            -webkit-appearance: none
+            -moz-appearance: none
+            appearance: none
+            position: relative
+            font-size: inherit
+            width: 2em
+            height: 1em
+            box-sizing: content-box
+            border: 2px solid
+            border-radius: 1em
+            vertical-align: text-bottom
+            margin: auto
+            color: inherit
+            cursor: pointer
+
+        input:active
+            opacity: 0.6
+
+        input:before
+            content: ""
+            position: absolute
+            top: 50%
+            left: 0
+            transform: translate(0, -50%)
+            box-sizing: border-box
+            width: 0.7em
+            height: 0.7em
+            margin: 0 0.15em
+            border: 1px solid
+            border-radius: 50%
+            background: currentcolor
+            transition: 300ms left
+
+        input:checked:before
+            left: 1em
+
+clickable-image
+    isolation: isolate
+    .clickable-image__wrapper
+        position: relative
+        width: 200px
+        aspect-ratio: 1 / 1.6
+        margin-bottom: base.$unit-2x
+
+        img
+            position: relative
+            border-radius: base.$unit-1x
+            height: 100%
+            width: 100%
+            object-fit: cover
+            display: block
+            z-index: 1
+
+        .clickable-image__backlight-wrapper
+            position: absolute
+            height: base.$unit-4x
+            width: 100%
+            bottom: 0
+            transform: translateY(12px) scaleY(-1)
+            overflow: hidden
+            filter: blur(10px)
+            z-index: -10
+
+            img
+                position: relative
+                object-fit: fill
+                width: 100%
+                height: base.$unit-2x
+                transform: scaleX(2)
+                transform-origin: center bottom
+                pointer-events: none
+
+section-subheader
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .section-subheader__title
+        font: base.$text-subtitle-1
+
+now-playing-card
+    @include base.fxcol
+    gap: base.$unit-1x
+    position: relative
+    .now-playing-card__rating
+        display: inline-flex
+        gap: base.$unit-1x
+    * .now-playing-card__star-icon
+        color: base.$color-accent
+
+now-playing-section
+    @include base.fxcol()
+    position: relative
+    gap: base.$unit-2x
+
+    .now-playing-section
+
+        &__items-container
+            display: flex
+            overflow-x: scroll
+            padding: base.$unit-2x
+            gap: base.$unit-2x
+            position: relative
+            border-radius: base.$unit-2x
+            background-color: base.$gray-950
+            background: linear-gradient(15deg, base.$gray-900 0%, base.$gray-950 90%)
+
