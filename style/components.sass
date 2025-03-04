@@ -1,0 +1,68 @@
+@use "../style/base"
+
+site-header
+    display: grid
+    background-color: base.$gray-950
+    height: base.$unit-8x
+    align-items: center
+
+    *
+        width: fit-content
+        grid-area: 1/1
+
+    button
+        border-radius: base.$unit-1x
+        padding: base.$unit-1x
+
+    h1
+        align-self: center
+        justify-self: center
+
+    dark-mode-toggle
+        align-self: center
+        justify-self: right
+        input
+            -webkit-appearance: none
+            -moz-appearance: none
+            appearance: none
+            position: relative
+            font-size: inherit
+            width: 2em
+            height: 1em
+            box-sizing: content-box
+            border: 2px solid
+            border-radius: 1em
+            vertical-align: text-bottom
+            margin: auto
+            color: inherit
+            cursor: pointer
+
+        input:active
+            opacity: 0.6
+
+        input:before
+            content: ""
+            position: absolute
+            top: 50%
+            left: 0
+            transform: translate(0, -50%)
+            box-sizing: border-box
+            width: 0.7em
+            height: 0.7em
+            margin: 0 0.15em
+            border: 1px solid
+            border-radius: 50%
+            background: currentcolor
+            transition: 300ms left
+
+        input:checked:before
+            left: 1em
+
+clickable-image
+    .clickable-image-wrapper
+        width: 200px
+        aspect-ratio: 1 / 1.5
+        img
+            height: 100%
+            width: 100%
+            object-fit: cover

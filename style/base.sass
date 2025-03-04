@@ -20,22 +20,26 @@ $color-primary: #88A4E8
 $color-primary-dark: #110E47
 $color-primary-light: #DBE3FF
 
-$black-tint-100: rgba($gray-100, .2)
+$black-tint-100: rgba( $gray-100, .2)
 $box-shadow-6r: 0 0 6rem $black-tint-100
 
-$max-width-content: 70rem
-$max-width-page: 80rem
+$max-width-content: 50rem
+$max-width-page: 54rem
 $tablet-breakpoint: 40rem
-$spacing-1x: 0.5rem
-$spacing-2x: $spacing-1x*2
-$spacing-3x: $spacing-1x*3
-$spacing-4x: $spacing-1x*4
-$spacing-05x: math.div($spacing-1x,2)
-$spacing-025x: math.div($spacing-1x,4)
+$unit-1x: 0.5rem
+$unit-2x: $unit-1x*2
+$unit-3x: $unit-1x*3
+$unit-4x: $unit-1x*4
+$unit-5x: $unit-1x*5
+$unit-6x: $unit-1x*6
+$unit-7x: $unit-1x*7
+$unit-8x: $unit-1x*8
+$unit-05x: math.div( $unit-1x,2)
+$unit-025x: math.div( $unit-1x,4)
 
 $svg-white: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg) brightness(110%) contrast(110%)
 
-$text-headline: 1.5rem/2rem Roboto_Reg, Arial, Helvetica, sans-serif
+$text-headline: 1.5rem/2rem Mulish, Arial, Helvetica, sans-serif
 $grid-item-size: 8rem
 
 @font-face
@@ -57,7 +61,7 @@ $grid-item-size: 8rem
     display: none
 
 body
-    font-family: Helvetica, Arial, sans-serif
+    font-family: Mulish, Helvetica, Arial, sans-serif
     -ms-overflow-style: none
     scrollbar-width: none
 
@@ -75,7 +79,23 @@ body
 
 .standard-grid
     display: grid
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr))
-    gap: $spacing-1x
+    grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
+    gap: $unit-1x
 
-@media only screen and (max-width: $tablet-breakpoint)
+.clickable-card
+    position: relative
+
+    a::before
+        content: ''
+        position: absolute
+        z-index: 100
+        inset: 0
+
+    a:focus
+        box-shadow: none
+        outline: none
+
+    &:focus-within
+        box-shadow: 0 0 0 1px blue
+
+@media only screen and (max-width:  $tablet-breakpoint)

@@ -130,18 +130,4 @@ clickable-image .clickable-image-wrapper img {
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-}
-
-html {
-  background-color: #ffffff;
-}
-
-body {
-  background-color: #e5e5e5;
-  min-height: 100dvh;
-}
-
-.content-wrapper {
-  max-width: 50rem;
-  margin: 0 auto;
-}/*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=components.css.map */
