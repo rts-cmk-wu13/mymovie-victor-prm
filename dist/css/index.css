@@ -134,9 +134,17 @@ now-playing-carousel .now-playing-carousel__fade {
   width: 1rem;
   height: 90%;
   position: absolute;
-  right: 0;
   bottom: 0;
-  background-color: red;
+}
+now-playing-carousel .now-playing-carousel__fade--left {
+  background: transparent;
+  background: linear-gradient(270deg, transparent, #ffffff);
+  left: 0;
+}
+now-playing-carousel .now-playing-carousel__fade--right {
+  background: transparent;
+  background: linear-gradient(90deg, transparent, #ffffff);
+  right: 0;
 }
 
 html {

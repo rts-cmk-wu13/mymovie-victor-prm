@@ -92,7 +92,8 @@ customElements.define("now-playing-carousel", class NowPlayingCarousel extends H
             <now-playing-card image-src="https://picsum.photos/800/300" item-title="Title 2" rating="7.6"></now-playing-card>
             <now-playing-card image-src="https://picsum.photos/240/800" item-title="Title 3" rating="6.8"></now-playing-card>
         </div>
-        <div class="now-playing-carousel__fade"></div>
+        <div class="now-playing-carousel__fade now-playing-carousel__fade--left"></div>
+        <div class="now-playing-carousel__fade now-playing-carousel__fade--right"></div>
         `
         //template = imgSource ? template : ""
 

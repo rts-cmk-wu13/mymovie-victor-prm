@@ -90,9 +90,15 @@ now-playing-carousel
             position: relative
 
         &__fade
+
             width: base.$unit-2x
             height: 90%
             position: absolute
-            right: 0
             bottom: 0
-            background-color: red
+
+            &--left
+                @include base.linear-fade($lin-color-1: transparent, $lin-color-2: base.$gray-1000,$lin-deg: 270deg)
+                left: 0
+            &--right
+                @include base.linear-fade($lin-color-1: transparent, $lin-color-2: base.$gray-1000,$lin-deg: 90deg)
+                right: 0
