@@ -1,4 +1,4 @@
-@use "../style/base"
+@use "base"
 
 site-header
     display: grid
@@ -11,8 +11,8 @@ site-header
         grid-area: 1/1
 
     button
-        border-radius: base.$unit-1x
-        padding: base.$unit-1x
+       background-color: transparent
+       border: none
 
     h1
         align-self: center
@@ -59,7 +59,6 @@ site-header
             left: 1em
 
 clickable-image
-
     .clickable-image-wrapper
         width: 200px
         aspect-ratio: 1 / 1.6
@@ -74,13 +73,20 @@ section-subheader
     display: flex
     justify-content: space-between
 
-now-playing-carousel
+now-playing-card
+    .now-playing-card__rating
+        display: inline-flex
+    * .now-playing-card__star-icon
+        color: base.$color-accent
+
+
+now-playing-section
     @include base.fxcol()
     position: relative
     gap: base.$unit-2x
     background-color: base.$gray-1000
 
-    .now-playing-carousel
+    .now-playing-section
 
         &__items-container
             display: flex

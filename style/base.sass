@@ -19,6 +19,7 @@ $gray-1000: #ffffff
 $color-primary: #88A4E8
 $color-primary-dark: #110E47
 $color-primary-light: #DBE3FF
+$color-accent: #FFC319
 
 $black-tint-100: rgba( $gray-100, .2)
 $box-shadow-6r: 0 0 6rem $black-tint-100
@@ -81,13 +82,18 @@ body
     flex-direction: row
     align-items: flex-start
 
+@mixin button-base
+    border-radius: $unit-8x
+    padding: $unit-05x $unit-1x
+    font-size: $unit-2x
+
 .standard-grid
     display: grid
     grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
     gap: $unit-1x
 
 @mixin linear-fade($lin-color-1, $lin-color-2, $lin-deg)
-    background: $lin-color-1
+    background: transparent
     background: -webkit-linear-gradient($lin-deg, $lin-color-1, $lin-color-2) 
     background: -moz-linear-gradient($lin-deg, $lin-color-1, $lin-color-2)
     background: -ms-linear-gradient($lin-deg, $lin-color-1, $lin-color-2)

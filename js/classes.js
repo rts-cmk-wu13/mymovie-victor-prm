@@ -40,7 +40,7 @@ customElements.define("now-playing-card", class NowPlayingCard extends HTMLEleme
         let template = `
         <clickable-image image-src="${imgSource}" item-title="${title}"></clickable-image>
         <h3>${title}</h3>
-        <p>${rating}/10 IMDB</p>
+        <p class="now-playing-card__rating"><i class="fa fa-star now-playing-card__star-icon"></i> ${rating}/10 IMDb</p>
         `
         template = imgSource ? template : ""
 
@@ -73,27 +73,20 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
 })
 
 //NOW PLAYING CAROUSEL
-customElements.define("now-playing-carousel", class NowPlayingCarousel extends HTMLElement {
+customElements.define("now-playing-section", class NowPlayingCarousel extends HTMLElement {
     constructor() {
         super();
 
         //PROPERTIES
-        this.className = "now-playing-carousel";
+        this.className = "now-playing-section";
         this.setAttribute("role", "section");
 
         //TEMPLATES(S)
         let template = `
         <section-subheader item-title="Now Showing" button="true"></section-subheader>
-        <div class="now-playing-carousel__items-container">
-            <now-playing-card image-src="https://picsum.photos/900/300" item-title="Title 1" rating="6.5"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/800/300" item-title="Title 2" rating="7.6"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/240/800" item-title="Title 3" rating="6.8"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/900/300" item-title="Title 1" rating="6.5"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/800/300" item-title="Title 2" rating="7.6"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/240/800" item-title="Title 3" rating="6.8"></now-playing-card>
-        </div>
-        <div class="now-playing-carousel__fade now-playing-carousel__fade--left"></div>
-        <div class="now-playing-carousel__fade now-playing-carousel__fade--right"></div>
+        <div class="now-playing-section__items-container"></div>
+        <div class="now-playing-section__fade now-playing-section__fade--left"></div>
+        <div class="now-playing-section__fade now-playing-section__fade--right"></div>
         `
         //template = imgSource ? template : ""
 

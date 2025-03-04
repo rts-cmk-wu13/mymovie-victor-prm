@@ -8,11 +8,12 @@ body
     background-color: base.$gray-900
     min-height: 100dvh
 
+button
+    @include base.button-base
+
 .content-wrapper
     @include base.fxcol()
-
+    padding: 0 base.$unit-1x
     max-width: base.$max-width-content
     margin: 0 auto
     gap: base.$unit-2x
-
-    

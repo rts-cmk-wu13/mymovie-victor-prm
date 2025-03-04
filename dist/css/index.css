@@ -50,8 +50,8 @@ site-header * {
   grid-area: 1/1;
 }
 site-header button {
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  background-color: transparent;
+  border: none;
 }
 site-header h1 {
   align-self: center;
@@ -116,32 +116,39 @@ section-subheader {
   justify-content: space-between;
 }
 
-now-playing-carousel {
+now-playing-card .now-playing-card__rating {
+  display: inline-flex;
+}
+now-playing-card * .now-playing-card__star-icon {
+  color: #FFC319;
+}
+
+now-playing-section {
   display: flex;
   flex-direction: column;
   position: relative;
   gap: 1rem;
   background-color: #ffffff;
 }
-now-playing-carousel .now-playing-carousel__items-container {
+now-playing-section .now-playing-section__items-container {
   display: flex;
   overflow-x: scroll;
   padding: 1rem;
   gap: 1rem;
   position: relative;
 }
-now-playing-carousel .now-playing-carousel__fade {
+now-playing-section .now-playing-section__fade {
   width: 1rem;
   height: 90%;
   position: absolute;
   bottom: 0;
 }
-now-playing-carousel .now-playing-carousel__fade--left {
+now-playing-section .now-playing-section__fade--left {
   background: transparent;
   background: linear-gradient(270deg, transparent, #ffffff);
   left: 0;
 }
-now-playing-carousel .now-playing-carousel__fade--right {
+now-playing-section .now-playing-section__fade--right {
   background: transparent;
   background: linear-gradient(90deg, transparent, #ffffff);
   right: 0;
@@ -156,9 +163,16 @@ body {
   min-height: 100dvh;
 }
 
+button {
+  border-radius: 4rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+}
+
 .content-wrapper {
   display: flex;
   flex-direction: column;
+  padding: 0 0.5rem;
   max-width: 50rem;
   margin: 0 auto;
   gap: 1rem;
