@@ -58,10 +58,15 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         this.className = "clickable-image"
         let imgSource = this.getAttribute("image-src");
         let title = this.getAttribute("item-title");
+        let backlightSrc = imgSource.replace("/w500/","/w200");
+        console.log(backlightSrc)
 
         //TEMPLATES(S)
         let template = `    
-        <div class= "clickable-image-wrapper">
+        <div class= "clickable-image__wrapper">
+            <div class= "clickable-image__backlight-wrapper">
+                <img class="now-playing-card__backlight" src="${backlightSrc}" alt="">
+            </div>
             <a href="#" aria-label="Test Label"><img src="${imgSource}" alt=""></a>
         </div>
         `

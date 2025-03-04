@@ -11,8 +11,8 @@ site-header
         grid-area: 1/1
 
     button
-       background-color: transparent
-       border: none
+        background-color: transparent
+        border: none
 
     h1
         align-self: center
@@ -59,26 +59,54 @@ site-header
             left: 1em
 
 clickable-image
-    .clickable-image-wrapper
+    isolation: isolate
+    .clickable-image__wrapper
+
+        position: relative
         width: 200px
         aspect-ratio: 1 / 1.6
+        margin-bottom: base.$unit-2x
 
         img
+            position: relative
             height: 100%
             width: 100%
             object-fit: cover
             display: block
+            z-index: 1
+
+        .clickable-image__backlight-wrapper
+            position: absolute
+            height: base.$unit-4x
+            width: 100%
+            bottom: 0
+            transform: translateY(12px) scaleY(-1)
+            overflow: hidden
+            filter: blur(10px)
+            z-index: -10
+
+            img
+                position: relative
+                object-fit: fill
+                width: 100%
+                height: base.$unit-2x
+                transform: scaleX(2)
+                transform-origin: center bottom
+                pointer-events: none
 
 section-subheader
     display: flex
     justify-content: space-between
 
 now-playing-card
+    @include base.fxcol
+    gap: base.$unit-1x
+    position: relative
     .now-playing-card__rating
         display: inline-flex
+        gap: base.$unit-1x
     * .now-playing-card__star-icon
         color: base.$color-accent
-
 
 now-playing-section
     @include base.fxcol()
