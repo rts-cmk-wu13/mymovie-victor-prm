@@ -59,7 +59,7 @@ site-header
             left: 1em
 
 clickable-image
-    
+
     .clickable-image-wrapper
         width: 200px
         aspect-ratio: 1 / 1.6
@@ -76,10 +76,23 @@ section-subheader
 
 now-playing-carousel
     @include base.fxcol()
+    position: relative
     gap: base.$unit-2x
+    background-color: base.$gray-1000
 
-    .now-playing-carousel__items-container
-        display: flex
-        overflow-x: scroll
-        padding: base.$unit-05x   
-        gap: base.$unit-2x
+    .now-playing-carousel
+
+        &__items-container
+            display: flex
+            overflow-x: scroll
+            padding: base.$unit-2x
+            gap: base.$unit-2x
+            position: relative
+
+        &__fade
+            width: base.$unit-2x
+            height: 90%
+            position: absolute
+            right: 0
+            bottom: 0
+            background-color: red

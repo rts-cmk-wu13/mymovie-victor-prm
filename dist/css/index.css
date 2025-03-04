@@ -119,13 +119,24 @@ section-subheader {
 now-playing-carousel {
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 1rem;
+  background-color: #ffffff;
 }
 now-playing-carousel .now-playing-carousel__items-container {
   display: flex;
   overflow-x: scroll;
-  padding: 0.25rem;
+  padding: 1rem;
   gap: 1rem;
+  position: relative;
+}
+now-playing-carousel .now-playing-carousel__fade {
+  width: 1rem;
+  height: 90%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: red;
 }
 
 html {

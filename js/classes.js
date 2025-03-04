@@ -6,7 +6,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         //PROPERTIES
         this.className = "site-header"
         let backButton = this.getAttribute("back");
-        let title = this.getAttribute("title");
+        let title = this.getAttribute("item-title");
         let toggle = this.getAttribute("toggle");
 
         //TEMPLATES(S)
@@ -31,13 +31,14 @@ customElements.define("now-playing-card", class NowPlayingCard extends HTMLEleme
 
         //PROPERTIES
         this.className = "now-playing-card"
+        this.setAttribute("role", "article");
         let imgSource = this.getAttribute("image-src");
-        let title = this.getAttribute("title");
+        let title = this.getAttribute("item-title");
         let rating = this.getAttribute("rating");
 
         //TEMPLATES(S)
         let template = `
-        <clickable-image image-src="${imgSource}"></clickable-image>
+        <clickable-image image-src="${imgSource}" item-title="${title}"></clickable-image>
         <h3>${title}</h3>
         <p>${rating}/10 IMDB</p>
         `
@@ -56,6 +57,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         //PROPERTIES
         this.className = "clickable-image"
         let imgSource = this.getAttribute("image-src");
+        let title = this.getAttribute("item-title");
 
         //TEMPLATES(S)
         let template = `    
@@ -76,19 +78,21 @@ customElements.define("now-playing-carousel", class NowPlayingCarousel extends H
         super();
 
         //PROPERTIES
-        this.className = "now-playing-carousel"
+        this.className = "now-playing-carousel";
+        this.setAttribute("role", "section");
 
         //TEMPLATES(S)
         let template = `
-        <section-subheader title="Now Showing" button="true"></section-subheader>
+        <section-subheader item-title="Now Showing" button="true"></section-subheader>
         <div class="now-playing-carousel__items-container">
-            <now-playing-card image-src="https://picsum.photos/900/300" title="Title 1" rating="6.5"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/800/300" title="Title 2" rating="7.6"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/240/800" title="Title 3" rating="6.8"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/900/300" title="Title 1" rating="6.5"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/800/300" title="Title 2" rating="7.6"></now-playing-card>
-            <now-playing-card image-src="https://picsum.photos/240/800" title="Title 3" rating="6.8"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/900/300" item-title="Title 1" rating="6.5"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/800/300" item-title="Title 2" rating="7.6"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/240/800" item-title="Title 3" rating="6.8"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/900/300" item-title="Title 1" rating="6.5"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/800/300" item-title="Title 2" rating="7.6"></now-playing-card>
+            <now-playing-card image-src="https://picsum.photos/240/800" item-title="Title 3" rating="6.8"></now-playing-card>
         </div>
+        <div class="now-playing-carousel__fade"></div>
         `
         //template = imgSource ? template : ""
 
@@ -97,14 +101,14 @@ customElements.define("now-playing-carousel", class NowPlayingCarousel extends H
     }
 })
 
-//DARKMODE TOGGLE
+//SECTION SUBHEADER
 customElements.define("section-subheader", class SectionSubheader extends HTMLElement {
     constructor() {
         super();
 
         //PROPERTIES
         this.className = "section-subheader"
-        let title = this.getAttribute("title");
+        let title = this.getAttribute("item-title");
         //let button = this.getAttribute("button");
 
         //TEMPLATES(S)
