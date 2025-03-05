@@ -83,17 +83,27 @@ customElements.define("movie-list", class NowPlayingSection extends HTMLElement 
 
         //PROPERTIES
         this.className = "movie-list";
+        let id = this.getAttribute("id");
+        let title = this.getAttribute("title");
+        let isHorizontal = this.hasAttribute("horizontal");
+        this.containerModifier = isHorizontal ? "--horizontal" : "--vertical"
         this.setAttribute("role", "section");
+
+        let containerID = setMovieListID(id);
 
         //TEMPLATES(S)
         let template = `
-        <section-subheader title="Now Showing" button="true"></section-subheader>
-        <div class="movie-list__items-container"></div>
+        <section-subheader title="${title}" button="true"></section-subheader>
+        <div id="${containerID}" class="movie-list__items-container movie-list__items-container--${this.containerModifier}"></div>
         `
         //template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
+    }
+    connectedCallback() {
+        let selector = "movie-list__items-container";
+        this.querySelector("." + selector).classList.add(selector + this.containerModifier)
     }
 })
 

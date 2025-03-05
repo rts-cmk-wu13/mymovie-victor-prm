@@ -152,7 +152,7 @@ movie-list
 
         &__items-container
             display: grid
-            @include base.infite-list-horizontal($grid-item-width: 14rem)
+           
 
             padding: base.$unit-2x
             gap: base.$unit-2x
@@ -160,3 +160,8 @@ movie-list
             border-radius: base.$unit-2x
             background-color: base.$gray-950
             background: linear-gradient(15deg, base.$gray-900 0%, base.$gray-1000 90%)
+
+            &--horizontal
+                @include base.infite-list-horizontal($grid-item-width: 14rem)
+            &--vertical
+                width: 50%

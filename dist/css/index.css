@@ -211,11 +211,6 @@ movie-list {
 }
 movie-list .movie-list__items-container {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: max-content;
-  grid-auto-columns: 14rem;
-  overflow-x: auto;
-  white-space: nowrap;
   padding: 1rem;
   gap: 1rem;
   position: relative;
@@ -223,7 +218,17 @@ movie-list .movie-list__items-container {
   background-color: #f2f2f2;
   background: linear-gradient(15deg, #e5e5e5 0%, #ffffff 90%);
 }
-movie-list .movie-list__items-container * {
+movie-list .movie-list__items-container--horizontal {
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  grid-auto-columns: 14rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+movie-list .movie-list__items-container--horizontal * {
   word-wrap: break-word;
   white-space: normal;
+}
+movie-list .movie-list__items-container--vertical {
+  width: 50%;
 }/*# sourceMappingURL=index.css.map */

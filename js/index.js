@@ -1,42 +1,31 @@
 let contentElm = document.querySelector(".content-wrapper");
 
-const url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${API_TOKEN}`
-  }
-};
+const now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
+const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
 
-fetch(url, options)
-  .then(res => res.json())
-  .then(json => {
-    console.log(json)
-    let siteHeader = `<site-header back="unmounted" title="My Movies" toggle="true"></site-header>`;
-    contentElm.insertAdjacentHTML("beforeend", siteHeader);
+insertHeader();
+fetchList(now_url, insertNowPlaying)
+fetchList(pop_url, insertPopular)
 
-    let nowPlaying = `<movie-list title="now-playing"></movie-list>`;
+function insertHeader() {
+  let siteHeader = `<site-header back="unmounted" title="My Movies" toggle="true"></site-header>`;
+  contentElm.insertAdjacentHTML("beforeend", siteHeader);
+}
+
+function insertNowPlaying(json) {
+      //Inject Now Playing
+    let now_id = "items-now-playing"
+    let nowPlaying = `<movie-list title="Now Playing" id="${now_id}" horizontal></movie-list>`;
     contentElm.insertAdjacentHTML("beforeend", nowPlaying);
-    let itemsSection = document.querySelector(".movie-list__items-container")
-    itemsSection.innerHTML += json.results.map(movie => createNPCard(movie)).join("")
-
-  })
-  .catch(err => console.error(err));
-
-function createNPCard(movieObj) {
-  let movPoster = `https://image.tmdb.org/t/p/w500/${movieObj.backdrop_path}`;
-  let movTitle = movieObj.original_title;
-  let movRating = movieObj.vote_average.toFixed(1)
-
-  return `<now-playing-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}"></now-playing-card>`
+    let nowPlayingItemsElm = document.querySelector(`#${getMovieListID(now_id)}`)
+    nowPlayingItemsElm.innerHTML += json.results.map(movie => createNPCard(movie)).join("")
 }
 
-
-function getLS(key){
-  return JSON.parse(localStorage.getItem(key))
-}
-
-function setLS(key,value){
-  localStorage.setItem(key,JSON.stringify(value))
+function insertPopular(json) {
+    //Inject Popular
+    let pop_id = "items-popular"
+    let popular = `<movie-list title="Popular" id="${pop_id}"></movie-list>`;
+    contentElm.insertAdjacentHTML("beforeend", popular);
+    let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
+    popularItemsElm.innerHTML += json.results.map(movie => createNPCard(movie)).join("")
 }
