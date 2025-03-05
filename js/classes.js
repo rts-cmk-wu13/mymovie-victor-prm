@@ -25,15 +25,14 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
 })
 
-//NOW PLAYING CARD
-customElements.define("movie-card", class NowPlayingCard extends HTMLElement {
+//MOVIE CARD
+customElements.define("movie-card", class MovieCard extends HTMLElement {
     constructor() {
         super();
 
         //PROPERTIES
         this.className = "movie-card"
-        //this.cardModifier = checkLayoutDirection(this)
-        this.setAttribute("role", "article");
+        this.role = "listitem";
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
         let rating = this.getAttribute("rating");
@@ -104,7 +103,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         //TEMPLATES(S)
         let template = `
         <section-subheader title="${title}" button="true"></section-subheader>
-        <div id="${containerID}" class="${this.className}__items-container" ${this.containerAttribute}></div>
+        <ul id="${containerID}" class="${this.className}__items-container" ${this.containerAttribute}></ul>
         `
         //template = imgSource ? template : ""
 

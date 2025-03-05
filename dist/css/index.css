@@ -225,6 +225,7 @@ movie-list {
   flex-direction: column;
   position: relative;
   gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 movie-list .movie-list__items-container {
   display: grid;
