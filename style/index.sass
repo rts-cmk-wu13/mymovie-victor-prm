@@ -81,6 +81,7 @@ site-header
 
 clickable-image
     isolation: isolate
+
     .clickable-image__wrapper
         position: relative
         width: 100%
@@ -105,6 +106,7 @@ clickable-image
             overflow: hidden
             filter: blur(10px)
             z-index: -10
+            transition: transform 0.2s
 
             img
                 position: relative
@@ -114,6 +116,13 @@ clickable-image
                 transform: scaleX(2)
                 transform-origin: center bottom
                 pointer-events: none
+    
+    &:focus-within, &:hover
+        transform: translateY(-4px)
+        transition: all 0.2s
+        .clickable-image__backlight-wrapper
+            transform: translateY(18px) scaleY(-1)
+            opacity: 0.6
 
 section-subheader
     display: flex
@@ -150,5 +159,3 @@ movie-list
             border-radius: base.$unit-2x
             background-color: base.$gray-950
             background: linear-gradient(15deg, base.$gray-900 0%, base.$gray-1000 90%)
-
-           

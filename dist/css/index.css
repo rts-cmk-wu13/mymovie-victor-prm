@@ -158,6 +158,7 @@ clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper {
   overflow: hidden;
   filter: blur(10px);
   z-index: -10;
+  transition: transform 0.2s;
 }
 clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper img {
   position: relative;
@@ -168,6 +169,14 @@ clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper im
   transform: scaleX(2);
   transform-origin: center bottom;
   pointer-events: none;
+}
+clickable-image:focus-within, clickable-image:hover {
+  transform: translateY(-4px);
+  transition: all 0.2s;
+}
+clickable-image:focus-within .clickable-image__backlight-wrapper, clickable-image:hover .clickable-image__backlight-wrapper {
+  transform: translateY(18px) scaleY(-1);
+  opacity: 0.6;
 }
 
 section-subheader {
