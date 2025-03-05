@@ -55,11 +55,14 @@ button {
 }
 
 .content-wrapper {
-  display: flex;
-  flex-direction: column;
   padding: 0 0.5rem;
   max-width: 50rem;
   margin: 0 auto;
+}
+
+.content-main {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 

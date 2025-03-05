@@ -4,7 +4,8 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         super();
 
         //PROPERTIES
-        this.className = "site-header"
+        this.className = "site-header";
+        this.role = "header";
         let backButton = this.hasAttribute("back");
         let title = this.getAttribute("title");
         let toggle = this.getAttribute("toggle");

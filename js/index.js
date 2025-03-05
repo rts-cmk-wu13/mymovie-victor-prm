@@ -10,12 +10,19 @@ fetchList(now_url, insertNowPlaying)
 fetchList(pop_url, insertPopular)
 
 function buildSite() {
+  // Create Header
   let siteHeader = `<site-header back="unmounted" title="My Movies" toggle="true"></site-header>`;
   contentElm.insertAdjacentHTML("beforeend", siteHeader);
+  // Create Main
+  let mainElm = document.createElement("main");
+  mainElm.className = "content-main"
+  contentElm.append(mainElm);
+  
+  //Populate Main
   let nowPlaying = `<movie-list title="Now Playing" id="${now_id}" horizontal></movie-list>`;
-  contentElm.insertAdjacentHTML("beforeend", nowPlaying);
+  mainElm.insertAdjacentHTML("beforeend", nowPlaying);
   let popular = `<movie-list title="Popular" id="${pop_id}"></movie-list>`;
-  contentElm.insertAdjacentHTML("beforeend", popular);
+  mainElm.insertAdjacentHTML("beforeend", popular);
 }
 
 function insertNowPlaying(json) {
