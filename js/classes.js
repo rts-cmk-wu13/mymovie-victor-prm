@@ -10,7 +10,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let toggle = this.getAttribute("toggle");
 
         //TEMPLATES(S)
-        backButton = backButton ? `<button><i class="fas fa-arrow-left site-header__back-button"></i></button>` : ""
+        backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
         title = title ? `<h1>${title}</h1>` : ""
         toggle = toggle ? `<dark-mode-toggle mounted="true"></dark-mode-toggle>` : ""
 
@@ -40,9 +40,9 @@ customElements.define("movie-card", class NowPlayingCard extends HTMLElement {
         //TEMPLATES(S)
         let template = `
         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
-        <div class ="movie-card__info-container">
+        <div class ="${this.className}__info-container">
             <h3>${movieTitle}</h3>
-            <p class="movie-card__rating"><i class="fa fa-star movie-card__star-icon"></i> ${rating}/10 IMDb</p>
+            <p class="${this.className}__rating"><i class="fa fa-star ${this.className}__star-icon"></i> ${rating}/10 IMDb</p>
         </div>
        
         `
@@ -71,9 +71,9 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
 
         //TEMPLATES(S)
         let template = `    
-        <div class= "clickable-image__wrapper">
-            <div class= "clickable-image__backlight-wrapper">
-                <img class="clickable-image-card__backlight" src="${backlightSrc}" alt="">
+        <div class= "${this.className}__wrapper">
+            <div class= "${this.className}__backlight-wrapper">
+                <img class="${this.className}-card__backlight" src="${backlightSrc}" alt="">
             </div>
             <a href="#" aria-label="Go to detail page for movie ${title}"><img src="${imgSource}" alt=""></a>
         </div>
@@ -103,7 +103,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         //TEMPLATES(S)
         let template = `
         <section-subheader title="${title}" button="true"></section-subheader>
-        <div id="${containerID}" class="movie-list__items-container" ${this.containerAttribute}></div>
+        <div id="${containerID}" class="${this.className}__items-container" ${this.containerAttribute}></div>
         `
         //template = imgSource ? template : ""
 
@@ -124,8 +124,8 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
 
         //TEMPLATES(S)
         let template = `
-        <h2 class="section-subheader__title">${title}</h2>
-        <button>See more</button>
+        <h2 class="${this.className}__title">${title}</h2>
+        <button class="${this.className}__see-more-btn">See more</button>
         `
         template = title ? template : ""
 
@@ -147,7 +147,7 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
 
         //TEMPLATES(S)
         let template = `
-        <label for="ms1" aria-label="Dark mode"><i class="dark-mode__toggle-icon"></i></label>
+        <label for="ms1" aria-label="Dark mode"><i class="${this.className}__icon"></i></label>
         <input type="checkbox" role="switch" id="ms1"/>
         `
         template = mounted ? template : ""
@@ -169,10 +169,10 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         });
 
         function changeIcon(thisElm) {
-            let iconElement = thisElm.parentNode.querySelector(".dark-mode__toggle-icon");
+            let iconElement = thisElm.parentNode.querySelector(`.${thisElm.className}__icon`);
             let isDarkMode = getLS("dark-mode")
             let iconSource = isDarkMode ? "far fa-moon" : "far fa-sun";
-            iconElement.className = `dark-mode__toggle-icon ${iconSource}`
+            iconElement.className = `${thisElm.className}__icon ${iconSource}`
         }
     }
 })
