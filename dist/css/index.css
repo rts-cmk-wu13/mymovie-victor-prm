@@ -53,6 +53,7 @@ button {
   background: transparent;
   border: 1px solid #999999;
   color: #999999;
+  font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 
 .content-wrapper {
@@ -77,6 +78,10 @@ site-header * {
 site-header button {
   background-color: transparent;
   border: none;
+}
+site-header button i {
+  color: #110E47;
+  font-size: 1rem;
 }
 site-header h1 {
   align-self: center;
@@ -130,7 +135,7 @@ clickable-image {
 }
 clickable-image .clickable-image__wrapper {
   position: relative;
-  width: 200px;
+  width: 100%;
   aspect-ratio: 1/1.6;
   margin-bottom: 1rem;
 }
@@ -188,19 +193,27 @@ now-playing-card * .now-playing-card__star-icon {
   color: #FFC319;
 }
 
-now-playing-section {
+movie-list {
   display: flex;
   flex-direction: column;
   position: relative;
   gap: 1rem;
 }
-now-playing-section .now-playing-section__items-container {
-  display: flex;
-  overflow-x: scroll;
+movie-list .movie-list__items-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  grid-auto-columns: 14rem;
+  overflow-x: auto;
+  white-space: nowrap;
   padding: 1rem;
   gap: 1rem;
   position: relative;
   border-radius: 1rem;
   background-color: #f2f2f2;
   background: linear-gradient(15deg, #e5e5e5 0%, #ffffff 90%);
+}
+movie-list .movie-list__items-container * {
+  word-wrap: break-word;
+  white-space: normal;
 }/*# sourceMappingURL=index.css.map */

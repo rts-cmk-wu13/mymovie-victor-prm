@@ -6,7 +6,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         //PROPERTIES
         this.className = "site-header"
         let backButton = this.hasAttribute("back");
-        let title = this.getAttribute("item-title");
+        let title = this.getAttribute("title");
         let toggle = this.getAttribute("toggle");
 
         //TEMPLATES(S)
@@ -33,13 +33,13 @@ customElements.define("now-playing-card", class NowPlayingCard extends HTMLEleme
         this.className = "now-playing-card"
         this.setAttribute("role", "article");
         let imgSource = this.getAttribute("image-src");
-        let title = this.getAttribute("item-title");
+        let movieTitle = this.getAttribute("movie-title");
         let rating = this.getAttribute("rating");
 
         //TEMPLATES(S)
         let template = `
-        <clickable-image image-src="${imgSource}" item-title="${title}"></clickable-image>
-        <h3>${title}</h3>
+        <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
+        <h3>${movieTitle}</h3>
         <p class="now-playing-card__rating"><i class="fa fa-star now-playing-card__star-icon"></i> ${rating}/10 IMDb</p>
         `
         template = imgSource ? template : ""
@@ -57,7 +57,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         //PROPERTIES
         this.className = "clickable-image"
         let imgSource = this.getAttribute("image-src");
-        let title = this.getAttribute("item-title");
+        let title = this.getAttribute("movie-title");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
 
         //TEMPLATES(S)
@@ -76,21 +76,19 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
     }
 })
 
-//NOW PLAYING CAROUSEL
-customElements.define("now-playing-section", class NowPlayingCarousel extends HTMLElement {
+//NOW PLAYING SECTION
+customElements.define("movie-list", class NowPlayingSection extends HTMLElement {
     constructor() {
         super();
 
         //PROPERTIES
-        this.className = "now-playing-section";
+        this.className = "movie-list";
         this.setAttribute("role", "section");
 
         //TEMPLATES(S)
         let template = `
-        <section-subheader item-title="Now Showing" button="true"></section-subheader>
-        <div class="now-playing-section__items-container"></div>
-        <div class="now-playing-section__fade now-playing-section__fade--left"></div>
-        <div class="now-playing-section__fade now-playing-section__fade--right"></div>
+        <section-subheader title="Now Showing" button="true"></section-subheader>
+        <div class="movie-list__items-container"></div>
         `
         //template = imgSource ? template : ""
 
@@ -106,7 +104,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
 
         //PROPERTIES
         this.className = "section-subheader"
-        let title = this.getAttribute("item-title");
+        let title = this.getAttribute("title");
         //let button = this.getAttribute("button");
 
         //TEMPLATES(S)

@@ -13,12 +13,12 @@ fetch(url, options)
   .then(res => res.json())
   .then(json => {
     console.log(json)
-    let siteHeader = `<site-header back="unmounted" item-title="My Movies" toggle="true"></site-header>`;
+    let siteHeader = `<site-header back="unmounted" title="My Movies" toggle="true"></site-header>`;
     contentElm.insertAdjacentHTML("beforeend", siteHeader);
 
-    let nowPlaying = `<now-playing-section></now-playing-section>`;
+    let nowPlaying = `<movie-list title="now-playing"></movie-list>`;
     contentElm.insertAdjacentHTML("beforeend", nowPlaying);
-    let itemsSection = document.querySelector(".now-playing-section__items-container")
+    let itemsSection = document.querySelector(".movie-list__items-container")
     itemsSection.innerHTML += json.results.map(movie => createNPCard(movie)).join("")
 
   })
@@ -29,7 +29,7 @@ function createNPCard(movieObj) {
   let movTitle = movieObj.original_title;
   let movRating = movieObj.vote_average.toFixed(1)
 
-  return `<now-playing-card item-title="${movTitle}" rating="${movRating}" image-src="${movPoster}"></now-playing-card>`
+  return `<now-playing-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}"></now-playing-card>`
 }
 
 

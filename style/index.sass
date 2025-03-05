@@ -12,7 +12,7 @@ button
     @include base.button-base
 
 .content-wrapper
-    @include base.fxcol()
+    @include base.fxcol
     padding: 0 base.$unit-1x
     max-width: base.$max-width-content
     margin: 0 auto
@@ -30,6 +30,9 @@ site-header
     button
         background-color: transparent
         border: none
+        i
+            color: base.$color-primary-dark
+            font-size: base.$unit-2x
 
     h1
         align-self: center
@@ -80,7 +83,7 @@ clickable-image
     isolation: isolate
     .clickable-image__wrapper
         position: relative
-        width: 200px
+        width: 100%
         aspect-ratio: 1 / 1.6
         margin-bottom: base.$unit-2x
 
@@ -130,16 +133,17 @@ now-playing-card
     * .now-playing-card__star-icon
         color: base.$color-accent
 
-now-playing-section
-    @include base.fxcol()
+movie-list
+    @include base.fxcol
     position: relative
     gap: base.$unit-2x
 
-    .now-playing-section
+    .movie-list
 
         &__items-container
-            display: flex
-            overflow-x: scroll
+            display: grid
+            @include base.infite-list-horizontal($grid-item-width: 14rem)
+
             padding: base.$unit-2x
             gap: base.$unit-2x
             position: relative
@@ -147,3 +151,4 @@ now-playing-section
             background-color: base.$gray-950
             background: linear-gradient(15deg, base.$gray-900 0%, base.$gray-1000 90%)
 
+           
