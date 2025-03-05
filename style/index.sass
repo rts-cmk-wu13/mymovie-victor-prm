@@ -1,4 +1,4 @@
-@use "base"
+@use "../style/base"
 
 html
     background: base.$gray-950
@@ -116,13 +116,14 @@ clickable-image
                 transform: scaleX(2)
                 transform-origin: center bottom
                 pointer-events: none
+                transition: transform 0s
     
     &:focus-within, &:hover
         transform: translateY(-4px)
         transition: all 0.2s
         .clickable-image__backlight-wrapper
-            transform: translateY(18px) scaleY(-1)
-            opacity: 0.6
+            transform: translateY(16px) scaleY(-1)
+            opacity: 0.66
 
 section-subheader
     display: flex
