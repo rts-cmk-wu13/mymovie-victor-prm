@@ -83,8 +83,8 @@ clickable-image
     isolation: isolate
 
     .clickable-image__wrapper
-        position: relative
         width: 100%
+        position: relative
         aspect-ratio: 1 / 1.6
         margin-bottom: base.$unit-2x
 
@@ -124,7 +124,6 @@ clickable-image
         .clickable-image__backlight-wrapper
             transform: translateY(16px) scaleY(-1)
             opacity: 0.66
-
 section-subheader
     display: flex
     justify-content: space-between
@@ -146,6 +145,10 @@ movie-card
         @include base.fxcol
     &[horizontal]
         @include base.fxrow
+        clickable-image
+            height: 100%
+        .clickable-image__wrapper
+            height: 100%
 
 movie-list
     @include base.fxcol
@@ -164,7 +167,8 @@ movie-list
             background-color: base.$gray-950
             background: linear-gradient(15deg, base.$gray-900 0%, base.$gray-1000 90%)
 
-            &--horizontal
+            &[horizontal]
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
-            &--vertical
+            &[vertical]
                 width: 100%
+                @include base.infite-list-vertical

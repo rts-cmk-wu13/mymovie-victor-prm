@@ -30,8 +30,7 @@ body {
   margin: 0 auto;
 }
 
-.standard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: 0.5rem;
-}/*# sourceMappingURL=base.css.map */
+/* .standard-grid
+ * display: grid
+ * grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
+ * gap: $unit-1x *//*# sourceMappingURL=base.css.map */

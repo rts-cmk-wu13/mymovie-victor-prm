@@ -45,5 +45,5 @@ function setMovieListID(idModifier) {
 
 function checkLayoutDirection (thisElm){
     let isHorizontal = thisElm.hasAttribute("horizontal");
-    return isHorizontal ? "--horizontal" : "--vertical"
+    return isHorizontal ? "horizontal" : "vertical"
 }

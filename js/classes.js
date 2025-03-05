@@ -31,8 +31,7 @@ customElements.define("movie-card", class NowPlayingCard extends HTMLElement {
 
         //PROPERTIES
         this.className = "movie-card"
-        this.cardModifier = checkLayoutDirection(this)
-        this.classList.add(this.className+this.cardModifier)
+        //this.cardModifier = checkLayoutDirection(this)
         this.setAttribute("role", "article");
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
@@ -41,8 +40,11 @@ customElements.define("movie-card", class NowPlayingCard extends HTMLElement {
         //TEMPLATES(S)
         let template = `
         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
-        <h3>${movieTitle}</h3>
-        <p class="movie-card__rating"><i class="fa fa-star movie-card__star-icon"></i> ${rating}/10 IMDb</p>
+        <div class ="movie-card__info-container">
+            <h3>${movieTitle}</h3>
+            <p class="movie-card__rating"><i class="fa fa-star movie-card__star-icon"></i> ${rating}/10 IMDb</p>
+        </div>
+       
         `
         template = imgSource ? template : ""
 
@@ -50,7 +52,7 @@ customElements.define("movie-card", class NowPlayingCard extends HTMLElement {
         this.innerHTML = template;
     }
     connectedCallback() {
-        
+
     }
 })
 
@@ -90,7 +92,8 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
 
         //PROPERTIES
         this.className = "movie-list";
-        this.containerModifier = checkLayoutDirection(this)
+        this.containerAttribute = checkLayoutDirection(this)
+        console.log(this.containerAttribute)
         let id = this.getAttribute("id");
         let title = this.getAttribute("title");
         this.setAttribute("role", "section");
@@ -100,16 +103,12 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         //TEMPLATES(S)
         let template = `
         <section-subheader title="${title}" button="true"></section-subheader>
-        <div id="${containerID}" class="movie-list__items-container"></div>
+        <div id="${containerID}" class="movie-list__items-container" ${this.containerAttribute}></div>
         `
         //template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
-    }
-    connectedCallback() {
-        let selector = "movie-list__items-container";
-        this.querySelector("." + selector).classList.add(selector + this.containerModifier)
     }
 })
 
