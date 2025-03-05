@@ -43,12 +43,16 @@ html {
 
 body {
   min-height: 100dvh;
+  color: #110E47;
 }
 
 button {
   border-radius: 4rem;
   padding: 0.25rem 0.5rem;
   font-size: 1rem;
+  background: transparent;
+  border: 1px solid #999999;
+  color: #999999;
 }
 
 .content-wrapper {
@@ -198,5 +202,5 @@ now-playing-section .now-playing-section__items-container {
   position: relative;
   border-radius: 1rem;
   background-color: #f2f2f2;
-  background: linear-gradient(15deg, #e5e5e5 0%, #f2f2f2 90%);
+  background: linear-gradient(15deg, #e5e5e5 0%, #ffffff 90%);
 }/*# sourceMappingURL=index.css.map */
