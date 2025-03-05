@@ -15,12 +15,14 @@ function fetchList(url, callBack) {
         .catch(err => console.error(err));
 }
 
-function createNPCard(movieObj) {
+function createMovieCard(movieObj,direction) {
     let movPoster = `https://image.tmdb.org/t/p/w500/${movieObj.backdrop_path}`;
     let movTitle = movieObj.original_title;
-    let movRating = movieObj.vote_average.toFixed(1)
+    let movRating = movieObj.vote_average.toFixed(1);
 
-    return `<now-playing-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}"></now-playing-card>`
+    direction = direction ? "horizontal" : "vertical"
+
+    return `<movie-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}" ${direction}></movie-card>`
 }
 
 function getLS(key) {
@@ -39,4 +41,9 @@ function getMovieListID(idModifier) {
 function setMovieListID(idModifier) {
     //console.log("set", idModifier);
     return idModifier ? `movie-list__${idModifier}` : ""
+}
+
+function checkLayoutDirection (thisElm){
+    let isHorizontal = thisElm.hasAttribute("horizontal");
+    return isHorizontal ? "--horizontal" : "--vertical"
 }

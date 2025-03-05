@@ -25,12 +25,14 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 })
 
 //NOW PLAYING CARD
-customElements.define("now-playing-card", class NowPlayingCard extends HTMLElement {
+customElements.define("movie-card", class NowPlayingCard extends HTMLElement {
     constructor() {
         super();
 
         //PROPERTIES
-        this.className = "now-playing-card"
+        this.className = "movie-card"
+        this.cardModifier = checkLayoutDirection(this)
+        this.classList.add(this.className+this.cardModifier)
         this.setAttribute("role", "article");
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
@@ -40,14 +42,19 @@ customElements.define("now-playing-card", class NowPlayingCard extends HTMLEleme
         let template = `
         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
         <h3>${movieTitle}</h3>
-        <p class="now-playing-card__rating"><i class="fa fa-star now-playing-card__star-icon"></i> ${rating}/10 IMDb</p>
+        <p class="movie-card__rating"><i class="fa fa-star movie-card__star-icon"></i> ${rating}/10 IMDb</p>
         `
         template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
     }
+    connectedCallback() {
+        
+    }
 })
+
+
 
 //CLICKABLE IMAGE
 customElements.define("clickable-image", class ClickableImage extends HTMLElement {
@@ -64,7 +71,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         let template = `    
         <div class= "clickable-image__wrapper">
             <div class= "clickable-image__backlight-wrapper">
-                <img class="now-playing-card__backlight" src="${backlightSrc}" alt="">
+                <img class="clickable-image-card__backlight" src="${backlightSrc}" alt="">
             </div>
             <a href="#" aria-label="Go to detail page for movie ${title}"><img src="${imgSource}" alt=""></a>
         </div>
@@ -76,17 +83,16 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
     }
 })
 
-//NOW PLAYING SECTION
-customElements.define("movie-list", class NowPlayingSection extends HTMLElement {
+//MOVIE LIST SECTION
+customElements.define("movie-list", class MovieList extends HTMLElement {
     constructor() {
         super();
 
         //PROPERTIES
         this.className = "movie-list";
+        this.containerModifier = checkLayoutDirection(this)
         let id = this.getAttribute("id");
         let title = this.getAttribute("title");
-        let isHorizontal = this.hasAttribute("horizontal");
-        this.containerModifier = isHorizontal ? "--horizontal" : "--vertical"
         this.setAttribute("role", "section");
 
         let containerID = setMovieListID(id);
@@ -94,7 +100,7 @@ customElements.define("movie-list", class NowPlayingSection extends HTMLElement 
         //TEMPLATES(S)
         let template = `
         <section-subheader title="${title}" button="true"></section-subheader>
-        <div id="${containerID}" class="movie-list__items-container movie-list__items-container--${this.containerModifier}"></div>
+        <div id="${containerID}" class="movie-list__items-container"></div>
         `
         //template = imgSource ? template : ""
 

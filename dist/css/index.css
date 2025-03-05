@@ -189,18 +189,25 @@ section-subheader .section-subheader__title {
   font: 1.25rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
 }
 
-now-playing-card {
-  display: flex;
-  flex-direction: column;
+movie-card {
   gap: 0.5rem;
   position: relative;
 }
-now-playing-card .now-playing-card__rating {
+movie-card .movie-card__rating {
   display: inline-flex;
   gap: 0.5rem;
 }
-now-playing-card * .now-playing-card__star-icon {
+movie-card .movie-card__star-icon {
   color: #FFC319;
+}
+movie-card[vertical] {
+  display: flex;
+  flex-direction: column;
+}
+movie-card[horizontal] {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 movie-list {
@@ -230,5 +237,5 @@ movie-list .movie-list__items-container--horizontal * {
   white-space: normal;
 }
 movie-list .movie-list__items-container--vertical {
-  width: 50%;
+  width: 100%;
 }/*# sourceMappingURL=index.css.map */

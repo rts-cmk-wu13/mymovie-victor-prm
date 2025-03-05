@@ -18,7 +18,7 @@ function insertNowPlaying(json) {
     let nowPlaying = `<movie-list title="Now Playing" id="${now_id}" horizontal></movie-list>`;
     contentElm.insertAdjacentHTML("beforeend", nowPlaying);
     let nowPlayingItemsElm = document.querySelector(`#${getMovieListID(now_id)}`)
-    nowPlayingItemsElm.innerHTML += json.results.map(movie => createNPCard(movie)).join("")
+    nowPlayingItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie)).join("")
 }
 
 function insertPopular(json) {
@@ -27,5 +27,5 @@ function insertPopular(json) {
     let popular = `<movie-list title="Popular" id="${pop_id}"></movie-list>`;
     contentElm.insertAdjacentHTML("beforeend", popular);
     let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
-    popularItemsElm.innerHTML += json.results.map(movie => createNPCard(movie)).join("")
+    popularItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie, "horizontal")).join("")
 }

@@ -117,7 +117,7 @@ clickable-image
                 transform-origin: center bottom
                 pointer-events: none
                 transition: transform 0s
-    
+
     &:focus-within, &:hover
         transform: translateY(-4px)
         transition: all 0.2s
@@ -133,15 +133,19 @@ section-subheader
     .section-subheader__title
         font: base.$text-subtitle-1
 
-now-playing-card
-    @include base.fxcol
+movie-card
     gap: base.$unit-1x
     position: relative
-    .now-playing-card__rating
-        display: inline-flex
-        gap: base.$unit-1x
-    * .now-playing-card__star-icon
-        color: base.$color-accent
+    .movie-card
+        &__rating
+            display: inline-flex
+            gap: base.$unit-1x
+        &__star-icon
+            color: base.$color-accent
+    &[vertical]
+        @include base.fxcol
+    &[horizontal]
+        @include base.fxrow
 
 movie-list
     @include base.fxcol
@@ -152,7 +156,6 @@ movie-list
 
         &__items-container
             display: grid
-           
 
             padding: base.$unit-2x
             gap: base.$unit-2x
@@ -164,4 +167,4 @@ movie-list
             &--horizontal
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
             &--vertical
-                width: 50%
+                width: 100%
