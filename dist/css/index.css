@@ -217,9 +217,11 @@ movie-card .movie-card__vote-count {
 }
 movie-card .movie-card__movie-title {
   font: 800 1.25rem/normal Mulish, Arial, Helvetica, sans-serif;
-  margin-bottom: 0.25rem;
 }
 movie-card .movie-card__info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
 }
 movie-card[vertical] {
@@ -270,6 +272,29 @@ movie-list .movie-list__items-container[vertical] {
   grid-auto-rows: 10rem;
   gap: 1.5rem 1.5rem;
   overflow-y: auto;
+}
+
+genre-tags .genre-tags__list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+genre-tags .genre-tags__item {
+  display: inline-flex;
+}
+genre-tags a {
+  color: black;
+  text-decoration: none;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  background-color: #DBE3FF;
+  color: #3e5b9f;
+  box-shadow: 0 0 1rem rgba(26, 26, 26, 0.2);
+  border-radius: 1rem;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  font: 800 0.5rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 
 nav-footer {

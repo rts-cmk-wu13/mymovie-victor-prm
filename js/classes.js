@@ -9,7 +9,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let toggleSwitch = this.hasAttribute("toggle");
         this.className = "site-header";
         this.ariaLabel = "header";
-   
+
 
         //TEMPLATE(S)
         backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
@@ -28,7 +28,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
 //MOVIE CARD
 customElements.define("movie-card", class MovieCard extends HTMLElement {
-    set movieObject(value){
+    set movieObject(value) {
         this._movieObject = value;
         console.log(this._movieObject)
     }
@@ -40,9 +40,10 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let movieTitle = this.getAttribute("movie-title");
         let movieRating = this.getAttribute("rating");
         let voteCount = this.getAttribute("vote-count");
+        let hasGenreTags = this.hasAttribute("show-tags")
         this.className = "movie-card"
         this.ariaLabel = `Movie Card`
-        
+
 
         //TEMPLATE(S)
         let template = `
@@ -55,6 +56,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
                 <span>10 IMDb</span>
                 <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
             </p>
+            <genre-tags></genre-tags>
         </div>
        
         `
@@ -68,7 +70,30 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
     }
 })
 
+//GENRE TAGS
+customElements.define("genre-tags", class GenreTags extends HTMLElement {
+    constructor() {
+        super();
 
+        //PROPERTIES
+        this.className = "genre-tags"
+
+        //TEMPLATE(S)
+        let template = `    
+            <ul class="${this.className}__list">
+                <li class="${this.className}__item"><a href="#">Horror</a></li>
+                <li class="${this.className}__item"><a href="#">Comedy</a></li>
+                <li class="${this.className}__item"><a href="#">Thriller</a></li>
+            </ul>
+        `
+
+        //INNER HTML
+        this.innerHTML = template;
+    }
+    createListItem(params) {
+        
+    }
+})
 
 //CLICKABLE IMAGE
 customElements.define("clickable-image", class ClickableImage extends HTMLElement {
@@ -133,7 +158,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
         this.className = "section-subheader"
         this.role = "group"
         this.ariaLabel = `${headerTitle} header group`
-    
+
         //let button = this.getAttribute("button");
 
         //TEMPLATE(S)
@@ -218,9 +243,9 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
         let location = window.location.pathname;
         links.forEach(link => {
             let linkRef = link.getAttribute("href");
-            if(linkRef === location){
+            if (linkRef === location) {
                 link.classList.add("nav-current-location")
-            }else{
+            } else {
                 link.classList.remove("nav-current-location")
             }
         })

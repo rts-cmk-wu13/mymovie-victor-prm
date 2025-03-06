@@ -2,19 +2,15 @@ let bodyElm = document.body;
 
 const now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
 const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
+const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 let now_id = "items-now-playing"
 let pop_id = "items-popular"
-
-let nowPlayingItems = [];
-let popularItems = [];
-let genreItems = []
-let grene = []
 
 
 buildSite();
 fetchData(now_url, insertNowPlaying)
 fetchData(pop_url, insertPopular)
-fetchData("https://api.themoviedb.org/3/genre/movie/list?language=en",console.log)
+fetchData(genres_url,console.log)
 
 function buildSite() {
   // Create Header

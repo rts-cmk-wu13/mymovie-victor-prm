@@ -17,12 +17,11 @@ $gray-950: #f2f2f2
 $gray-1000: #ffffff
 
 $color-primary: #88A4E8
+$color-primary-mid: #3e5b9f
 $color-primary-dark: #110E47
 $color-primary-light: #DBE3FF
 $color-accent: #FFC319
 
-$black-tint-100: rgba( $gray-100, .2)
-$box-shadow-6r: 0 0 6rem $black-tint-100
 
 $max-width-content: 50rem
 $max-width-page: 54rem
@@ -39,13 +38,16 @@ $unit-05x: math.div( $unit-1x,2)
 $unit-025x: math.div( $unit-1x,4)
 
 $svg-white: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg) brightness(110%) contrast(110%)
+$black-tint-100: rgba( $gray-100, .2)
+$box-shadow-1x: 0 0 $unit-1x $black-tint-100
+$box-shadow-2x: 0 0 $unit-2x $black-tint-100
 
 $text-headline: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif
 $text-subtitle-1: 1.25rem/normal Merriweather,Georgia, 'Times New Roman', Times, serif
 $text-subtitle-2: 800 1.25rem/normal Mulish, Arial, Helvetica, sans-serif
 $text-body-1: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif
 $text-body-2: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif
-$text-caption: 0.5rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-caption: 800 0.5rem/normal Mulish, Arial, Helvetica, sans-serif
 
 $grid-item-size: 8rem
 
@@ -101,6 +103,9 @@ ul li
     border: 1px solid $gray-300
     color: $gray-300
 
+@mixin reset-links
+    color: black
+    text-decoration: none
 
 @mixin infite-list-horizontal($grid-item-width)
     grid-auto-flow: column

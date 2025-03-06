@@ -136,7 +136,7 @@ movie-card
     gap: base.$unit-1x
     position: relative
     height: 100%
-    
+
     .movie-card
         &__rating
             display: inline-flex
@@ -154,8 +154,9 @@ movie-card
             font: base.$text-body-1
         &__movie-title
             font: base.$text-subtitle-2
-            margin-bottom: base.$unit-05x
     .movie-card__info-container
+        @include base.fxcol
+        gap: base.$unit-1x
         width: 100%
     &[vertical]
         @include base.fxcol
@@ -189,6 +190,25 @@ movie-list
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
             &[vertical]
                 @include base.infite-list-vertical($grid-item-width: 18rem)
+
+genre-tags
+    .genre-tags
+        &__list
+            @include base.fxrow
+            gap: base.$unit-1x
+            flex-wrap: wrap
+        &__item
+            display: inline-flex
+    a
+        @include base.reset-links
+        width: 100%
+        padding: base.$unit-05x base.$unit-1x
+        background-color: base.$color-primary-light
+        color: base.$color-primary-mid
+        box-shadow: base.$box-shadow-2x
+        border-radius: base.$unit-2x
+        border: 1px solid base.$black-tint-100
+        font: base.$text-caption
 
 nav-footer
     @include base.fxrow
