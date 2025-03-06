@@ -18,16 +18,22 @@ function fetchData(url, callBack) {
 
 
 function createMovieCard(movieObj, direction) {
-    let movPoster = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${movieObj.poster_path}`;
-    let movTitle = movieObj.original_title;
-    let movRating = movieObj.vote_average.toFixed(1);
-    let voteCount = (movieObj.vote_count / 1000).toFixed(1);
+    let itemID = `movie-card__${movieObj.id}`
 
     direction = direction ? "horizontal" : "vertical"
 
-    return `<li aria-label="${movTitle}">
-                <movie-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}" vote-count="${voteCount}" ${direction}></movie-card>
-            </li>`
+    let item = document.createElement("li");
+    item.ariaLabel = "movTitle";
+
+    // Create movie-card properly
+    const movieCard = document.createElement("movie-card");
+    movieCard.id = itemID;
+    movieCard.dataObject = movieObj; // Now we assign it directly to the movie-card
+    if (direction) movieCard.setAttribute("direction", direction);
+
+    item.appendChild(movieCard); // Append it to the li
+
+    return item;
 }
 
 function getLS(key) {

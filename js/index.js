@@ -9,15 +9,14 @@ let pop_id = "items-popular"
 
 buildSite();
 fetchData(now_url, insertNowPlaying)
-fetchData(pop_url, insertPopular)
-fetchData(genres_url,console.log)
+/* fetchData(pop_url, insertPopular) */
+fetchData(genres_url, console.log)
 
 function buildSite() {
   // Create Header
   let headerElm = document.createElement("header");
   //Populate Header
-  let headerComp = `<site-header back header-title="My Movies" toggle></site-header>`;
-  headerElm.insertAdjacentHTML("beforeend", headerComp);
+  headerElm.innerHTML = `<site-header back header-title="My Movies" toggle></site-header>`;
   bodyElm.append(headerElm);
 
   // Create Main
@@ -26,8 +25,8 @@ function buildSite() {
   //Populate Main
   let nowPlayingComp = `<movie-list section-title="Now Playing" id="${now_id}" horizontal></movie-list>`;
   mainElm.insertAdjacentHTML("beforeend", nowPlayingComp);
-  let popularComp = `<movie-list section-title="Popular" id="${pop_id}"></movie-list>`;
-  mainElm.insertAdjacentHTML("beforeend", popularComp);
+/*   let popularComp = `<movie-list section-title="Popular" id="${pop_id}"></movie-list>`;
+  mainElm.insertAdjacentHTML("beforeend", popularComp); */
 
   //Create Footer
   let footerElm = document.createElement("footer");
@@ -40,13 +39,14 @@ function buildSite() {
 function insertNowPlaying(json) {
   //Inject Now Playing
   let nowPlayingItemsElm = document.querySelector(`#${getMovieListID(now_id)}`)
-  nowPlayingItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie)).join("")
+  json.results.map(movie => nowPlayingItemsElm.append(createMovieCard(movie)))
 }
 
-function insertPopular(json) {
+/* function insertPopular(json) {
   //Inject Popular
   let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
   popularItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie, "horizontal")).join("")
 }
 
 
+ */

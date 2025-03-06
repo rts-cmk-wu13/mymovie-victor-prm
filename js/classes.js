@@ -28,45 +28,50 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
 //MOVIE CARD
 customElements.define("movie-card", class MovieCard extends HTMLElement {
-    set movieObject(value) {
-        this._movieObject = value;
-        console.log(this._movieObject)
-    }
+  
     constructor() {
         super();
+        this._dataObject = {};
+    }
+    
+    set dataObject(value) {
+        this._dataObject = value;
+        console.log(this._dataObject)
+        this.render();
+    }
 
-        //PROPERTIES
-        let imgSource = this.getAttribute("image-src");
-        let movieTitle = this.getAttribute("movie-title");
-        let movieRating = this.getAttribute("rating");
-        let voteCount = this.getAttribute("vote-count");
-        let hasGenreTags = this.hasAttribute("show-tags")
-        this.className = "movie-card"
-        this.ariaLabel = `Movie Card`
-
+    render() {
+         //PROPERTIES
+         this.className = "movie-card"
+         this.ariaLabel = `Movie Card`
+         let itemID = this.getAttribute("id");
+         let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${this._dataObject.poster_path}`;
+         let movieTitle = this._dataObject.original_title
+         let movieRating = this._dataObject.vote_average.toFixed(1);
+         let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
 
         //TEMPLATE(S)
         let template = `
-        <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
-        <div class="${this.className}__info-container">
-            <h3 class="${this.className}__movie-title">${movieTitle}</h3>
-            <p class="${this.className}__rating">
-                <i class="fa fa-star ${this.className}__star-icon"></i>
-                <em class="${this.className}__rating-score">${movieRating}</em>/
-                <span>10 IMDb</span>
-                <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
-            </p>
-            <genre-tags></genre-tags>
-        </div>
-       
-        `
+         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
+         <div class="${this.className}__info-container">
+             <h3 class="${this.className}__movie-title">${movieTitle}</h3>
+             <p class="${this.className}__rating">
+                 <i class="fa fa-star ${this.className}__star-icon"></i>
+                 <em class="${this.className}__rating-score">${movieRating}</em>/
+                 <span>10 IMDb</span>
+                 <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
+             </p>
+             <genre-tags></genre-tags>
+         </div>
+        
+         `
         template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
     }
-    connectedCallback() {
 
+    connectedCallback() {
     }
 })
 
@@ -75,15 +80,13 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     constructor() {
         super();
 
-        //PROPERTIES
+        //PROPERTIES    
         this.className = "genre-tags"
 
         //TEMPLATE(S)
         let template = `    
             <ul class="${this.className}__list">
-                <li class="${this.className}__item"><a href="#">Horror</a></li>
-                <li class="${this.className}__item"><a href="#">Comedy</a></li>
-                <li class="${this.className}__item"><a href="#">Thriller</a></li>
+                
             </ul>
         `
 
@@ -91,7 +94,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         this.innerHTML = template;
     }
     createListItem(params) {
-        
+        return `<li class="${this.className}__item"><a href="#" aria-label="navigate to category page for ...">Horror</a></li>`
     }
 })
 
@@ -227,9 +230,9 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
         this.ariaLabel = "navigation footer";
 
         //TEMPLATE(S)
-        let homeButton = `<a href="/"><i class="fas fa-film ${this.className}__home-button"></i></a>`
-        let nowPlayingButton = `<a href="/nowplaying.html"><i class="fa fa-ticket ${this.className}__now-playing-button"></i></a>`
-        let favoritesButton = `<a href="/favorites.html"><i class="fas fa-heart ${this.className}__favorites-button"></i></a>`
+        let homeButton = `<a href="/" aria-label="navigate to home page"><i class="fas fa-film ${this.className}__home-button"></i></a>`
+        let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing page"><i class="fa fa-ticket ${this.className}__now-playing-button"></i></a>`
+        let favoritesButton = `<a href="/favorites.html" aria-label="navigate to favorites page"><i class="fas fa-heart ${this.className}__favorites-button"></i></a>`
 
         //INNER HTML
         this.innerHTML = `
