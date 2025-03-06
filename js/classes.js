@@ -11,7 +11,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         this.ariaLabel = "header";
    
 
-        //TEMPLATES(S)
+        //TEMPLATE(S)
         backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
         headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
         toggleSwitch = toggleSwitch ? `<dark-mode-toggle mounted></dark-mode-toggle>` : ""
@@ -39,12 +39,12 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         this.ariaLabel = `Movie Card`
         
 
-        //TEMPLATES(S)
+        //TEMPLATE(S)
         let template = `
         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
         <div class ="${this.className}__info-container">
             <h3>${movieTitle}</h3>
-            <p class="${this.className}__rating"><i class="fa fa-star ${this.className}__star-icon"></i> ${movieRating}/10 IMDb</p>
+            <p class="${this.className}__rating"><i class="fa fa-star ${this.className}__star-icon"></i><em class="${this.className}__rating-score">${movieRating}</em>/<span>10 IMDb</span></p>
         </div>
        
         `
@@ -71,7 +71,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         let movieTitle = this.getAttribute("movie-title");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
 
-        //TEMPLATES(S)
+        //TEMPLATE(S)
         let template = `    
         <div class= "${this.className}__wrapper">
             <div class= "${this.className}__backlight-wrapper">
@@ -101,7 +101,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         this.containerAttribute = checkLayoutDirection(this)
         let containerID = setMovieListID(id);
 
-        //TEMPLATES(S)
+        //TEMPLATE(S)
         let template = `
         <section-subheader header-title="${sectionTitle}" button="true"></section-subheader>
         <ul id="${containerID}" class="${this.className}__items-container" ${this.containerAttribute}></ul>
@@ -126,7 +126,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
     
         //let button = this.getAttribute("button");
 
-        //TEMPLATES(S)
+        //TEMPLATE(S)
         let template = `
         <h2 class="${this.className}__title">${headerTitle}</h2>
         <button class="${this.className}__see-more-btn">See more</button>
@@ -149,7 +149,7 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         this.className = "dark-mode-toggle"
         let isDarkMode = getLS("dark-mode")
 
-        //TEMPLATES(S)
+        //TEMPLATE(S)
         let template = `
         <label for="ms1" aria-label="Dark mode"><i class="${this.className}__icon"></i></label>
         <input type="checkbox" role="switch" id="ms1"/>
@@ -179,6 +179,44 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
             iconElement.className = `${thisElm.className}__icon ${iconSource}`
         }
     }
+})
+
+//STICKY NAV FOOTER
+customElements.define("nav-footer", class NavFooter extends HTMLElement {
+    constructor() {
+        super();
+
+        //PROPERTIES
+        /* let current = this.getAttribute("current"); */
+        this.className = "site-footer";
+        this.ariaLabel = "navigation footer";
+
+        //TEMPLATE(S)
+        let homeButton = `<a href="/"><i class="fas fa-film ${this.className}__home-button"></i></a>`
+        let nowPlayingButton = `<a href="/nowplaying.html"><i class="fa fa-ticket ${this.className}__now-playing-button"></i></a>`
+        let favoritesButton = `<a href="/favorites.html"><i class="fas fa-heart ${this.className}__favorites-button"></i></a>`
+
+        //INNER HTML
+        this.innerHTML = `
+        ${homeButton}
+        ${nowPlayingButton}
+        ${favoritesButton}
+        `
+    }
+    connectedCallback() {
+        let links = this.querySelectorAll("a");
+        let location = window.location.pathname;
+        console.log(location)
+        links.forEach(link => {
+            let linkRef = link.getAttribute("href");
+            if(linkRef === location){
+                link.classList.add("nav-current-location")
+            }else{
+                link.classList.remove("nav-current-location")
+            }
+        })
+    }
+
 })
 
 

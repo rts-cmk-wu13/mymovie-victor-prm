@@ -26,8 +26,12 @@ function buildSite() {
   let popularComp = `<movie-list section-title="Popular" id="${pop_id}"></movie-list>`;
   mainElm.insertAdjacentHTML("beforeend", popularComp);
 
+  //Create Footer
+  let footerElm = document.createElement("footer");
+  let footerComp = `<nav-footer></nav-footer>`
+  footerElm.insertAdjacentHTML("beforeend", footerComp);
   //Append
-  bodyElm.append(headerElm, mainElm);
+  bodyElm.append(headerElm, mainElm, footerElm);
 }
 
 function insertNowPlaying(json) {

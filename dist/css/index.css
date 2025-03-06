@@ -30,6 +30,13 @@ body {
   margin: 0 auto;
 }
 
+ul li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
 /* .standard-grid
  * display: grid
  * grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
@@ -192,7 +199,13 @@ movie-card {
 }
 movie-card .movie-card__rating {
   display: inline-flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.25rem;
+  color: #666666;
+}
+movie-card .movie-card__rating-score {
+  font-weight: 700;
+  font-style: normal;
 }
 movie-card .movie-card__star-icon {
   color: #FFC319;
@@ -227,7 +240,7 @@ movie-list .movie-list__items-container {
   position: relative;
   border-radius: 1rem;
   background-color: #f2f2f2;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #e5e5e5;
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
 }
 movie-list .movie-list__items-container[horizontal] {
@@ -247,9 +260,36 @@ movie-list .movie-list__items-container[vertical] {
   overflow-y: auto;
 }
 
-ul li {
-  margin: 0;
-  padding: 0;
-  text-indent: 0;
-  list-style-type: none;
+nav-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  max-width: 54rem;
+  height: 4rem;
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(4rem);
+          backdrop-filter: blur(4rem);
+  border-radius: 1rem 1rem 0 0;
+  border: 1px solid #cccccc;
+  box-shadow: 0rem -0.5rem 1rem rgba(26, 26, 26, 0.2);
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+nav-footer a {
+  width: 4rem;
+  text-align: center;
+  color: #7f7f7f;
+  font-size: 1.5rem;
+  border: none;
+}
+nav-footer a .site-footer__favorites-button {
+  font-size: 1.25rem;
+}
+nav-footer a.nav-current-location {
+  color: #110E47;
 }/*# sourceMappingURL=index.css.map */

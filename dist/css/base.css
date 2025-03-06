@@ -30,6 +30,13 @@ body {
   margin: 0 auto;
 }
 
+ul li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
 /* .standard-grid
  * display: grid
  * grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
