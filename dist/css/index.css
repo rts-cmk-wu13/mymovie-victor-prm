@@ -50,8 +50,8 @@ button {
   padding: 0.25rem 0.5rem;
   font-size: 1rem;
   background: transparent;
-  border: 1px solid #999999;
-  color: #999999;
+  border: 1px solid #666666;
+  color: #666666;
   font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 
@@ -227,11 +227,11 @@ movie-list .movie-list__items-container {
   position: relative;
   border-radius: 1rem;
   background-color: #f2f2f2;
-  background: linear-gradient(15deg, #e5e5e5 0%, #ffffff 90%);
+  border: 1px solid #d9d9d9;
+  background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
 }
 movie-list .movie-list__items-container[horizontal] {
   grid-auto-flow: column;
-  grid-auto-columns: max-content;
   grid-auto-columns: 14rem;
   overflow-x: auto;
   white-space: nowrap;

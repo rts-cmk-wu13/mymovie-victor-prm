@@ -166,7 +166,8 @@ movie-list
             position: relative
             border-radius: base.$unit-2x
             background-color: base.$gray-950
-            background: linear-gradient(15deg, base.$gray-900 0%, base.$gray-1000 90%)
+            border: 1px solid base.$gray-850
+            background: linear-gradient(30deg,  mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%)  90%)
 
             &[horizontal]
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
