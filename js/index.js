@@ -5,9 +5,16 @@ const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=
 let now_id = "items-now-playing"
 let pop_id = "items-popular"
 
+let nowPlayingItems = [];
+let popularItems = [];
+let genreItems = []
+let grene = []
+
+
 buildSite();
-fetchList(now_url, insertNowPlaying)
-fetchList(pop_url, insertPopular)
+fetchData(now_url, insertNowPlaying)
+fetchData(pop_url, insertPopular)
+fetchData("https://api.themoviedb.org/3/genre/movie/list?language=en",console.log)
 
 function buildSite() {
   // Create Header
@@ -45,7 +52,5 @@ function insertPopular(json) {
   let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
   popularItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie, "horizontal")).join("")
 }
-
-//fetchList("https://api.themoviedb.org/3/genre/movie/list?language=en",console.log);
 
 

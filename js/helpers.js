@@ -1,5 +1,4 @@
-function fetchList(url, callBack) {
-
+function fetchData(url, callBack) {
     const options = {
         method: 'GET',
         headers: {
@@ -13,27 +12,6 @@ function fetchList(url, callBack) {
             //console.log(json)
             if (!callBack) return
             return callBack(json);
-        })
-        .catch(err => console.error(err));
-}
-
-function fetchArray(url, arr) {
-    arrayListener(arr);
-
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${API_TOKEN}`
-        }
-    };
-    fetch(url, options)
-        .then(res => res.json())
-        .then(json => {
-            console.log(json.genres, typeof json.genres)
-            if (!arr) return
-            arr.push(...json.genres)
-            document.dispatchEvent(arrayReadyEvent);
         })
         .catch(err => console.error(err));
 }
@@ -85,15 +63,4 @@ function devOrProd(devValue, prodValue) {
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
 
 
-const arrayReadyEvent = new Event("arrayReady");
 
-let myArray = [];
-
-
-function arrayListener(arr) {
-    document.addEventListener("arrayReady", () => {
-        console.log("Array is now ready:", arr);
-    });
-}
-let genresTest = [];
-fetchArray("https://api.themoviedb.org/3/genre/movie/list?language=en", genresTest)
