@@ -4,22 +4,23 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         super();
 
         //PROPERTIES
-        this.className = "site-header";
-        this.role = "header";
         let backButton = this.hasAttribute("back");
-        let title = this.getAttribute("title");
-        let toggle = this.getAttribute("toggle");
+        let headerTitle = this.getAttribute("header-title");
+        let toggleSwitch = this.hasAttribute("toggle");
+        this.className = "site-header";
+        this.ariaLabel = "header";
+   
 
         //TEMPLATES(S)
         backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
-        title = title ? `<h1>${title}</h1>` : ""
-        toggle = toggle ? `<dark-mode-toggle mounted="true"></dark-mode-toggle>` : ""
+        headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
+        toggleSwitch = toggleSwitch ? `<dark-mode-toggle mounted></dark-mode-toggle>` : ""
 
         //INNER HTML
         this.innerHTML = `
         ${backButton}
-        ${title}
-        ${toggle}
+        ${headerTitle}
+        ${toggleSwitch}
         `
     }
 
@@ -31,18 +32,19 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         super();
 
         //PROPERTIES
-        this.className = "movie-card"
-        this.role = "listitem";
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
-        let rating = this.getAttribute("rating");
+        let movieRating = this.getAttribute("rating");
+        this.className = "movie-card"
+        this.ariaLabel = `Movie Card`
+        
 
         //TEMPLATES(S)
         let template = `
         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
         <div class ="${this.className}__info-container">
             <h3>${movieTitle}</h3>
-            <p class="${this.className}__rating"><i class="fa fa-star ${this.className}__star-icon"></i> ${rating}/10 IMDb</p>
+            <p class="${this.className}__rating"><i class="fa fa-star ${this.className}__star-icon"></i> ${movieRating}/10 IMDb</p>
         </div>
        
         `
@@ -66,7 +68,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         //PROPERTIES
         this.className = "clickable-image"
         let imgSource = this.getAttribute("image-src");
-        let title = this.getAttribute("movie-title");
+        let movieTitle = this.getAttribute("movie-title");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
 
         //TEMPLATES(S)
@@ -75,7 +77,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
             <div class= "${this.className}__backlight-wrapper">
                 <img class="${this.className}-card__backlight" src="${backlightSrc}" alt="">
             </div>
-            <a href="#" aria-label="Go to detail page for movie ${title}"><img src="${imgSource}" alt=""></a>
+            <a href="#" aria-label="Go to detail page for movie ${movieTitle}"><img src="${imgSource}" alt=""></a>
         </div>
         `
         template = imgSource ? template : ""
@@ -91,18 +93,17 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         super();
 
         //PROPERTIES
-        this.className = "movie-list";
-        this.containerAttribute = checkLayoutDirection(this)
-        console.log(this.containerAttribute)
         let id = this.getAttribute("id");
-        let title = this.getAttribute("title");
-        this.setAttribute("role", "section");
-
+        let sectionTitle = this.getAttribute("section-title");
+        this.className = "movie-list";
+        this.role = "region"
+        this.ariaLabel = `Movie list for category ${sectionTitle}`
+        this.containerAttribute = checkLayoutDirection(this)
         let containerID = setMovieListID(id);
 
         //TEMPLATES(S)
         let template = `
-        <section-subheader title="${title}" button="true"></section-subheader>
+        <section-subheader header-title="${sectionTitle}" button="true"></section-subheader>
         <ul id="${containerID}" class="${this.className}__items-container" ${this.containerAttribute}></ul>
         `
         //template = imgSource ? template : ""
@@ -118,16 +119,19 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
         super();
 
         //PROPERTIES
+        let headerTitle = this.getAttribute("header-title");
         this.className = "section-subheader"
-        let title = this.getAttribute("title");
+        this.role = "group"
+        this.ariaLabel = `${headerTitle} header group`
+    
         //let button = this.getAttribute("button");
 
         //TEMPLATES(S)
         let template = `
-        <h2 class="${this.className}__title">${title}</h2>
+        <h2 class="${this.className}__title">${headerTitle}</h2>
         <button class="${this.className}__see-more-btn">See more</button>
         `
-        template = title ? template : ""
+        template = headerTitle ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
@@ -141,8 +145,8 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         super();
 
         //PROPERTIES
+        let mounted = this.hasAttribute("mounted");
         this.className = "dark-mode-toggle"
-        let mounted = this.getAttribute("mounted");
         let isDarkMode = getLS("dark-mode")
 
         //TEMPLATES(S)

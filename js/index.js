@@ -1,4 +1,4 @@
-let contentElm = document.querySelector(".content-wrapper");
+let bodyElm = document.body;
 
 const now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
 const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
@@ -11,18 +11,23 @@ fetchList(pop_url, insertPopular)
 
 function buildSite() {
   // Create Header
-  let siteHeader = `<site-header back="unmounted" title="My Movies" toggle="true"></site-header>`;
-  contentElm.insertAdjacentHTML("beforeend", siteHeader);
+  let headerElm = document.createElement("header");
+  //Populate Header
+  let headerComp = `<site-header back header-title="My Movies" toggle></site-header>`;
+  headerElm.insertAdjacentHTML("beforeend", headerComp);
+  bodyElm.append(headerElm);
+
   // Create Main
   let mainElm = document.createElement("main");
   mainElm.className = "content-main"
-  contentElm.append(mainElm);
-  
   //Populate Main
-  let nowPlaying = `<movie-list title="Now Playing" id="${now_id}" horizontal></movie-list>`;
-  mainElm.insertAdjacentHTML("beforeend", nowPlaying);
-  let popular = `<movie-list title="Popular" id="${pop_id}"></movie-list>`;
-  mainElm.insertAdjacentHTML("beforeend", popular);
+  let nowPlayingComp = `<movie-list section-title="Now Playing" id="${now_id}" horizontal></movie-list>`;
+  mainElm.insertAdjacentHTML("beforeend", nowPlayingComp);
+  let popularComp = `<movie-list section-title="Popular" id="${pop_id}"></movie-list>`;
+  mainElm.insertAdjacentHTML("beforeend", popularComp);
+
+  //Append
+  bodyElm.append(headerElm, mainElm);
 }
 
 function insertNowPlaying(json) {

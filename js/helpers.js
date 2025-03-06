@@ -22,7 +22,7 @@ function createMovieCard(movieObj,direction) {
 
     direction = direction ? "horizontal" : "vertical"
 
-    return `<movie-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}" ${direction}></movie-card>`
+    return `<li aria-label="${movTitle}"><movie-card movie-title="${movTitle}" rating="${movRating}" image-src="${movPoster}" ${direction}></movie-card></li>`
 }
 
 function getLS(key) {
