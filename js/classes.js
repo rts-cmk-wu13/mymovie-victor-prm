@@ -35,6 +35,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
         let movieRating = this.getAttribute("rating");
+        let voteCount = this.getAttribute("vote-count");
         this.className = "movie-card"
         this.ariaLabel = `Movie Card`
         
@@ -42,9 +43,14 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         //TEMPLATE(S)
         let template = `
         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
-        <div class ="${this.className}__info-container">
-            <h3>${movieTitle}</h3>
-            <p class="${this.className}__rating"><i class="fa fa-star ${this.className}__star-icon"></i><em class="${this.className}__rating-score">${movieRating}</em>/<span>10 IMDb</span></p>
+        <div class="${this.className}__info-container">
+            <h3 class="${this.className}__movie-title">${movieTitle}</h3>
+            <p class="${this.className}__rating">
+                <i class="fa fa-star ${this.className}__star-icon"></i>
+                <em class="${this.className}__rating-score">${movieRating}</em>/
+                <span>10 IMDb</span>
+                <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
+            </p>
         </div>
        
         `

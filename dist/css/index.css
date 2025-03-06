@@ -49,17 +49,17 @@ html {
 body {
   min-height: 100dvh;
   color: #110E47;
+  font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
   padding: 0 0.5rem 3rem;
 }
 
 button {
   border-radius: 4rem;
   padding: 0.25rem 0.5rem;
-  font-size: 1rem;
-  background: transparent;
-  border: 1px solid #666666;
-  color: #666666;
   font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
+  background: transparent;
+  border: 1px solid #4d4d4d;
+  color: #4d4d4d;
 }
 
 .content-main {
@@ -199,9 +199,10 @@ movie-card {
 }
 movie-card .movie-card__rating {
   display: inline-flex;
+  width: 100%;
   align-items: center;
   gap: 0.25rem;
-  color: #666666;
+  color: #4d4d4d;
 }
 movie-card .movie-card__rating-score {
   font-weight: 700;
@@ -209,6 +210,17 @@ movie-card .movie-card__rating-score {
 }
 movie-card .movie-card__star-icon {
   color: #FFC319;
+}
+movie-card .movie-card__vote-count {
+  margin-left: auto;
+  font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+}
+movie-card .movie-card__movie-title {
+  font: 800 1.25rem/normal Mulish, Arial, Helvetica, sans-serif;
+  margin-bottom: 0.25rem;
+}
+movie-card .movie-card__info-container {
+  width: 100%;
 }
 movie-card[vertical] {
   display: flex;
@@ -283,7 +295,7 @@ nav-footer {
 nav-footer a {
   width: 4rem;
   text-align: center;
-  color: #7f7f7f;
+  color: #666666;
   font-size: 1.5rem;
   border: none;
 }

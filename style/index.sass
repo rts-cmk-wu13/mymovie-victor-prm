@@ -7,6 +7,7 @@ html
 body
     min-height: 100dvh
     color: base.$color-primary-dark
+    font: base.$text-body-1
     padding: 0 base.$unit-1x 3rem
 
 button
@@ -135,17 +136,27 @@ movie-card
     gap: base.$unit-1x
     position: relative
     height: 100%
+    
     .movie-card
         &__rating
             display: inline-flex
+            width: 100%
             align-items: center
             gap: base.$unit-05x
-            color: base.$gray-400
+            color: base.$gray-300
         &__rating-score
             font-weight: 700
             font-style: normal
         &__star-icon
             color: base.$color-accent
+        &__vote-count
+            margin-left: auto
+            font: base.$text-body-1
+        &__movie-title
+            font: base.$text-subtitle-2
+            margin-bottom: base.$unit-05x
+    .movie-card__info-container
+        width: 100%
     &[vertical]
         @include base.fxcol
     &[horizontal]
@@ -201,7 +212,7 @@ nav-footer
     a
         width: 4rem
         text-align: center
-        color: base.$gray-500
+        color: base.$gray-400
         font-size: 1.5rem
         border: none
         .site-footer__favorites-button
