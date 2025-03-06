@@ -28,6 +28,10 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
 //MOVIE CARD
 customElements.define("movie-card", class MovieCard extends HTMLElement {
+    set movieObject(value){
+        this._movieObject = value;
+        console.log(this._movieObject)
+    }
     constructor() {
         super();
 
@@ -212,7 +216,6 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
     connectedCallback() {
         let links = this.querySelectorAll("a");
         let location = window.location.pathname;
-        console.log(location)
         links.forEach(link => {
             let linkRef = link.getAttribute("href");
             if(linkRef === location){

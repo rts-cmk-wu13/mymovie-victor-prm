@@ -1,4 +1,5 @@
 function fetchList(url, callBack) {
+
     const options = {
         method: 'GET',
         headers: {
@@ -6,21 +7,43 @@ function fetchList(url, callBack) {
             Authorization: `Bearer ${API_TOKEN}`
         }
     };
-
     fetch(url, options)
         .then(res => res.json())
         .then(json => {
-            console.log(json)
+            //console.log(json)
+            if (!callBack) return
             return callBack(json);
         })
         .catch(err => console.error(err));
 }
 
+function fetchArray(url, arr) {
+    arrayListener(arr);
+
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${API_TOKEN}`
+        }
+    };
+    fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json.genres, typeof json.genres)
+            if (!arr) return
+            arr.push(...json.genres)
+            document.dispatchEvent(arrayReadyEvent);
+        })
+        .catch(err => console.error(err));
+}
+
+
 function createMovieCard(movieObj, direction) {
-    let movPoster = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${movieObj.backdrop_path}`;
+    let movPoster = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${movieObj.poster_path}`;
     let movTitle = movieObj.original_title;
     let movRating = movieObj.vote_average.toFixed(1);
-    let voteCount = (movieObj.vote_count/1000).toFixed(1);
+    let voteCount = (movieObj.vote_count / 1000).toFixed(1);
 
     direction = direction ? "horizontal" : "vertical"
 
@@ -52,10 +75,25 @@ function checkLayoutDirection(thisElm) {
     return isHorizontal ? "horizontal" : "vertical"
 }
 
-function devOrProd(devValue, prodValue) {;
+function devOrProd(devValue, prodValue) {
+    ;
     let location = window.location.origin
     let isDev = location.startsWith("http://127.0.0.1");
     return isDev ? devValue : prodValue
 }
 
-console.log(devOrProd("Dev","Prod: Check devOrProd-values if any errors appear"))
+console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
+
+
+const arrayReadyEvent = new Event("arrayReady");
+
+let myArray = [];
+
+
+function arrayListener(arr) {
+    document.addEventListener("arrayReady", () => {
+        console.log("Array is now ready:", arr);
+    });
+}
+let genresTest = [];
+fetchArray("https://api.themoviedb.org/3/genre/movie/list?language=en", genresTest)

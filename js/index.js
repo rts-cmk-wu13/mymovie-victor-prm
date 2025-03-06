@@ -45,3 +45,7 @@ function insertPopular(json) {
   let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
   popularItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie, "horizontal")).join("")
 }
+
+//fetchList("https://api.themoviedb.org/3/genre/movie/list?language=en",console.log);
+
+
