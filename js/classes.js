@@ -52,7 +52,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
-        let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${this._dataObject.poster_path}`;
+        let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w300", "w500")}/${this._dataObject.poster_path}`;
         let movieTitle = this._dataObject.original_title
         let movieRating = this._dataObject.vote_average.toFixed(1);
         let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
@@ -60,7 +60,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
         //TEMPLATE(S)
         let template = `
-         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
+         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}" movie-id="${this._dataObject.id}"></clickable-image>
          <div class="${this.className}__info-container">
              <h3 class="${this.className}__movie-title">${movieTitle}</h3>
              <p class="${this.className}__rating">
@@ -96,21 +96,20 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     render() {
         //CUSTOM ATTRIBUTES    
         this.genreItems = JSON.parse(this.getAttribute("genres"))
-        console.log(this.genreItems)
 
         //TEMPLATE
         let list = initElement("ul", {
             'class': `${this.className}__list`,
         })
-        this.genreItems.map(genre => list.append(this.createListItem(genre, this.className)))
+        this.genreItems.map(genreID => list.append(this.createListItem(genreID, this.className)))
         this.append(list)
     }
 
-    createListItem(_genre, _className) {
+    createListItem(_genreID, _className) {
         let item = initElement("li", {
             'class' : `${_className}__item`
         })
-        item.innerHTML = `<a href="#" aria-label="navigate to category page for ..." class="${_genre}"></a>`;
+        item.innerHTML = `<a href="#" aria-label="navigate to category" class="genre-${_genreID}"></a>`;
         return item
     }
 })
@@ -131,6 +130,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         //CUSTOM ATTRIBUTES
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
+        let movieID = this.getAttribute("movie-id");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
 
         //TEMPLATE(S)
@@ -139,7 +139,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
             <div class= "${this.className}__backlight-wrapper">
                 <img class="${this.className}-card__backlight" src="${backlightSrc}" alt="">
             </div>
-            <a href="#" aria-label="navigate to ${movieTitle} page"><img src="${imgSource}" alt=""></a>
+            <a href="details.html?id=${movieID}" aria-label="navigate to ${movieTitle} page"><img src="${imgSource}" alt=""></a>
         </div>
         `
         template = imgSource ? template : ""

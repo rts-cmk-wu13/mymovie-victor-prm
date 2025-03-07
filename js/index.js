@@ -10,7 +10,7 @@ let pop_id = "items-popular"
 buildSite();
 fetchData(now_url, insertNowPlaying)
 fetchData(pop_url, insertPopular)
-//fetchData(genres_url, console.log)
+
 
 function buildSite() {
   //Header
@@ -57,7 +57,12 @@ function insertPopular(json) {
   //Inject Popular
   let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
   json.results.map(movie => popularItemsElm.append(createMovieCard(movie, "horizontal")))
+  fetchData(genres_url, insertGenres)
 }
 
 function insertGenres(json) {
+  json.genres.map(genre => {
+    let list = document.querySelectorAll(`.genre-${genre.id}`);
+    Array.from(list).map(item => item.innerHTML = genre.name)
+  })
 }
