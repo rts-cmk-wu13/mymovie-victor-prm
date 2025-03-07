@@ -46,12 +46,6 @@ function buildSite() {
   bodyElm.append(headerElm, mainElm, footerElm);
 }
 
-function initElement(tag, attributesObj) {
-  let newElm = document.createElement(tag);
-  if (attributesObj) setAttributes(newElm, attributesObj);
-  //console.log(tag,attributesObj);
-  return newElm;
-}
 
 function insertNowPlaying(json) {
   //Inject Now Playing

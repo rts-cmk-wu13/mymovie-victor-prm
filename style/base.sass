@@ -22,7 +22,6 @@ $color-primary-dark: #110E47
 $color-primary-light: #DBE3FF
 $color-accent: #FFC319
 
-
 $max-width-content: 50rem
 $max-width-page: 54rem
 $tablet-breakpoint: 40rem
@@ -70,6 +69,9 @@ $grid-item-size: 8rem
     -ms-overflow-style: none
     -webkit-scrollbar: none
     scrollbar-width: none
+
+img
+    animation: fadeIn 0.25s forwards
 
 a, button
     cursor: pointer
@@ -153,3 +155,9 @@ ul li
         box-shadow: 0 0 0 1px blue
 
 @media only screen and (max-width:  $tablet-breakpoint)
+
+@keyframes fadeIn
+    0%
+        opacity: 0
+    100%
+        opacity: 1

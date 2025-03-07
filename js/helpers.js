@@ -41,6 +41,13 @@ function createMovieCard(movieObj, direction) {
     return item;
 }
 
+function initElement(tag, attributesObj) {
+    let newElm = document.createElement(tag);
+    if (attributesObj) setAttributes(newElm, attributesObj);
+    //console.log(tag,attributesObj);
+    return newElm;
+}
+
 function getLS(key) {
     return JSON.parse(localStorage.getItem(key))
 }

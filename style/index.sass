@@ -154,6 +154,7 @@ movie-card
             font: base.$text-body-1
         &__movie-title
             font: base.$text-subtitle-2
+            transition: color 0.4s
     .movie-card__info-container
         @include base.fxcol
         gap: base.$unit-1x
@@ -166,7 +167,9 @@ movie-card
             height: 100%
         .clickable-image__wrapper
             height: 100%
-
+    .clickable-image:hover,.clickable-image:focus-within
+        +.movie-card__info-container .movie-card__movie-title
+            color: base.$color-primary-mid
 movie-list
     @include base.fxcol
     position: relative

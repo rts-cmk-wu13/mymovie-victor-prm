@@ -17,7 +17,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let toggleSwitch = this.hasAttribute("toggle");
 
         //TEMPLATE(S)
-        backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
+        backButton = backButton ? `<button aria-label="back to home"><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
         headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
         toggleSwitch = toggleSwitch ? `<dark-mode-toggle></dark-mode-toggle>` : ""
 
@@ -134,7 +134,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
             <div class= "${this.className}__backlight-wrapper">
                 <img class="${this.className}-card__backlight" src="${backlightSrc}" alt="">
             </div>
-            <a href="#" aria-label="Go to detail page for movie ${movieTitle}"><img src="${imgSource}" alt=""></a>
+            <a href="#" aria-label="navigate to ${movieTitle} page"><img src="${imgSource}" alt=""></a>
         </div>
         `
         template = imgSource ? template : ""

@@ -20,6 +20,10 @@
   scrollbar-width: none;
 }
 
+img {
+  animation: fadeIn 0.25s forwards;
+}
+
 a, button {
   cursor: pointer;
 }
@@ -40,4 +44,12 @@ ul li {
 /* .standard-grid
  * display: grid
  * grid-template-columns: repeat(auto-fit, minmax($grid-item-size, 1fr))
- * gap: $unit-1x *//*# sourceMappingURL=base.css.map */
+ * gap: $unit-1x */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}/*# sourceMappingURL=base.css.map */
