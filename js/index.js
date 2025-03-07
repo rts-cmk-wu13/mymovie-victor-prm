@@ -16,8 +16,6 @@ function buildSite() {
   //Header
   let headerElm = initElement("header")
   let siteHeaderElm = initElement("site-header", {
-    'class': "site-header",
-    'aria-label': "header",
     'header-title': "Home",
     'back': "",
     'toggle': "",
@@ -41,10 +39,7 @@ function buildSite() {
 
   //Footer
   let footerElm = initElement("footer")
-  let navFooter = initElement("nav-footer", {
-    'class': "site-footer",
-    'aria-label': "navigation footer"
-  })
+  let navFooter = initElement("nav-footer")
   footerElm.append(navFooter)
 
   //Append to body
@@ -70,6 +65,6 @@ function insertPopular(json) {
   json.results.map(movie => popularItemsElm.append(createMovieCard(movie, "horizontal")))
 }
 
-function insertGenres(){
-  
+function insertGenres() {
+
 }

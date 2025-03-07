@@ -3,18 +3,23 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
     constructor() {
         super();
     }
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "site-header"
+        this.ariaLabel = "header";
+        this.render();
+    }
 
     render() {
-        //PROPERTIES
+        //CUSTOM ATTRIBUTES
         let backButton = this.hasAttribute("back");
         let headerTitle = this.getAttribute("header-title");
         let toggleSwitch = this.hasAttribute("toggle");
-        let className = this.getAttribute("class");
 
         //TEMPLATE(S)
-        backButton = backButton ? `<button><i class="fas fa-arrow-left ${className}__back-button"></i></button>` : ""
+        backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
         headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
-        toggleSwitch = toggleSwitch ? `<dark-mode-toggle mounted></dark-mode-toggle>` : ""
+        toggleSwitch = toggleSwitch ? `<dark-mode-toggle></dark-mode-toggle>` : ""
 
         //INNER HTML
         this.innerHTML = `
@@ -22,10 +27,6 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
              ${headerTitle}
              ${toggleSwitch}
              `
-    }
-
-    connectedCallback() {
-        this.render();
     }
 
 })
@@ -40,29 +41,32 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
     set dataObject(value) {
         this._dataObject = value;
-        //console.log(this._dataObject)
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "movie-card"
+        this.ariaLabel = "Movie Card"
         this.render();
     }
 
     render() {
-        //PROPERTIES
+        //CUSTOM ATTRIBUTES
         let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${this._dataObject.poster_path}`;
         let movieTitle = this._dataObject.original_title
         let movieRating = this._dataObject.vote_average.toFixed(1);
         let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
-        let className = this.getAttribute("class");
-        console.log(className)
 
         //TEMPLATE(S)
         let template = `
          <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
-         <div class="${className}__info-container">
-             <h3 class="${className}__movie-title">${movieTitle}</h3>
-             <p class="${className}__rating">
-                 <i class="fa fa-star ${className}__star-icon"></i>
-                 <em class="${className}__rating-score">${movieRating}</em>/
+         <div class="${this.className}__info-container">
+             <h3 class="${this.className}__movie-title">${movieTitle}</h3>
+             <p class="${this.className}__rating">
+                 <i class="fa fa-star ${this.className}__star-icon"></i>
+                 <em class="${this.className}__rating-score">${movieRating}</em>/
                  <span>10 IMDb</span>
-                 <span class="${className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
+                 <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
              </p>
              <genre-tags genres=""></genre-tags>
          </div>
@@ -79,12 +83,16 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 customElements.define("genre-tags", class GenreTags extends HTMLElement {
     constructor() {
         super();
+
+    }
+
+    connectedCallback() {
+        this.className = "genre-tags"
         this.render();
     }
 
     render() {
-        //PROPERTIES    
-        this.className = "genre-tags"
+        //CUSTOM ATTRIBUTES    
 
         //TEMPLATE(S)
         let template = `    
@@ -97,8 +105,8 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         this.innerHTML = template;
     }
 
-    createListItem(params) {
-        return `<li class="${this.className}__item"><a href="#" aria-label="navigate to category page for ...">Horror</a></li>`
+    createListItem(_className) {
+        return `<li class="${_className}__item"><a href="#" aria-label="navigate to category page for ...">Horror</a></li>`
     }
 })
 
@@ -106,12 +114,16 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
 customElements.define("clickable-image", class ClickableImage extends HTMLElement {
     constructor() {
         super();
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "clickable-image"
         this.render();
     }
 
     render() {
-        //PROPERTIES
-        this.className = "clickable-image"
+        //CUSTOM ATTRIBUTES
         let imgSource = this.getAttribute("image-src");
         let movieTitle = this.getAttribute("movie-title");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
@@ -138,28 +150,29 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         super();
     }
 
-    render() {
-        //PROPERTIES
-        let id = this.getAttribute("id");
-        let sectionTitle = this.getAttribute("section-title");
-        this.className = "movie-list";
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "movie-list"
         this.role = "region"
-        this.ariaLabel = `Movie list for category ${sectionTitle}`
-        this.containerAttribute = checkLayoutDirection(this)
-        let containerID = setMovieListID(id);
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        let sectionTitle = this.getAttribute("section-title")
+        let containerAttribute = checkLayoutDirection(this)
+        let containerID = setMovieListID(this.id);
+        this.ariaLabel = `Category ${sectionTitle}`//Setting this here because section title is needed
 
         //TEMPLATE(S)
         let template = `
         <section-subheader header-title="${sectionTitle}" button="true"></section-subheader>
-        <ul id="${containerID}" class="${this.className}__items-container" ${this.containerAttribute}></ul>
+        <ul id="${containerID}" class="${this.className}__items-container" ${containerAttribute}></ul>
         `
         //template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
-    }
-    connectedCallback(){
-        this.render();
     }
 })
 
@@ -167,17 +180,18 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
 customElements.define("section-subheader", class SectionSubheader extends HTMLElement {
     constructor() {
         super();
+    }
+
+    connectedCallback() {
+        this.className = "section-subheader"
+        this.role = "group"
         this.render();
     }
 
     render() {
-        //PROPERTIES
+        //CUSTOM ATTRIBUTES
         let headerTitle = this.getAttribute("header-title");
-        this.className = "section-subheader"
-        this.role = "group"
-        this.ariaLabel = `${headerTitle} header group`
-
-        //let button = this.getAttribute("button");
+        this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
 
         //TEMPLATE(S)
         let template = `
@@ -196,12 +210,18 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
 customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLElement {
     constructor() {
         super();
-        this.render()
+
     }
-    render(){
-        //PROPERTIES
-        let mounted = this.hasAttribute("mounted");
+    connectedCallback() {
+        //HTML ATTRIBUTES
         this.className = "dark-mode-toggle"
+        this.render();
+        this.handleToggle();
+    }
+
+
+    render() {
+        //CUSTOM ATTRIBUTES
         let isDarkMode = getLS("dark-mode")
 
         //TEMPLATE(S)
@@ -209,14 +229,13 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         <label for="ms1" aria-label="Dark mode"><i class="${this.className}__icon"></i></label>
         <input type="checkbox" role="switch" id="ms1"/>
         `
-        template = mounted ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
         this.checkbox = this.querySelector("input");
         this.checkbox.checked = isDarkMode;
     }
-    connectedCallback() {
+    handleToggle() {
         if (this.hasAttribute("checked")) this.checkbox.checked = true;
         changeIcon(this)
 
@@ -240,15 +259,24 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
     constructor() {
         super();
     }
-    render(){
-        //PROPERTIES
-        /* let current = this.getAttribute("current"); */
-        let className = this.getAttribute("class")
 
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "nav-footer"
+        this.ariaLabel = "navigation footer"
+
+        this.render();
+        this.handleCurrentPage();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        /* let current = this.getAttribute("current"); */
+       
         //TEMPLATE(S)
-        let homeButton = `<a href="/" aria-label="navigate to home page"><i class="fas fa-film ${className}__home-link"></i></a>`
-        let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing page"><i class="fa fa-ticket ${className}__now-playing-link"></i></a>`
-        let favoritesButton = `<a href="/favorites.html" aria-label="navigate to favorites page"><i class="fas fa-heart ${className}__favorites-link"></i></a>`
+        let homeButton = `<a href="/" aria-label="navigate to home"><i class="fas fa-film ${this.className}__home-link"></i></a>`
+        let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing"><i class="fa fa-ticket ${this.className}__now-playing-link"></i></a>`
+        let favoritesButton = `<a href="/favorites.html" aria-label="navigate to favorites"><i class="fas fa-heart ${this.className}__favorites-link"></i></a>`
 
         //INNER HTML
         this.innerHTML = `
@@ -258,10 +286,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
         `
     }
 
-
-    connectedCallback() {
-        this.render();
-
+    handleCurrentPage() {
         let links = this.querySelectorAll("a");
         let location = window.location.pathname;
         links.forEach(link => {

@@ -31,8 +31,6 @@ function createMovieCard(movieObj, direction) {
     item.appendChild(movieCard);
 
     setAttributes(movieCard, {
-        'class': "movie-card",
-        'aria-label': "Movie Card",
         [itemDirection]: "",
     })
     //Assign data directly to movie card
