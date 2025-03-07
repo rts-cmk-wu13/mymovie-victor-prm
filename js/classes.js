@@ -9,10 +9,10 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let backButton = this.hasAttribute("back");
         let headerTitle = this.getAttribute("header-title");
         let toggleSwitch = this.hasAttribute("toggle");
-        this.className = this.getAttribute("class");
+        let className = this.getAttribute("class");
 
         //TEMPLATE(S)
-        backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
+        backButton = backButton ? `<button><i class="fas fa-arrow-left ${className}__back-button"></i></button>` : ""
         headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
         toggleSwitch = toggleSwitch ? `<dark-mode-toggle mounted></dark-mode-toggle>` : ""
 
@@ -46,26 +46,25 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
     render() {
         //PROPERTIES
-        this.className = "movie-card"
-        this.ariaLabel = `Movie Card`
-        let itemID = this.getAttribute("id");
         let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${this._dataObject.poster_path}`;
         let movieTitle = this._dataObject.original_title
         let movieRating = this._dataObject.vote_average.toFixed(1);
         let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
+        let className = this.getAttribute("class");
+        console.log(className)
 
         //TEMPLATE(S)
         let template = `
          <clickable-image image-src="${imgSource}" movie-title="${movieTitle}"></clickable-image>
-         <div class="${this.className}__info-container">
-             <h3 class="${this.className}__movie-title">${movieTitle}</h3>
-             <p class="${this.className}__rating">
-                 <i class="fa fa-star ${this.className}__star-icon"></i>
-                 <em class="${this.className}__rating-score">${movieRating}</em>/
+         <div class="${className}__info-container">
+             <h3 class="${className}__movie-title">${movieTitle}</h3>
+             <p class="${className}__rating">
+                 <i class="fa fa-star ${className}__star-icon"></i>
+                 <em class="${className}__rating-score">${movieRating}</em>/
                  <span>10 IMDb</span>
-                 <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
+                 <span class="${className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
              </p>
-             <genre-tags></genre-tags>
+             <genre-tags genres=""></genre-tags>
          </div>
         
          `
@@ -244,11 +243,12 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
     render(){
         //PROPERTIES
         /* let current = this.getAttribute("current"); */
+        let className = this.getAttribute("class")
 
         //TEMPLATE(S)
-        let homeButton = `<a href="/" aria-label="navigate to home page"><i class="fas fa-film ${this.className}__home-button"></i></a>`
-        let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing page"><i class="fa fa-ticket ${this.className}__now-playing-button"></i></a>`
-        let favoritesButton = `<a href="/favorites.html" aria-label="navigate to favorites page"><i class="fas fa-heart ${this.className}__favorites-button"></i></a>`
+        let homeButton = `<a href="/" aria-label="navigate to home page"><i class="fas fa-film ${className}__home-link"></i></a>`
+        let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing page"><i class="fa fa-ticket ${className}__now-playing-link"></i></a>`
+        let favoritesButton = `<a href="/favorites.html" aria-label="navigate to favorites page"><i class="fas fa-heart ${className}__favorites-link"></i></a>`
 
         //INNER HTML
         this.innerHTML = `

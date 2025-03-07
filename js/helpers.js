@@ -18,20 +18,27 @@ function fetchData(url, callBack) {
 
 
 function createMovieCard(movieObj, direction) {
-    let itemID = `movie-card__${movieObj.id}`
+    //let itemID = `movie-card__${movieObj.id}`
     let itemDirection = direction ? "horizontal" : "vertical"
 
 
     let item = document.createElement("li");
     item.ariaLabel = "movTitle";
 
-    // Create movie-card properly
+    //Create movie-card properly
     const movieCard = document.createElement("movie-card");
-    movieCard.id = itemID;
-    movieCard.dataObject = movieObj; // Now we assign it directly to the movie-card
-    if(direction == "horizontal") movieCard.setAttribute("horizontal","");
+    //Append it to the li
+    item.appendChild(movieCard);
 
-    item.appendChild(movieCard); // Append it to the li
+    setAttributes(movieCard, {
+        'class': "movie-card",
+        'aria-label': "Movie Card",
+        [itemDirection]: "",
+    })
+    //Assign data directly to movie card
+    movieCard.dataObject = movieObj;
+
+
 
     return item;
 }
@@ -68,7 +75,7 @@ function devOrProd(devValue, prodValue) {
 
 function setAttributes(el, attrs) {
     Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
-  }
+}
 
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
 

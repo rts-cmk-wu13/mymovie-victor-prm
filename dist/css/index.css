@@ -324,7 +324,7 @@ nav-footer a {
   font-size: 1.25rem;
   border: none;
 }
-nav-footer a .site-footer__favorites-button {
+nav-footer a .site-footer__favorites-link {
   font-size: 1rem;
 }
 nav-footer a.nav-current-location {
