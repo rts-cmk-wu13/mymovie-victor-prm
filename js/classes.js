@@ -2,14 +2,14 @@
 customElements.define("site-header", class SiteHeader extends HTMLElement {
     constructor() {
         super();
+    }
 
+    render() {
         //PROPERTIES
         let backButton = this.hasAttribute("back");
         let headerTitle = this.getAttribute("header-title");
         let toggleSwitch = this.hasAttribute("toggle");
-        this.className = "site-header";
-        this.ariaLabel = "header";
-
+        this.className = this.getAttribute("class");
 
         //TEMPLATE(S)
         backButton = backButton ? `<button><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
@@ -18,37 +18,41 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
         //INNER HTML
         this.innerHTML = `
-        ${backButton}
-        ${headerTitle}
-        ${toggleSwitch}
-        `
+             ${backButton}
+             ${headerTitle}
+             ${toggleSwitch}
+             `
+    }
+
+    connectedCallback() {
+        this.render();
     }
 
 })
 
 //MOVIE CARD
 customElements.define("movie-card", class MovieCard extends HTMLElement {
-  
+
     constructor() {
         super();
         this._dataObject = {};
     }
-    
+
     set dataObject(value) {
         this._dataObject = value;
-        console.log(this._dataObject)
+        //console.log(this._dataObject)
         this.render();
     }
 
     render() {
-         //PROPERTIES
-         this.className = "movie-card"
-         this.ariaLabel = `Movie Card`
-         let itemID = this.getAttribute("id");
-         let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${this._dataObject.poster_path}`;
-         let movieTitle = this._dataObject.original_title
-         let movieRating = this._dataObject.vote_average.toFixed(1);
-         let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
+        //PROPERTIES
+        this.className = "movie-card"
+        this.ariaLabel = `Movie Card`
+        let itemID = this.getAttribute("id");
+        let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w500", "original")}/${this._dataObject.poster_path}`;
+        let movieTitle = this._dataObject.original_title
+        let movieRating = this._dataObject.vote_average.toFixed(1);
+        let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
 
         //TEMPLATE(S)
         let template = `
@@ -70,16 +74,16 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         //INNER HTML
         this.innerHTML = template;
     }
-
-    connectedCallback() {
-    }
 })
 
 //GENRE TAGS
 customElements.define("genre-tags", class GenreTags extends HTMLElement {
     constructor() {
         super();
+        this.render();
+    }
 
+    render() {
         //PROPERTIES    
         this.className = "genre-tags"
 
@@ -93,6 +97,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         //INNER HTML
         this.innerHTML = template;
     }
+
     createListItem(params) {
         return `<li class="${this.className}__item"><a href="#" aria-label="navigate to category page for ...">Horror</a></li>`
     }
@@ -102,7 +107,10 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
 customElements.define("clickable-image", class ClickableImage extends HTMLElement {
     constructor() {
         super();
+        this.render();
+    }
 
+    render() {
         //PROPERTIES
         this.className = "clickable-image"
         let imgSource = this.getAttribute("image-src");
@@ -129,7 +137,9 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
 customElements.define("movie-list", class MovieList extends HTMLElement {
     constructor() {
         super();
+    }
 
+    render() {
         //PROPERTIES
         let id = this.getAttribute("id");
         let sectionTitle = this.getAttribute("section-title");
@@ -149,13 +159,19 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         //INNER HTML
         this.innerHTML = template;
     }
+    connectedCallback(){
+        this.render();
+    }
 })
 
 //SECTION SUBHEADER
 customElements.define("section-subheader", class SectionSubheader extends HTMLElement {
     constructor() {
         super();
+        this.render();
+    }
 
+    render() {
         //PROPERTIES
         let headerTitle = this.getAttribute("header-title");
         this.className = "section-subheader"
@@ -181,7 +197,9 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
 customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLElement {
     constructor() {
         super();
-
+        this.render()
+    }
+    render(){
         //PROPERTIES
         let mounted = this.hasAttribute("mounted");
         this.className = "dark-mode-toggle"
@@ -198,7 +216,6 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         this.innerHTML = template;
         this.checkbox = this.querySelector("input");
         this.checkbox.checked = isDarkMode;
-
     }
     connectedCallback() {
         if (this.hasAttribute("checked")) this.checkbox.checked = true;
@@ -223,11 +240,10 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
 customElements.define("nav-footer", class NavFooter extends HTMLElement {
     constructor() {
         super();
-
+    }
+    render(){
         //PROPERTIES
         /* let current = this.getAttribute("current"); */
-        this.className = "site-footer";
-        this.ariaLabel = "navigation footer";
 
         //TEMPLATE(S)
         let homeButton = `<a href="/" aria-label="navigate to home page"><i class="fas fa-film ${this.className}__home-button"></i></a>`
@@ -241,7 +257,11 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
         ${favoritesButton}
         `
     }
+
+
     connectedCallback() {
+        this.render();
+
         let links = this.querySelectorAll("a");
         let location = window.location.pathname;
         links.forEach(link => {

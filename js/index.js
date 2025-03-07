@@ -9,31 +9,53 @@ let pop_id = "items-popular"
 
 buildSite();
 fetchData(now_url, insertNowPlaying)
-/* fetchData(pop_url, insertPopular) */
-fetchData(genres_url, console.log)
+fetchData(pop_url, insertPopular)
+//fetchData(genres_url, console.log)
 
 function buildSite() {
-  // Create Header
-  let headerElm = document.createElement("header");
-  //Populate Header
-  headerElm.innerHTML = `<site-header back header-title="My Movies" toggle></site-header>`;
-  bodyElm.append(headerElm);
+  //Header
+  let headerElm = initElement("header")
+  let siteHeaderElm = initElement("site-header", {
+    'class': "site-header",
+    'aria-label': "header",
+    'header-title': "Home",
+    'back': "",
+    'toggle': "",
+  })
+  headerElm.append(siteHeaderElm)
 
-  // Create Main
-  let mainElm = document.createElement("main");
-  mainElm.className = "content-main"
-  //Populate Main
-  let nowPlayingComp = `<movie-list section-title="Now Playing" id="${now_id}" horizontal></movie-list>`;
-  mainElm.insertAdjacentHTML("beforeend", nowPlayingComp);
-/*   let popularComp = `<movie-list section-title="Popular" id="${pop_id}"></movie-list>`;
-  mainElm.insertAdjacentHTML("beforeend", popularComp); */
+  //Main
+  let mainElm = initElement("main", {
+    'class': "main-content",
+  })
+  let nowPlayingElm = initElement("movie-list", {
+    'section-title': "Now Playing",
+    'id': now_id,
+    'horizontal': "",
+  })
+  let popularElm = initElement("movie-list", {
+    'section-title': "Popular",
+    'id': pop_id,
+  })
+  mainElm.append(nowPlayingElm, popularElm)
 
-  //Create Footer
-  let footerElm = document.createElement("footer");
-  let footerComp = `<nav-footer></nav-footer>`
-  footerElm.insertAdjacentHTML("beforeend", footerComp);
-  //Append
+  //Footer
+  let footerElm = initElement("footer")
+  let navFooter = initElement("nav-footer", {
+    'class': "site-footer",
+    'aria-label': "navigation footer"
+  })
+  footerElm.append(navFooter)
+
+  //Append to body
   bodyElm.append(headerElm, mainElm, footerElm);
+}
+
+function initElement(tag, attributesObj) {
+  let newElm = document.createElement(tag);
+  if (attributesObj) setAttributes(newElm, attributesObj);
+  //console.log(tag,attributesObj);
+  return newElm;
 }
 
 function insertNowPlaying(json) {
@@ -42,11 +64,9 @@ function insertNowPlaying(json) {
   json.results.map(movie => nowPlayingItemsElm.append(createMovieCard(movie)))
 }
 
-/* function insertPopular(json) {
+function insertPopular(json) {
   //Inject Popular
   let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
-  popularItemsElm.innerHTML += json.results.map(movie => createMovieCard(movie, "horizontal")).join("")
+  json.results.map(movie => popularItemsElm.append(createMovieCard(movie, "horizontal")))
 }
 
-
- */
