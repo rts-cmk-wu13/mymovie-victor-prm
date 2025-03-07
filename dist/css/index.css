@@ -252,7 +252,7 @@ movie-card[horizontal] clickable-image {
 movie-card[horizontal] .clickable-image__wrapper {
   height: 100%;
 }
-movie-card .clickable-image:hover + .movie-card__info-container .movie-card__movie-title, movie-card .clickable-image:focus-within + .movie-card__info-container .movie-card__movie-title {
+movie-card .clickable-image:hover ~ .movie-card__info-container .movie-card__movie-title, movie-card .clickable-image:focus-within ~ .movie-card__info-container .movie-card__movie-title {
   color: #3e5b9f;
 }
 
@@ -322,7 +322,7 @@ nav-footer {
   width: 100%;
   max-width: 54rem;
   height: 3rem;
-  background-color: transparent;
+  background-color: rgba(229, 229, 229, 0.5);
   -webkit-backdrop-filter: blur(4rem);
           backdrop-filter: blur(4rem);
   border-radius: 1rem 1rem 0 0;

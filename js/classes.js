@@ -56,6 +56,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let movieTitle = this._dataObject.original_title
         let movieRating = this._dataObject.vote_average.toFixed(1);
         let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
+        let genres = JSON.stringify(this._dataObject.genre_ids)
 
         //TEMPLATE(S)
         let template = `
@@ -68,7 +69,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
                  <span>10 IMDb</span>
                  <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
              </p>
-             <genre-tags genres=""></genre-tags>
+             <genre-tags genres="${genres}"></genre-tags>
          </div>
         
          `
@@ -87,26 +88,30 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     }
 
     connectedCallback() {
+        //HTML ATTRIBUTES
         this.className = "genre-tags"
         this.render();
     }
 
     render() {
         //CUSTOM ATTRIBUTES    
+        this.genreItems = JSON.parse(this.getAttribute("genres"))
+        console.log(this.genreItems)
 
-        //TEMPLATE(S)
-        let template = `    
-            <ul class="${this.className}__list">
-                
-            </ul>
-        `
-
-        //INNER HTML
-        this.innerHTML = template;
+        //TEMPLATE
+        let list = initElement("ul", {
+            'class': `${this.className}__list`,
+        })
+        this.genreItems.map(genre => list.append(this.createListItem(genre, this.className)))
+        this.append(list)
     }
 
-    createListItem(_className) {
-        return `<li class="${_className}__item"><a href="#" aria-label="navigate to category page for ...">Horror</a></li>`
+    createListItem(_genre, _className) {
+        let item = initElement("li", {
+            'class' : `${_className}__item`
+        })
+        item.innerHTML = `<a href="#" aria-label="navigate to category page for ..." class="${_genre}"></a>`;
+        return item
     }
 })
 
@@ -272,7 +277,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
     render() {
         //CUSTOM ATTRIBUTES
         /* let current = this.getAttribute("current"); */
-       
+
         //TEMPLATE(S)
         let homeButton = `<a href="/" aria-label="navigate to home"><i class="fas fa-film ${this.className}__home-link"></i></a>`
         let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing"><i class="fa fa-ticket ${this.className}__now-playing-link"></i></a>`

@@ -59,6 +59,5 @@ function insertPopular(json) {
   json.results.map(movie => popularItemsElm.append(createMovieCard(movie, "horizontal")))
 }
 
-function insertGenres() {
-
+function insertGenres(json) {
 }

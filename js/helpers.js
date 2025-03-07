@@ -35,9 +35,6 @@ function createMovieCard(movieObj, direction) {
     })
     //Assign data directly to movie card
     movieCard.dataObject = movieObj;
-
-
-
     return item;
 }
 

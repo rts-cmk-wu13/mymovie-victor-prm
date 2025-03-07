@@ -168,8 +168,9 @@ movie-card
         .clickable-image__wrapper
             height: 100%
     .clickable-image:hover,.clickable-image:focus-within
-        +.movie-card__info-container .movie-card__movie-title
+        ~.movie-card__info-container .movie-card__movie-title
             color: base.$color-primary-mid
+
 movie-list
     @include base.fxcol
     position: relative
@@ -221,7 +222,7 @@ nav-footer
     width: 100%
     max-width: base.$max-width-page
     height: 3rem
-    background-color: transparent
+    background-color: rgba(base.$gray-900, 0.5)
     backdrop-filter: blur(base.$unit-8x)
     border-radius: base.$unit-2x base.$unit-2x 0 0
     border: 1px solid base.$gray-800
