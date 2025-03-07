@@ -60,9 +60,4 @@ function insertPopular(json) {
   fetchData(genres_url, insertGenres)
 }
 
-function insertGenres(json) {
-  json.genres.map(genre => {
-    let list = document.querySelectorAll(`.genre-${genre.id}`);
-    Array.from(list).map(item => item.innerHTML = genre.name)
-  })
-}
+

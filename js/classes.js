@@ -17,7 +17,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let toggleSwitch = this.hasAttribute("toggle");
 
         //TEMPLATE(S)
-        backButton = backButton ? `<button aria-label="back to home"><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
+        backButton = backButton ? `<button aria-label="back to home" onclick="window.location = 'index.html'"><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
         headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
         toggleSwitch = toggleSwitch ? `<dark-mode-toggle></dark-mode-toggle>` : ""
 
@@ -109,7 +109,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         let item = initElement("li", {
             'class' : `${_className}__item`
         })
-        item.innerHTML = `<a href="#" aria-label="navigate to category" class="genre-${_genreID}"></a>`;
+        item.innerHTML = `<a href="movielist.html?cat=genre&genre=${_genreID}" aria-label="navigate to category" class="genre-${_genreID}"></a>`;
         return item
     }
 })

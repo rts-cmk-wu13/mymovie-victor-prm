@@ -79,6 +79,13 @@ function setAttributes(el, attrs) {
     Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
 }
 
+function insertGenres(json) {
+    json.genres.map(genre => {
+      let list = document.querySelectorAll(`.genre-${genre.id}`);
+      Array.from(list).map(item => item.innerHTML = genre.name)
+    })
+  }
+
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
 
 

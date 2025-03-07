@@ -257,6 +257,7 @@ movie-card .clickable-image:hover ~ .movie-card__info-container .movie-card__mov
 }
 
 movie-list {
+  animation: fadeIn 0.4s forwards;
   display: flex;
   flex-direction: column;
   position: relative;
