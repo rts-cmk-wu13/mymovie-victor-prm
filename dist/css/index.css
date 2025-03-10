@@ -225,7 +225,6 @@ section-subheader .section-subheader__title {
 movie-rating .movie-rating__rating {
   display: inline-flex;
   width: 100%;
-  max-width: 18rem;
   align-items: center;
   gap: 0.25rem;
   color: #4d4d4d;
@@ -435,17 +434,46 @@ detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__backdrop-
 }
 
 detail-card .detail-card {
+  height: 100%;
   position: relative;
 }
 detail-card .detail-card__content-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1rem;
   transform: translateY(-1rem);
   position: relative;
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 1rem;
   background-color: #ffffff;
-  padding: 1rem;
+  padding: 1rem 1rem 3rem;
+}
+detail-card .detail-card__meta-information {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 20rem;
+}
+detail-card .detail-card__movie-description {
+  max-width: 90ch;
 }
 
 .content-details {
   position: relative;
   top: -4rem;
+}
+
+detail-meta-list .detail-meta-list__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+}
+detail-meta-list .detail-meta-list__meta-item-title {
+  color: #999999;
+  font-weight: 700;
+  font-style: normal;
+  margin-bottom: 0.125rem;
+}
+detail-meta-list .detail-meta-list__meta-item-value {
+  color: #110E47;
 }/*# sourceMappingURL=index.css.map */

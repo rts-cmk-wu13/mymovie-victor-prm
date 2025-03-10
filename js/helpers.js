@@ -95,17 +95,17 @@ function insertGenres(json) {
     })
 }
 
-function checkOriginalTitle(json){
-    console.log(json)
-     let originalTitle = json.original_language != "en" ? ` <span class="movie__original-title">${json.original_title}</span>`: "";
-     return originalTitle;
+function checkOriginalTitle(json) {
+    //console.log(json)
+    let originalTitle = json.original_language != "en" ? ` <span class="movie__original-title">${json.original_title}</span>` : "";
+    return originalTitle;
 }
 
 function insertRuntimes(json) {
     let movieRuntime = convertMinsToHrsMins(json.runtime)
     let movieID = `#movie-card--${json.id}`
     let runtimeElms = document.querySelectorAll(movieID + " .movie-card__runtime-length")
-    runtimeElms.forEach(runtimeElm => runtimeElm.innerHTML =  movieRuntime)
+    runtimeElms.forEach(runtimeElm => runtimeElm.innerHTML = movieRuntime)
 }
 
 function convertMinsToHrsMins(mins) {
@@ -114,7 +114,7 @@ function convertMinsToHrsMins(mins) {
     //h = h < 10 ? '0' + h : h; // (or alternatively) h = String(h).padStart(2, '0')
     m = m < 10 ? '0' + m : m; // (or alternatively) m = String(m).padStart(2, '0')
     return `${h}h ${m}m`;
-  }
+}
 
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
 

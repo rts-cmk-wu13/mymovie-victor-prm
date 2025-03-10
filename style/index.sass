@@ -154,7 +154,6 @@ movie-rating
         &__rating
             display: inline-flex
             width: 100%
-            max-width: 18rem
             align-items: center
             gap: base.$unit-05x
             color: base.$gray-300
@@ -323,14 +322,38 @@ detail-backdrop
 
 detail-card
     .detail-card
+        height: 100%
         position: relative
         &__content-container
+            @include base.fxcol
+            height: 100%
+            gap: base.$unit-2x
             transform: translateY(- base.$unit-2x)
             position: relative
-            border-radius: base.$unit-2x base.$unit-2x 0 0
+            border-radius: base.$unit-2x
             background-color: base.$gray-1000
-            padding: base.$unit-2x
+            padding: base.$unit-2x base.$unit-2x base.$unit-6x
+        &__meta-information
+            @include base.fxcol
+            gap: base.$unit-2x
+            max-width: 20rem
+        &__movie-description
+            max-width: 90ch
 
 .content-details
     position: relative
     top: -(base.$unit-8x)
+
+detail-meta-list
+    .detail-meta-list
+        &__list
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr
+            font: base.$text-body-1
+        &__meta-item-title
+            color: base.$gray-600
+            font-weight: 700
+            font-style: normal
+            margin-bottom: base.$unit-025x
+        &__meta-item-value
+            color: base.$color-primary-dark

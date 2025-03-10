@@ -110,7 +110,6 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     render() {
         //CUSTOM ATTRIBUTES    
         this.genreItems = JSON.parse(this.getAttribute("genres"))
-        console.log(this.genreItems, typeof this.genreItems)
 
         //TEMPLATE
         let list = initElement("ul", {
@@ -122,18 +121,15 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         this.append(list)
     }
 
-    createListItem(_genre, _className) {
+    createListItem(_genre) {
         let item = initElement("li", {
-            'class': `${_className}__item`
+            'class': `${this.className}__item`
         })
 
         item.innerHTML = `<a href="movielist.html?cat=genre&genre=${_genre}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
         return item
     }
 })
-
-
-
 
 //CLICKABLE IMAGE
 customElements.define("clickable-image", class ClickableImage extends HTMLElement {
@@ -182,7 +178,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         this.className = "movie-list"
         this.role = "region"
         this.render();
-        this.createCarouselButtons(this.containerAttribute,this.className,this.containerID)
+        this.createCarouselButtons(this.containerAttribute, this.className, this.containerID)
     }
 
     render() {
@@ -219,7 +215,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         buttonNext.addEventListener("click", () => {
             document.querySelector(`#${scrollContainerID}`).scrollLeft += 150;
         })
-        
+
         buttonContainer.append(buttonBack, buttonNext)
         this.append(buttonContainer)
     }
@@ -272,6 +268,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
     }
 
     render() {
+        let includeButton = this.hasAttribute("button") ?  `<button class="${this.className}__see-more-btn">See more</button>` : ""
         //CUSTOM ATTRIBUTES
         let headerTitle = this.getAttribute("header-title");
         this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
@@ -279,7 +276,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
         //TEMPLATE(S)
         let template = `
         <h2 class="${this.className}__title">${headerTitle}</h2>
-        <button class="${this.className}__see-more-btn">See more</button>
+        ${includeButton}
         `
         template = headerTitle ? template : ""
 
@@ -287,7 +284,6 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
         this.innerHTML = template;
     }
 })
-
 
 //DARKMODE TOGGLE
 customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLElement {
@@ -410,31 +406,67 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let movieRating = this._dataObject.vote_average
         let voteCount = this._dataObject.vote_count;
         let genres = this._dataObject.genres
+        let description = this._dataObject.overview
 
         //Format Genres
         genres = JSON.stringify(genres.map(genre => genre.id))
         //genres = genres.replaceAll('"',"&quot;") //Ugly but works
 
+        let movieTitle = this._dataObject.title
         let originalTitle = checkOriginalTitle(this._dataObject);
+        let movieTagline = this._dataObject.tagline;
+        let metaArray = this.createMetaArray();
+        //console.log(metaArray)
 
         //TEMPLATE(S)
         let template = `
         <detail-backdrop image-path="${imgPath}"></detail-backdrop>
         <div class="${this.className}__content-container">
-            <h1 class="${this.className}__movie-title">${this._dataObject.title}${originalTitle}</h1>
+            <hgroup>
+                <h1 class="${this.className}__movie-title">${movieTitle}${originalTitle}</h1>
+                <p class="${this.className}__movie-tagline">${movieTagline}</p>
+            </hgroup>
             <div class="${this.className}__meta-information">
                 <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
                 <genre-tags genres="${genres}" mounted></genre-tags>
+                <detail-meta-list meta-items="${metaArray}"></detail-meta-list>
             </div>
+            <section-subheader header-title="Description"></section-subheader>
+            <section class="${this.className}__movie-description">${description}</section>
+            <section-subheader header-title="Cast" button></section-subheader>
         </div>
         `
 
         //INNER HTML
         this.innerHTML = template;
     }
+
+    createMetaArray() {
+        //Runtime
+        let runtime = convertMinsToHrsMins(this._dataObject.runtime)
+
+        //Language
+        let language = this._dataObject.original_language.toUpperCase()
+
+        //Rating
+        let ratings = this._dataObject.release_dates.results.filter(country => (country["iso_3166_1"] === "US"))
+        let MPA_Rating = ratings[0].release_dates.find(item => item.certification.trim().length > 0).certification;
+
+        return JSON.stringify([
+            {
+                'title': "Length",
+                'value': runtime,
+            },
+            {
+                'title': "Language",
+                'value': language,
+            },
+            {
+                'title': "Rating",
+                'value': MPA_Rating,
+            }]).replaceAll('"', "&quot;")
+    }
 })
-
-
 
 //DETAIL BACKDROP
 customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElement {
@@ -467,3 +499,44 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
     }
 })
 
+//DETAIL META LIST
+customElements.define("detail-meta-list", class DetailMetaList extends HTMLElement {
+    constructor() {
+        super();
+
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "detail-meta-list"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES    
+        this.metaItems = JSON.parse(this.getAttribute("meta-items"))
+        //console.log(this.metaItems)
+
+        //TEMPLATE
+        let list = initElement("ul", {
+            'class': `${this.className}__list`,
+        })
+        this.metaItems.map(item => {
+            list.append(this.createListItem(item.title, item.value))
+        })
+        this.append(list)
+    }
+
+    createListItem(_key, _value) {
+        let item = initElement("li", {
+            'class': `${this.className}__item`
+        })
+
+        item.innerHTML = `
+        <div class="${this.className}__meta-item">
+            <p class="${this.className}__meta-item-title">${_key}</p>
+            <p class="${this.className}__meta-item-value">${_value}</p>
+        </div>`;
+        return item
+    }
+})
