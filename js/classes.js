@@ -59,10 +59,10 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let movieRating = this._dataObject.vote_average
         let voteCount = this._dataObject.vote_count;
         let genres = JSON.stringify(this._dataObject.genre_ids);
+        //console.log(genres)
 
         //Only include extra info on cards with horizontal layout
-        let includeExtraInfo = this.hasAttribute("horizontal");
-        console.log(includeExtraInfo)
+        let includeExtraInfo = this.hasAttribute("horizontal") ? "mounted" : ""
 
         //TEMPLATE(S)
         let template = `
@@ -70,7 +70,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
          <div class="${this.className}__info-container">
              <h3 class="${this.className}__movie-title">${movieTitle}</h3>
             <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
-            ${this.createGenreList(includeExtraInfo, genres)}
+            <genre-tags genres="${genres}" ${includeExtraInfo}></genre-tags>
             ${this.createRuntime(includeExtraInfo)}
         </div>
          `
@@ -87,13 +87,6 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             <p class="${this.className}__runtime-length"></p>
         </span>`
     }
-
-    createGenreList(bool, _genres) {
-        if (!bool) return "";
-        return `
-          <genre-tags genres="${_genres}"></genre-tags>
-        `
-    }
 })
 
 //GENRE TAGS
@@ -106,26 +99,35 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     connectedCallback() {
         //HTML ATTRIBUTES
         this.className = "genre-tags"
+        this.mounted = this.hasAttribute("mounted")
+        if(!this.mounted){
+            this.remove()
+            return
+        } 
         this.render();
     }
 
     render() {
         //CUSTOM ATTRIBUTES    
         this.genreItems = JSON.parse(this.getAttribute("genres"))
+        console.log(this.genreItems, typeof this.genreItems)
 
         //TEMPLATE
         let list = initElement("ul", {
             'class': `${this.className}__list`,
         })
-        this.genreItems.map(genreID => list.append(this.createListItem(genreID, this.className)))
+        this.genreItems.map(genre => {
+            list.append(this.createListItem(genre, this.className))
+        })
         this.append(list)
     }
 
-    createListItem(_genreID, _className) {
+    createListItem(_genre, _className) {
         let item = initElement("li", {
             'class': `${_className}__item`
         })
-        item.innerHTML = `<a href="movielist.html?cat=genre&genre=${_genreID}" aria-label="navigate to category" class="genre-${_genreID}"></a>`;
+
+        item.innerHTML = `<a href="movielist.html?cat=genre&genre=${_genre}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
         return item
     }
 })
@@ -385,13 +387,22 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let imgPath = this._dataObject.backdrop_path;
         let movieRating = this._dataObject.vote_average
         let voteCount = this._dataObject.vote_count;
+        let genres = this._dataObject.genres
+        
+        //Format Genres
+        genres =  JSON.stringify(genres.map(genre => genre.id))
+        //genres = genres.replaceAll('"',"&quot;") //Ugly but works
+
 
         //TEMPLATE(S)
         let template = `
         <detail-backdrop image-path="${imgPath}"></detail-backdrop>
         <div class="${this.className}__content-container">
-            <h1>${this._dataObject.original_title}</h1>
-            <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
+            <h1 class="${this.className}__movie-title">${this._dataObject.original_title}</h1>
+            <div class="${this.className}__meta-information">
+                <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
+                <genre-tags genres="${genres}" mounted></genre-tags>
+            </div>
         </div>
         `
 

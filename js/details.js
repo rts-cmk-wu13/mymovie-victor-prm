@@ -3,7 +3,7 @@ let id = params.get("id");
 console.log(id)
 
 const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
-let det_url = `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos`
+let det_url = `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos,release_dates`
 
 
 //videos, key = youtube URL, søg efter "trailer" key
