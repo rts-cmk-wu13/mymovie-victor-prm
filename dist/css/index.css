@@ -59,6 +59,7 @@ html {
 }
 
 body {
+  position: relative;
   min-height: 100dvh;
   color: #110E47;
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
@@ -213,6 +214,30 @@ section-subheader {
 }
 section-subheader .section-subheader__title {
   font: 1.25rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
+}
+
+movie-rating .movie-rating__rating {
+  display: inline-flex;
+  width: 100%;
+  max-width: 18rem;
+  align-items: center;
+  gap: 0.25rem;
+  color: #4d4d4d;
+}
+movie-rating .movie-rating__rating-score {
+  font-weight: 700;
+  font-style: normal;
+}
+movie-rating .movie-rating__star-icon {
+  color: #FFC319;
+}
+movie-rating .movie-rating__scale {
+  display: inline-flex;
+  white-space: nowrap;
+}
+movie-rating .movie-rating__vote-count {
+  margin-left: auto;
+  font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 
 movie-card {
@@ -378,6 +403,17 @@ detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__backdrop-
      object-fit: cover;
   width: 100%;
   max-height: 24rem;
+}
+
+detail-card .detail-card {
+  position: relative;
+}
+detail-card .detail-card__content-container {
+  transform: translateY(-1rem);
+  position: relative;
+  border-radius: 1rem 1rem 0 0;
+  background-color: #ffffff;
+  padding: 1rem;
 }
 
 .content-details {

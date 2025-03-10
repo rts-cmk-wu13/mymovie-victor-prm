@@ -5,6 +5,7 @@ html
     /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
 
 body
+    position: relative
     min-height: 100dvh
     color: base.$color-primary-dark
     font: base.$text-body-1
@@ -142,6 +143,28 @@ section-subheader
     .section-subheader__title
         font: base.$text-subtitle-1
 
+movie-rating
+    .movie-rating
+
+        &__rating
+            display: inline-flex
+            width: 100%
+            max-width: 18rem
+            align-items: center
+            gap: base.$unit-05x
+            color: base.$gray-300
+        &__rating-score
+            font-weight: 700
+            font-style: normal
+        &__star-icon
+            color: base.$color-accent
+        &__scale
+            display: inline-flex
+            white-space: nowrap
+        &__vote-count
+            margin-left: auto
+            font: base.$text-body-1
+
 movie-card
     gap: base.$unit-1x
     position: relative
@@ -273,6 +296,15 @@ detail-backdrop
             width: 100%
             max-height: 24rem
 
+detail-card
+    .detail-card
+        position: relative
+        &__content-container
+            transform: translateY(- base.$unit-2x)
+            position: relative
+            border-radius: base.$unit-2x base.$unit-2x 0 0
+            background-color: base.$gray-1000
+            padding: base.$unit-2x
 
 .content-details
     position: relative

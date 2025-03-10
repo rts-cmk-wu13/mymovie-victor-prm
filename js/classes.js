@@ -15,7 +15,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let backButton = this.hasAttribute("back");
         let headerTitle = this.getAttribute("header-title");
         let toggleSwitch = this.hasAttribute("toggle");
-        if(window.location.pathname == "/details.html") this.classList.add(`${this.className}--details`)
+        if (window.location.pathname == "/details.html") this.classList.add(`${this.className}--details`)
 
         //TEMPLATE(S)
         backButton = backButton ? `<button aria-label="back to home" onclick="window.location = 'index.html'"><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
@@ -56,9 +56,8 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         //CUSTOM ATTRIBUTES
         let imgPath = this._dataObject.poster_path;
         let movieTitle = this._dataObject.original_title
-        let movieRating = this._dataObject.vote_average.toFixed(1);
+        let movieRating = this._dataObject.vote_average
         let voteCount = this._dataObject.vote_count;
-        if (voteCount > 1000) voteCount = (voteCount / 1000).toFixed(1) + "k"
         let genres = JSON.stringify(this._dataObject.genre_ids);
 
         //Only include extra info on cards with horizontal layout
@@ -70,12 +69,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
          <clickable-image image-path="${imgPath}" movie-title="${movieTitle}" movie-id="${this._dataObject.id}"></clickable-image>
          <div class="${this.className}__info-container">
              <h3 class="${this.className}__movie-title">${movieTitle}</h3>
-             <p class="${this.className}__rating">
-                 <i class="fa fa-star ${this.className}__star-icon"></i>
-                 <em class="${this.className}__rating-score">${movieRating}</em>/
-                 <span>10 IMDb</span>
-                 <span class="${this.className}__vote-count">${voteCount}</span><i class="fas fa-user"></i>
-             </p>
+            <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
             ${this.createGenreList(includeExtraInfo, genres)}
             ${this.createRuntime(includeExtraInfo)}
         </div>
@@ -135,6 +129,9 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         return item
     }
 })
+
+
+
 
 //CLICKABLE IMAGE
 customElements.define("clickable-image", class ClickableImage extends HTMLElement {
@@ -198,6 +195,40 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         <ul id="${containerID}" class="${this.className}__items-container" ${containerAttribute}></ul>
         `
         //template = imgSource ? template : ""
+
+        //INNER HTML
+        this.innerHTML = template;
+    }
+})
+
+//MOVIE RATING
+customElements.define("movie-rating", class MovieRating extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.className = "movie-rating"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        let headerTitle = this.getAttribute("header-title");
+        let movieRating = Number(this.getAttribute("movie-rating")).toFixed(1);
+        let voteCount = this.getAttribute("vote-count")
+        if (voteCount > 1000) voteCount = (voteCount / 1000).toFixed(1) + "k"
+        this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
+
+        //TEMPLATE(S)
+        let template = `
+            <p class="${this.className}__rating">
+                 <i class="fa fa-star ${this.className}__star-icon"></i>
+                 <em class="${this.className}__rating-score">${movieRating}</em>/
+                 <span class="${this.className}__scale">10 IMDb</span>
+                 <span class="${this.className}__vote-count">${voteCount}</span><i class="fas fa-user"></i>
+             </p>
+        `
 
         //INNER HTML
         this.innerHTML = template;
@@ -338,12 +369,13 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
     set dataObject(value) {
         this._dataObject = value;
-        this.render();
     }
 
 
     connectedCallback() {
         this.className = "detail-card"
+        this.render();
+
     }
 
     render() {
@@ -351,10 +383,17 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         //let headerTitle = this.getAttribute("header-title");
         //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
         let imgPath = this._dataObject.backdrop_path;
+        let movieRating = this._dataObject.vote_average
+        let voteCount = this._dataObject.vote_count;
 
         //TEMPLATE(S)
         let template = `
-        <detail-backdrop image-path="${imgPath}"></detail-backdrop>`
+        <detail-backdrop image-path="${imgPath}"></detail-backdrop>
+        <div class="${this.className}__content-container">
+            <h1>${this._dataObject.original_title}</h1>
+            <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
+        </div>
+        `
 
         //INNER HTML
         this.innerHTML = template;
@@ -380,7 +419,7 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
         let imgPath = this.getAttribute("image-path");
         let imgSource = `https://image.tmdb.org/t/p/original${imgPath}`;
-    
+
 
         //TEMPLATE(S)
         let template = `
