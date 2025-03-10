@@ -26,7 +26,7 @@ function buildSite() {
   headerElm.append(siteHeaderElm)
 
   let mainElm = initElement("main", {
-    'class': "details-main"
+    'class': "content-details"
   })
 
   //Footer
@@ -42,7 +42,7 @@ buildSite();
 
 function insertDetails(json) {
   //Inject Details
-  let mainElm = document.querySelector(`.details-main`)
+  let mainElm = document.querySelector(`.content-details`)
   mainElm.append(createDetailCard(json));
   fetchData(genres_url, insertGenres);
 

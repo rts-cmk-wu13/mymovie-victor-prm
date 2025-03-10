@@ -21,6 +21,7 @@ site-header
     display: grid
     height: base.$unit-8x
     align-items: center
+    padding: 0 base.$unit-1x
 
     *
         width: fit-content
@@ -77,6 +78,15 @@ site-header
 
         input:checked:before
             left: 1em
+
+.site-header--details
+    position: relative
+    z-index: 100
+    color: base.$gray-1000
+    background: linear-gradient(0deg, transparent 0%, rgba(base.$color-primary-dark,0.5) 80%)
+
+    i
+        color: base.$gray-1000
 
 clickable-image
     isolation: isolate
@@ -255,10 +265,15 @@ nav-footer
 detail-backdrop
     display: block
     .detail-backdrop__backdrop-container
-     
+
         width: 100%
         .detail-backdrop__backdrop-img
             display: block
             object-fit: cover
             width: 100%
-            max-height: 18rem
+            max-height: 24rem
+
+
+.content-details
+    position: relative
+    top: -(base.$unit-8x)

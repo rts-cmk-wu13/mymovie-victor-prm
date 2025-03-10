@@ -15,6 +15,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let backButton = this.hasAttribute("back");
         let headerTitle = this.getAttribute("header-title");
         let toggleSwitch = this.hasAttribute("toggle");
+        if(window.location.pathname == "/details.html") this.classList.add(`${this.className}--details`)
 
         //TEMPLATE(S)
         backButton = backButton ? `<button aria-label="back to home" onclick="window.location = 'index.html'"><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
