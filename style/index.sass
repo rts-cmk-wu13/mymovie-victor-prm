@@ -337,8 +337,13 @@ detail-card
             @include base.fxcol
             gap: base.$unit-2x
             max-width: 20rem
-        &__movie-description
+        &__movie-description-section
+            @include base.fxcol
+            gap: base.$unit-05x
             max-width: 90ch
+        &__movie-description-text
+            font: base.$text-body-1
+            color: base.$gray-500
 
 .content-details
     position: relative

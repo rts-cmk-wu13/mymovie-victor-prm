@@ -454,8 +454,15 @@ detail-card .detail-card__meta-information {
   gap: 1rem;
   max-width: 20rem;
 }
-detail-card .detail-card__movie-description {
+detail-card .detail-card__movie-description-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   max-width: 90ch;
+}
+detail-card .detail-card__movie-description-text {
+  font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+  color: #7f7f7f;
 }
 
 .content-details {

@@ -19,7 +19,6 @@ function buildSite() {
   //Header
   let headerElm = initElement("header")
   let siteHeaderElm = initElement("site-header", {
-    'header-title': "Movie Title",
     'back': "",
     'toggle': "",
   })

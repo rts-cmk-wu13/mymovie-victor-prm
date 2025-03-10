@@ -268,7 +268,7 @@ customElements.define("section-subheader", class SectionSubheader extends HTMLEl
     }
 
     render() {
-        let includeButton = this.hasAttribute("button") ?  `<button class="${this.className}__see-more-btn">See more</button>` : ""
+        let includeButton = this.hasAttribute("button") ? `<button class="${this.className}__see-more-btn">See more</button>` : ""
         //CUSTOM ATTRIBUTES
         let headerTitle = this.getAttribute("header-title");
         this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
@@ -431,8 +431,10 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
                 <genre-tags genres="${genres}" mounted></genre-tags>
                 <detail-meta-list meta-items="${metaArray}"></detail-meta-list>
             </div>
-            <section-subheader header-title="Description"></section-subheader>
-            <section class="${this.className}__movie-description">${description}</section>
+            <section class="${this.className}__movie-description-section">
+                <section-subheader header-title="Description"></section-subheader>
+                <p class="${this.className}__movie-description-text">${description}</p> 
+            </section>
             <section-subheader header-title="Cast" button></section-subheader>
         </div>
         `
