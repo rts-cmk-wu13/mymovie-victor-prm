@@ -18,6 +18,11 @@ button
     @include base.fxcol
     gap: base.$unit-2x
 
+.movie__original-title
+    white-space: nowrap
+    font-size: 0.75rem
+    color: base.$gray-500
+
 site-header
     display: grid
     height: base.$unit-8x
@@ -170,6 +175,8 @@ movie-card
     position: relative
     height: 100%
 
+    scroll-snap-align: center
+
     .movie-card
         &__rating
             display: inline-flex
@@ -218,7 +225,6 @@ movie-list
     margin-bottom: base.$unit-3x
 
     .movie-list
-
         &__items-container
             display: grid
 
@@ -232,8 +238,27 @@ movie-list
 
             &[horizontal]
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
+                scroll-behavior: smooth
+                scroll-snap-type: x mandatory
             &[vertical]
                 @include base.infite-list-vertical($grid-item-width: 18rem)
+
+        &__buttons-container
+            @include base.fxrow
+            position: absolute
+            z-index: 100
+            width: 100%
+            justify-content: space-between
+            padding: 0 0.75rem
+            top: 45%
+            button
+                font-size: 0.75rem
+                width: 2rem
+                height: 2rem
+                background-color: rgba(base.$color-primary-light,0.8)
+                color: base.$color-primary-mid
+                box-shadow: base.$box-shadow-2x
+                border: 1px solid base.$black-tint-100
 
 genre-tags
     .genre-tags

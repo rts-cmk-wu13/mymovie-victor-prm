@@ -55,11 +55,11 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
     render() {
         //CUSTOM ATTRIBUTES
         let imgPath = this._dataObject.poster_path;
-        let movieTitle = this._dataObject.original_title
+        let movieTitle = this._dataObject.title
         let movieRating = this._dataObject.vote_average
         let voteCount = this._dataObject.vote_count;
         let genres = JSON.stringify(this._dataObject.genre_ids);
-        //console.log(genres)
+        let originalTitle = checkOriginalTitle(this._dataObject);
 
         //Only include extra info on cards with horizontal layout
         let includeExtraInfo = this.hasAttribute("horizontal") ? "mounted" : ""
@@ -68,7 +68,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let template = `
          <clickable-image image-path="${imgPath}" movie-title="${movieTitle}" movie-id="${this._dataObject.id}"></clickable-image>
          <div class="${this.className}__info-container">
-             <h3 class="${this.className}__movie-title">${movieTitle}</h3>
+             <h3 class="${this.className}__movie-title">${movieTitle}${originalTitle}</h3>
             <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
             <genre-tags genres="${genres}" ${includeExtraInfo}></genre-tags>
             ${this.createRuntime(includeExtraInfo)}
@@ -100,10 +100,10 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         //HTML ATTRIBUTES
         this.className = "genre-tags"
         this.mounted = this.hasAttribute("mounted")
-        if(!this.mounted){
+        if (!this.mounted) {
             this.remove()
             return
-        } 
+        }
         this.render();
     }
 
@@ -182,24 +182,46 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         this.className = "movie-list"
         this.role = "region"
         this.render();
+        this.createCarouselButtons(this.containerAttribute,this.className,this.containerID)
     }
 
     render() {
         //CUSTOM ATTRIBUTES
         let sectionTitle = this.getAttribute("section-title")
-        let containerAttribute = checkLayoutDirection(this)
-        let containerID = setMovieListID(this.id);
+        this.containerAttribute = checkLayoutDirection(this)
+        this.containerID = setMovieListID(this.id);
         this.ariaLabel = `Category ${sectionTitle}`//Setting this here because section title is needed
 
         //TEMPLATE(S)
         let template = `
         <section-subheader header-title="${sectionTitle}" button="true"></section-subheader>
-        <ul id="${containerID}" class="${this.className}__items-container" ${containerAttribute}></ul>
+        <ul id="${this.containerID}" class="${this.className}__items-container" ${this.containerAttribute}></ul>
+
         `
-        //template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
+    }
+    createCarouselButtons(direction, parentClass, scrollContainerID) {
+        if (direction != "horizontal") return "";
+        let buttonContainer = initElement("div", {
+            'class': `${parentClass}__buttons-container`
+        })
+
+        let buttonBack = initElement("button")
+        buttonBack.innerHTML = `<i class="fas fa-chevron-left"></i>`
+        buttonBack.addEventListener("click", () => {
+            document.querySelector(`#${scrollContainerID}`).scrollLeft -= 150;
+        })
+
+        let buttonNext = initElement("button")
+        buttonNext.innerHTML = `<i class="fas fa-chevron-right"></i>`
+        buttonNext.addEventListener("click", () => {
+            document.querySelector(`#${scrollContainerID}`).scrollLeft += 150;
+        })
+        
+        buttonContainer.append(buttonBack, buttonNext)
+        this.append(buttonContainer)
     }
 })
 
@@ -388,17 +410,18 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let movieRating = this._dataObject.vote_average
         let voteCount = this._dataObject.vote_count;
         let genres = this._dataObject.genres
-        
+
         //Format Genres
-        genres =  JSON.stringify(genres.map(genre => genre.id))
+        genres = JSON.stringify(genres.map(genre => genre.id))
         //genres = genres.replaceAll('"',"&quot;") //Ugly but works
 
+        let originalTitle = checkOriginalTitle(this._dataObject);
 
         //TEMPLATE(S)
         let template = `
         <detail-backdrop image-path="${imgPath}"></detail-backdrop>
         <div class="${this.className}__content-container">
-            <h1 class="${this.className}__movie-title">${this._dataObject.original_title}</h1>
+            <h1 class="${this.className}__movie-title">${this._dataObject.title}${originalTitle}</h1>
             <div class="${this.className}__meta-information">
                 <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
                 <genre-tags genres="${genres}" mounted></genre-tags>

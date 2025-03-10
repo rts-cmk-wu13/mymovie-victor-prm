@@ -95,6 +95,11 @@ function insertGenres(json) {
     })
 }
 
+function checkOriginalTitle(json){
+    console.log(json)
+     let originalTitle = json.original_language != "en" ? ` <span class="movie__original-title">${json.original_title}</span>`: "";
+     return originalTitle;
+}
 
 function insertRuntimes(json) {
     let movieRuntime = convertMinsToHrsMins(json.runtime)
