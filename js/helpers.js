@@ -81,9 +81,17 @@ function setAttributes(el, attrs) {
 
 function insertGenres(json) {
     json.genres.map(genre => {
-      let list = document.querySelectorAll(`.genre-${genre.id}`);
-      Array.from(list).map(item => item.innerHTML = genre.name)
+        let list = document.querySelectorAll(`.genre-${genre.id}`);
+        Array.from(list).map(item => item.innerHTML = genre.name)
     })
+}
+
+function convertMinsToHrsMins(mins) {
+    let h = Math.floor(mins / 60);
+    let m = mins % 60;
+    //h = h < 10 ? '0' + h : h; // (or alternatively) h = String(h).padStart(2, '0')
+    m = m < 10 ? '0' + m : m; // (or alternatively) m = String(m).padStart(2, '0')
+    return `${h}h ${m}m`;
   }
 
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))

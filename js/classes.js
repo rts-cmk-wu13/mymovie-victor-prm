@@ -47,6 +47,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         //HTML ATTRIBUTES
         this.className = "movie-card"
         this.ariaLabel = "Movie Card"
+        this.id = `movie-card--${this._dataObject.id}`
         this.render();
     }
 
@@ -55,8 +56,13 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w300", "w500")}/${this._dataObject.poster_path}`;
         let movieTitle = this._dataObject.original_title
         let movieRating = this._dataObject.vote_average.toFixed(1);
-        let voteCount = (this._dataObject.vote_count / 1000).toFixed(1);
-        let genres = JSON.stringify(this._dataObject.genre_ids)
+        let voteCount = this._dataObject.vote_count;
+        if (voteCount > 1000) voteCount = (voteCount / 1000).toFixed(1) + "k"
+        let genres = JSON.stringify(this._dataObject.genre_ids);
+
+        //Only include extra info on cards with horizontal layout
+        let includeExtraInfo = this.hasAttribute("horizontal");
+        console.log(includeExtraInfo)
 
         //TEMPLATE(S)
         let template = `
@@ -67,16 +73,31 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
                  <i class="fa fa-star ${this.className}__star-icon"></i>
                  <em class="${this.className}__rating-score">${movieRating}</em>/
                  <span>10 IMDb</span>
-                 <span class="${this.className}__vote-count">${voteCount}k</span><i class="fas fa-user"></i>
+                 <span class="${this.className}__vote-count">${voteCount}</span><i class="fas fa-user"></i>
              </p>
-             <genre-tags genres="${genres}"></genre-tags>
-         </div>
-        
+            ${this.createGenreList(includeExtraInfo, genres)}
+            ${this.createRuntime(includeExtraInfo)}
+        </div>
          `
         template = imgSource ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
+    }
+    createRuntime(bool) {
+        if (!bool) return "";
+        return ` 
+        <span class="${this.className}__runtime">
+            <i class="${this.className}__runtime-icon far fa-clock"></i>
+            <p class="${this.className}__runtime-length"></p>
+        </span>`
+    }
+
+    createGenreList(bool, _genres) {
+        if (!bool) return "";
+        return `
+          <genre-tags genres="${_genres}"></genre-tags>
+        `
     }
 })
 
@@ -107,7 +128,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
 
     createListItem(_genreID, _className) {
         let item = initElement("li", {
-            'class' : `${_className}__item`
+            'class': `${_className}__item`
         })
         item.innerHTML = `<a href="movielist.html?cat=genre&genre=${_genreID}" aria-label="navigate to category" class="genre-${_genreID}"></a>`;
         return item

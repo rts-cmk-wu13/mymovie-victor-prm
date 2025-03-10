@@ -151,7 +151,7 @@ clickable-image {
 clickable-image .clickable-image__wrapper {
   width: 100%;
   position: relative;
-  aspect-ratio: 1/1.4;
+  aspect-ratio: 1/1.45;
   margin-bottom: 1rem;
 }
 clickable-image .clickable-image__wrapper img {
@@ -230,6 +230,13 @@ movie-card .movie-card__vote-count {
 movie-card .movie-card__movie-title {
   font: 800 1.25rem/normal Mulish, Arial, Helvetica, sans-serif;
   transition: color 0.4s;
+}
+movie-card .movie-card__runtime {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
+  color: #4d4d4d;
 }
 movie-card .movie-card__info-container {
   display: flex;

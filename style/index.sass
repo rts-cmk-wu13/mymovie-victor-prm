@@ -8,7 +8,7 @@ body
     min-height: 100dvh
     color: base.$color-primary-dark
     font: base.$text-body-1
-    padding: 0 base.$unit-1x 3rem
+    padding: 0 base.$unit-1x base.$unit-6x
 
 button
     @include base.button-base
@@ -84,7 +84,7 @@ clickable-image
     .clickable-image__wrapper
         width: 100%
         position: relative
-        aspect-ratio: 1 / 1.4
+        aspect-ratio: 1 / 1.45
         margin-bottom: base.$unit-2x
 
         img
@@ -155,6 +155,12 @@ movie-card
         &__movie-title
             font: base.$text-subtitle-2
             transition: color 0.4s
+        &__runtime
+            display: inline-flex
+            gap: base.$unit-05x
+            align-items: center
+            font: base.$text-body-2
+            color: base.$gray-300
     .movie-card__info-container
         @include base.fxcol
         gap: base.$unit-1x
