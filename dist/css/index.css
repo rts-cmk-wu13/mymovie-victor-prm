@@ -353,4 +353,18 @@ nav-footer a .site-footer__favorites-link {
 }
 nav-footer a.nav-current-location {
   color: #110E47;
+}
+
+detail-backdrop {
+  display: block;
+}
+detail-backdrop .detail-backdrop__backdrop-container {
+  width: 100%;
+}
+detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__backdrop-img {
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  max-height: 18rem;
 }/*# sourceMappingURL=index.css.map */

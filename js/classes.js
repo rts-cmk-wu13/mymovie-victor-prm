@@ -53,7 +53,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
-        let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w300", "w500")}/${this._dataObject.poster_path}`;
+        let imgPath = this._dataObject.poster_path;
         let movieTitle = this._dataObject.original_title
         let movieRating = this._dataObject.vote_average.toFixed(1);
         let voteCount = this._dataObject.vote_count;
@@ -66,7 +66,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
         //TEMPLATE(S)
         let template = `
-         <clickable-image image-src="${imgSource}" movie-title="${movieTitle}" movie-id="${this._dataObject.id}"></clickable-image>
+         <clickable-image image-path="${imgPath}" movie-title="${movieTitle}" movie-id="${this._dataObject.id}"></clickable-image>
          <div class="${this.className}__info-container">
              <h3 class="${this.className}__movie-title">${movieTitle}</h3>
              <p class="${this.className}__rating">
@@ -79,7 +79,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             ${this.createRuntime(includeExtraInfo)}
         </div>
          `
-        template = imgSource ? template : ""
+        template = imgPath ? template : ""
 
         //INNER HTML
         this.innerHTML = template;
@@ -149,7 +149,8 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
 
     render() {
         //CUSTOM ATTRIBUTES
-        let imgSource = this.getAttribute("image-src");
+        let imgPath = this.getAttribute("image-path");
+        let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w300", "w500")}${imgPath}`;
         let movieTitle = this.getAttribute("movie-title");
         let movieID = this.getAttribute("movie-id");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
@@ -327,4 +328,68 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
 })
 
+//DETAIL CARD
+customElements.define("detail-card", class DetailCard extends HTMLElement {
+    constructor() {
+        super();
+        this._dataObject = {};
+    }
+
+    set dataObject(value) {
+        this._dataObject = value;
+        this.render();
+    }
+
+
+    connectedCallback() {
+        this.className = "detail-card"
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        //let headerTitle = this.getAttribute("header-title");
+        //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
+        let imgPath = this._dataObject.backdrop_path;
+
+        //TEMPLATE(S)
+        let template = `
+        <detail-backdrop image-path="${imgPath}"></detail-backdrop>`
+
+        //INNER HTML
+        this.innerHTML = template;
+    }
+})
+
+
+
+//DETAIL BACKDROP
+customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.className = "detail-backdrop"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        //let headerTitle = this.getAttribute("header-title");
+        //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
+        let imgPath = this.getAttribute("image-path");
+        let imgSource = `https://image.tmdb.org/t/p/original${imgPath}`;
+    
+
+        //TEMPLATE(S)
+        let template = `
+        <div class="${this.className}__backdrop-container">
+            <img src="${imgSource}" alt="" class="${this.className}__backdrop-img">
+        </div>
+        `
+
+        //INNER HTML
+        this.innerHTML = template;
+    }
+})
 

@@ -70,9 +70,3 @@ function insertPopular(json) {
 
 }
 
-function insertRuntimes(json) {
-    let movieRuntime = convertMinsToHrsMins(json.runtime)
-    let movieID = `#movie-card--${json.id}`
-    let runtimeElms = document.querySelectorAll(movieID + " .movie-card__runtime-length")
-    runtimeElms.forEach(runtimeElm => runtimeElm.innerHTML =  movieRuntime)
-}

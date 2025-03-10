@@ -23,19 +23,28 @@ function createMovieCard(movieObj, direction) {
 
 
     let item = document.createElement("li");
-    item.ariaLabel = "movTitle";
+    item.ariaLabel = movieObj.original_title;
 
     //Create movie-card properly
-    const movieCard = document.createElement("movie-card");
+    const movieCard = initElement("movie-card", {
+        [itemDirection]: "",
+    });
+
     //Append it to the li
     item.appendChild(movieCard);
 
-    setAttributes(movieCard, {
-        [itemDirection]: "",
-    })
     //Assign data directly to movie card
     movieCard.dataObject = movieObj;
     return item;
+}
+
+function createDetailCard(movieObj) {
+    //Create detail-card
+    const detailCard = initElement("detail-card");
+
+    //Assign data directly to movie card
+    detailCard.dataObject = movieObj;
+    return detailCard;
 }
 
 function initElement(tag, attributesObj) {
@@ -84,6 +93,14 @@ function insertGenres(json) {
         let list = document.querySelectorAll(`.genre-${genre.id}`);
         Array.from(list).map(item => item.innerHTML = genre.name)
     })
+}
+
+
+function insertRuntimes(json) {
+    let movieRuntime = convertMinsToHrsMins(json.runtime)
+    let movieID = `#movie-card--${json.id}`
+    let runtimeElms = document.querySelectorAll(movieID + " .movie-card__runtime-length")
+    runtimeElms.forEach(runtimeElm => runtimeElm.innerHTML =  movieRuntime)
 }
 
 function convertMinsToHrsMins(mins) {
