@@ -204,11 +204,11 @@ clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper im
   pointer-events: none;
   transition: transform 0s;
 }
-clickable-image:focus-within, clickable-image:hover {
+clickable-image .clickable-image__wrapper:focus-within, clickable-image .clickable-image__wrapper:hover {
   transform: translateY(-4px);
   transition: all 0.2s;
 }
-clickable-image:focus-within .clickable-image__backlight-wrapper, clickable-image:hover .clickable-image__backlight-wrapper {
+clickable-image .clickable-image__wrapper:focus-within .clickable-image__backlight-wrapper, clickable-image .clickable-image__wrapper:hover .clickable-image__backlight-wrapper {
   transform: translateY(16px) scaleY(-1);
   opacity: 0.66;
 }
@@ -362,6 +362,18 @@ movie-list .movie-list__buttons-container button {
   border: 1px solid rgba(26, 26, 26, 0.2);
 }
 
+#movie-list__items-cast-members {
+  grid-auto-flow: column;
+  grid-auto-columns: 10rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: #f2f2f2 !important;
+}
+#movie-list__items-cast-members * {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
 genre-tags .genre-tags__list {
   display: flex;
   flex-direction: row;
@@ -445,8 +457,10 @@ detail-card .detail-card__content-container {
   transform: translateY(-1rem);
   position: relative;
   border-radius: 1rem;
-  background-color: #ffffff;
-  padding: 1rem 1rem 3rem;
+  background-color: #f2f2f2;
+  border: 1px solid #e5e5e5;
+  background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
+  padding: 1rem 1rem 1.5rem;
 }
 detail-card .detail-card__meta-information {
   display: flex;
@@ -462,6 +476,18 @@ detail-card .detail-card__movie-description-section {
 }
 detail-card .detail-card__movie-description-text {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+  color: #7f7f7f;
+}
+detail-card .detail-card__cast-item .clickable-image:hover ~ .detail-card__cast-name, detail-card .detail-card__cast-item .clickable-image:focus-within ~ .detail-card__cast-name {
+  color: #3e5b9f;
+}
+detail-card .detail-card__cast-name {
+  font: 700 1rem/normal Mulish, Arial, Helvetica, sans-serif;
+}
+detail-card .detail-card__cast-role {
+  font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+}
+detail-card .detail-card__cast-as {
   color: #7f7f7f;
 }
 

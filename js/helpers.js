@@ -1,3 +1,5 @@
+let imageBasePath = "https://image.tmdb.org/t/p/";
+
 function fetchData(url, callBack) {
     const options = {
         method: 'GET',

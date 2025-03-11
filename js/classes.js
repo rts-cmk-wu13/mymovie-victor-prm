@@ -60,13 +60,14 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let voteCount = this._dataObject.vote_count;
         let genres = JSON.stringify(this._dataObject.genre_ids);
         let originalTitle = checkOriginalTitle(this._dataObject);
+        let movieID = this._dataObject.id;
 
         //Only include extra info on cards with horizontal layout
         let includeExtraInfo = this.hasAttribute("horizontal") ? "mounted" : ""
 
         //TEMPLATE(S)
         let template = `
-         <clickable-image image-path="${imgPath}" movie-title="${movieTitle}" movie-id="${this._dataObject.id}"></clickable-image>
+         <clickable-image image-path="${imgPath}" movie-title="${movieTitle}" link-ref="details.html?id=${movieID}"></clickable-image>
          <div class="${this.className}__info-container">
              <h3 class="${this.className}__movie-title">${movieTitle}${originalTitle}</h3>
             <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
@@ -126,7 +127,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
             'class': `${this.className}__item`
         })
 
-        item.innerHTML = `<a href="movielist.html?cat=genre&genre=${_genre}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
+        item.innerHTML = `<a href="discover.html?cat=genre&genre=${_genre}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
         return item
     }
 })
@@ -146,9 +147,10 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
     render() {
         //CUSTOM ATTRIBUTES
         let imgPath = this.getAttribute("image-path");
-        let imgSource = `https://image.tmdb.org/t/p/${devOrProd("w300", "w500")}${imgPath}`;
+        let linkRef =  this.getAttribute("link-ref");
+        let imgSource = imgPath == "null" ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019" : `${imageBasePath}${devOrProd("w300", "w500")}${imgPath}` 
         let movieTitle = this.getAttribute("movie-title");
-        let movieID = this.getAttribute("movie-id");
+        //let movieID = this.getAttribute("movie-id");
         let backlightSrc = imgSource.replace("/w500/", "/w200");
 
         //TEMPLATE(S)
@@ -157,7 +159,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
             <div class= "${this.className}__backlight-wrapper">
                 <img class="${this.className}-card__backlight" src="${backlightSrc}" alt="">
             </div>
-            <a href="details.html?id=${movieID}" aria-label="navigate to ${movieTitle} page"><img src="${imgSource}" alt=""></a>
+            <a href="${linkRef}" aria-label="navigate to ${movieTitle} page"><img src="${imgSource}" alt=""></a>
         </div>
         `
         template = imgSource ? template : ""
@@ -395,7 +397,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
     connectedCallback() {
         this.className = "detail-card"
         this.render();
-
+        this.createCastList(this._dataObject.credits.cast);
     }
 
     render() {
@@ -435,12 +437,37 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
                 <section-subheader header-title="Description"></section-subheader>
                 <p class="${this.className}__movie-description-text">${description}</p> 
             </section>
-            <section-subheader header-title="Cast" button></section-subheader>
+            <movie-list class="${this.className}__cast-list" id="items-cast-members" section-title="Cast" horizontal></movie-list>
         </div>
         `
 
         //INNER HTML
         this.innerHTML = template;
+    }
+
+    createCastList(_castArray) {
+        let castListElm = document.querySelector(`#${getMovieListID("items-cast-members")}`)
+        _castArray.map(crew => {
+            castListElm.append(this.createCastCard(crew));
+            //console.log(this.createCastCard(crew))
+        })
+    }
+
+    createCastCard(_crew) {
+        let imgPath = `${_crew.profile_path}`
+        let crewID = _crew.id;
+        let castListItem = initElement("li", {
+            'class': `${this.className}__cast-item`
+        })
+        let actorLink = `discover.html?language=en-US&sort_by=release_date.asce&page=1&with_cast=${crewID}`
+
+        castListItem.innerHTML = `
+            <clickable-image image-path="${imgPath}" movie-title="${_crew.name}" link-ref="${actorLink}"></clickable-image>
+            <h3 class="${this.className}__cast-name">${_crew.name}</h3>
+            <p class="${this.className}__cast-role"><span class="${this.className}__cast-as">as </span>${_crew.character}</p>
+           
+        `
+        return castListItem;
     }
 
     createMetaArray() {
@@ -452,7 +479,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
         //Rating
         let ratings = this._dataObject.release_dates.results.filter(country => (country["iso_3166_1"] === "US"))
-        let MPA_Rating = ratings[0].release_dates.find(item => item.certification.trim().length > 0).certification;
+        let MPA_Rating = ratings[0].release_dates.find(item => item.certification.trim().length > 0)?.certification || "N/A";
 
         return JSON.stringify([
             {
@@ -486,7 +513,7 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         //let headerTitle = this.getAttribute("header-title");
         //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
         let imgPath = this.getAttribute("image-path");
-        let imgSource = `https://image.tmdb.org/t/p/original${imgPath}`;
+        let imgSource = `${imageBasePath}original${imgPath}`;
 
 
         //TEMPLATE(S)
@@ -538,7 +565,7 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
         <div class="${this.className}__meta-item">
             <p class="${this.className}__meta-item-title">${_key}</p>
             <p class="${this.className}__meta-item-value">${_value}</p>
-        </div>`;
+        </div>`
         return item
     }
 })
