@@ -140,12 +140,13 @@ clickable-image
                 transform: translateY(16px) scaleY(-1)
                 opacity: 0.66
 
-section-subheader
-    display: flex
-    justify-content: space-between
-    align-items: center
+section-subheading
+    hgroup
+        display: flex
+        justify-content: space-between
+        align-items: center
 
-    .section-subheader__title
+    .section-subheading__title
         font: base.$text-subtitle-1
 
 movie-rating
@@ -209,7 +210,7 @@ movie-card
     &[horizontal]
         @include base.fxrow
         width: 100%
-        max-width: 22rem
+        max-width: 24rem
         clickable-image
             height: 100%
         .clickable-image__wrapper
