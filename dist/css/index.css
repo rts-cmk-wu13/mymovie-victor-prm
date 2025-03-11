@@ -182,7 +182,7 @@ clickable-image .clickable-image__wrapper img {
   display: block;
   z-index: 1;
 }
-clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper {
+clickable-image .clickable-image__wrapper .clickable-image__shadow-wrapper {
   position: absolute;
   height: 2rem;
   width: 100%;
@@ -193,7 +193,7 @@ clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper {
   z-index: -10;
   transition: transform 0.2s;
 }
-clickable-image .clickable-image__wrapper .clickable-image__backlight-wrapper img {
+clickable-image .clickable-image__wrapper .clickable-image__shadow-wrapper img {
   position: relative;
   -o-object-fit: fill;
      object-fit: fill;
@@ -208,7 +208,7 @@ clickable-image .clickable-image__wrapper:focus-within, clickable-image .clickab
   transform: translateY(-4px);
   transition: all 0.2s;
 }
-clickable-image .clickable-image__wrapper:focus-within .clickable-image__backlight-wrapper, clickable-image .clickable-image__wrapper:hover .clickable-image__backlight-wrapper {
+clickable-image .clickable-image__wrapper:focus-within .clickable-image__shadow-wrapper, clickable-image .clickable-image__wrapper:hover .clickable-image__shadow-wrapper {
   transform: translateY(16px) scaleY(-1);
   opacity: 0.66;
 }
@@ -294,6 +294,8 @@ movie-card[horizontal] {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  width: 100%;
+  max-width: 22rem;
 }
 movie-card[horizontal] clickable-image {
   height: 100%;

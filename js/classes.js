@@ -12,22 +12,36 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
-        let backButton = this.hasAttribute("back");
-        let headerTitle = this.getAttribute("header-title");
-        let toggleSwitch = this.hasAttribute("toggle");
+        let _backLink = this.hasAttribute("back");
+        let _headerTitle = this.getAttribute("header-title");
+        let _toggleSwitch = this.hasAttribute("toggle");
         if (window.location.pathname == "/details.html") this.classList.add(`${this.className}--details`)
 
         //TEMPLATE(S)
-        backButton = backButton ? `<button aria-label="back to home" onclick="window.location = 'index.html'"><i class="fas fa-arrow-left ${this.className}__back-button"></i></button>` : ""
-        headerTitle = headerTitle ? `<h1>${headerTitle}</h1>` : ""
-        toggleSwitch = toggleSwitch ? `<dark-mode-toggle></dark-mode-toggle>` : ""
+        if (_backLink) {
+            let backLink = initElement("a", {
+                'href': "index.html",
+                'aria-label': "back to home",
+            })
+            let backLinkIcon = initElement("i", {
+                'class': `fas fa-arrow-left ${this.className}__back-button`,
+            })
+            backLink.append(backLinkIcon)
+            this.append(backLink)
+        }
 
-        //INNER HTML
-        this.innerHTML = `
-             ${backButton}
-             ${headerTitle}
-             ${toggleSwitch}
-             `
+        if (_headerTitle) {
+            let headerTitle = initElement("h1", {
+                'class': `${this.className}__header-title`,
+            })
+            headerTitle.innerHTML = _headerTitle;
+            this.append(headerTitle)
+        }
+
+        if (_toggleSwitch) {
+            let toggleSwitch = initElement("dark-mode-toggle")
+            this.append(toggleSwitch)
+        }
     }
 
 })
@@ -54,39 +68,69 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
-        let imgPath = this._dataObject.poster_path;
-        let movieTitle = this._dataObject.title
-        let movieRating = this._dataObject.vote_average
-        let voteCount = this._dataObject.vote_count;
-        let genres = JSON.stringify(this._dataObject.genre_ids);
-        let originalTitle = checkOriginalTitle(this._dataObject);
-        let movieID = this._dataObject.id;
+        let _imgPath = this._dataObject.poster_path;
+        let _movieTitle = this._dataObject.title
+        let _movieRating = this._dataObject.vote_average
+        let _voteCount = this._dataObject.vote_count;
+        let _genres = JSON.stringify(this._dataObject.genre_ids);
+        let _originalTitle = checkOriginalTitle(this._dataObject);
+        let _movieID = this._dataObject.id;
 
         //Only include extra info on cards with horizontal layout
-        let includeExtraInfo = this.hasAttribute("horizontal") ? "mounted" : ""
+        let includeExtraInfo = this.hasAttribute("horizontal");
 
         //TEMPLATE(S)
-        let template = `
-         <clickable-image image-path="${imgPath}" movie-title="${movieTitle}" link-ref="details.html?id=${movieID}"></clickable-image>
-         <div class="${this.className}__info-container">
-             <h3 class="${this.className}__movie-title">${movieTitle}${originalTitle}</h3>
-            <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
-            <genre-tags genres="${genres}" ${includeExtraInfo}></genre-tags>
-            ${this.createRuntime(includeExtraInfo)}
-        </div>
-         `
-        template = imgPath ? template : ""
+        if (_imgPath) {
+            //Clickable Image
+            let clickableImage = initElement("clickable-image", {
+                'image-path': _imgPath,
+                'movie-title': _movieTitle,
+                'link-ref': `details.html?id=${_movieID}`,
+            })
+            this.append(clickableImage)
 
-        //INNER HTML
-        this.innerHTML = template;
+            //Info Container
+            let infoContainer = initElement("div", {
+                'class': `${this.className}__info-container`,
+            })
+
+            let movieTitle = initElement("h3", {
+                'class': `${this.className}__movie-title`,
+            })
+            movieTitle.innerHTML = _movieTitle + _originalTitle;
+
+            let movieRating = initElement("movie-rating", {
+                'parent-class': this.className,
+                'movie-rating': _movieRating,
+                'vote-count': _voteCount,
+            })
+            infoContainer.append(movieTitle, movieRating);
+
+            //Extra Info
+            if (includeExtraInfo) {
+                let genreTags = initElement("genre-tags", {
+                    'genres': _genres,
+                })
+                infoContainer.append(genreTags, this.createRuntime());
+            }
+            //Append
+            this.append(infoContainer)
+        }
     }
-    createRuntime(bool) {
-        if (!bool) return "";
-        return ` 
-        <span class="${this.className}__runtime">
-            <i class="${this.className}__runtime-icon far fa-clock"></i>
-            <p class="${this.className}__runtime-length"></p>
-        </span>`
+
+    createRuntime() {
+        let runtime = initElement("span", {
+            'class': `${this.className}__runtime`
+        })
+        runtime.append(
+            initElement("i", {
+                'class': `${this.className}__runtime-icon far fa-clock`
+            }),
+            initElement("p", {
+                'class': `${this.className}__runtime-length`
+            })
+        )
+        return runtime;
     }
 })
 
@@ -94,24 +138,17 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 customElements.define("genre-tags", class GenreTags extends HTMLElement {
     constructor() {
         super();
-
     }
 
     connectedCallback() {
         //HTML ATTRIBUTES
         this.className = "genre-tags"
-        this.mounted = this.hasAttribute("mounted")
-        if (!this.mounted) {
-            this.remove()
-            return
-        }
         this.render();
     }
 
     render() {
         //CUSTOM ATTRIBUTES    
         this.genreItems = JSON.parse(this.getAttribute("genres"))
-        //console.log(this.genreItems)
 
         //TEMPLATE
         let list = initElement("ul", {
@@ -128,8 +165,11 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         let item = initElement("li", {
             'class': `${this.className}__item`
         })
-
-        item.innerHTML = `<a href="${link}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
+        item.append(initElement("a", {
+            'href': link,
+            'aria-label': "navigate to category",
+            'class': `genre-${_genre}`
+        }))
         return item
     }
 })
@@ -149,25 +189,38 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
     render() {
         //CUSTOM ATTRIBUTES
         let imgPath = this.getAttribute("image-path");
-        let linkRef =  this.getAttribute("link-ref");
-        let imgSource = imgPath == "null" ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019" : `${imageBasePath}${devOrProd("w300", "w500")}${imgPath}` 
+        let linkRef = this.getAttribute("link-ref");
+        let fallBackImageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019";
+        let imgSource = imgPath === "null" ? fallBackImageSrc : `${imageBasePath}${devOrProd("w300", "w500")}${imgPath}`
         let movieTitle = this.getAttribute("movie-title");
-        //let movieID = this.getAttribute("movie-id");
-        let backlightSrc = imgSource.replace("/w500/", "/w200");
+        let shadowSrc = imgSource.replace("/w500/", "/w200");
 
         //TEMPLATE(S)
-        let template = `    
-        <div class= "${this.className}__wrapper">
-            <div class= "${this.className}__backlight-wrapper">
-                <img class="${this.className}-card__backlight" src="${backlightSrc}" alt="">
-            </div>
-            <a href="${linkRef}" aria-label="navigate to ${movieTitle} page"><img src="${imgSource}" alt=""></a>
-        </div>
-        `
-        template = imgSource ? template : ""
+        let wrapper = initElement("figure", {
+            'class': `${this.className}__wrapper`
+        })
+        //
+        let shadowWrapper = initElement("div", {
+            'class': `${this.className}__shadow-wrapper`
+        })
+        shadowWrapper.append(initElement("img", {
+            'class': `${this.className}__shadow`,
+            'src': shadowSrc,
+            'alt': "shadow for movie poster"
+        }))
 
-        //INNER HTML
-        this.innerHTML = template;
+
+        let imageLink = initElement("a", {
+            'href': linkRef,
+            'aria-label': `navigate to ${movieTitle} page`
+        })
+        imageLink.append(initElement("img", {
+            'src': imgSource,
+            'alt': `Poster for movie ${movieTitle}`
+        }))
+
+        wrapper.append(shadowWrapper,imageLink)
+        this.append(wrapper)
     }
 })
 
@@ -242,7 +295,6 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         let movieRating = Number(this.getAttribute("movie-rating")).toFixed(1);
         let voteCount = this.getAttribute("vote-count")
         if (voteCount > 1000) voteCount = (voteCount / 1000).toFixed(1) + "k"
-        this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
 
         //TEMPLATE(S)
         let template = `

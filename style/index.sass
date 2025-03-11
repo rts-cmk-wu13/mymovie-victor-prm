@@ -112,7 +112,7 @@ clickable-image
             display: block
             z-index: 1
 
-        .clickable-image__backlight-wrapper
+        .clickable-image__shadow-wrapper
             position: absolute
             height: base.$unit-4x
             width: 100%
@@ -136,7 +136,7 @@ clickable-image
         &:focus-within, &:hover
             transform: translateY(-4px)
             transition: all 0.2s
-            .clickable-image__backlight-wrapper
+            .clickable-image__shadow-wrapper
                 transform: translateY(16px) scaleY(-1)
                 opacity: 0.66
 
@@ -208,6 +208,8 @@ movie-card
         @include base.fxcol
     &[horizontal]
         @include base.fxrow
+        width: 100%
+        max-width: 22rem
         clickable-image
             height: 100%
         .clickable-image__wrapper
