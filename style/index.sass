@@ -1,0 +1,380 @@
+@use "../style/base"
+
+html
+    background: base.$gray-950
+    /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
+
+body
+    position: relative
+    min-height: 100dvh
+    color: base.$color-primary-dark
+    font: base.$text-body-1
+    padding: 0 base.$unit-1x base.$unit-6x
+
+button
+    @include base.button-base
+
+.content-main
+    @include base.fxcol
+    gap: base.$unit-2x
+
+.movie__original-title
+    white-space: nowrap
+    font-size: 0.75rem
+    color: base.$gray-500
+
+site-header
+    display: grid
+    height: base.$unit-8x
+    align-items: center
+    padding: 0 base.$unit-1x
+
+    *
+        width: fit-content
+        grid-area: 1/1
+
+    button
+        background-color: transparent
+        border: none
+        i
+            color: base.$color-primary-dark
+            font-size: base.$unit-2x
+
+    h1
+        align-self: center
+        justify-self: center
+        font: base.$text-headline
+
+    dark-mode-toggle
+        align-self: center
+        justify-self: right
+        input
+            -webkit-appearance: none
+            -moz-appearance: none
+            appearance: none
+            position: relative
+            font-size: inherit
+            width: 2em
+            height: 1em
+            box-sizing: content-box
+            border: 2px solid
+            border-radius: 1em
+            vertical-align: text-bottom
+            margin: auto
+            color: inherit
+            cursor: pointer
+
+        input:active
+            opacity: 0.6
+
+        input:before
+            content: ""
+            position: absolute
+            top: 50%
+            left: 0
+            transform: translate(0, -50%)
+            box-sizing: border-box
+            width: 0.7em
+            height: 0.7em
+            margin: 0 0.15em
+            border: 1px solid
+            border-radius: 50%
+            background: currentcolor
+            transition: 300ms left
+
+        input:checked:before
+            left: 1em
+
+.site-header--details
+    position: relative
+    z-index: 100
+    color: base.$gray-1000
+    background: linear-gradient(0deg, transparent 0%, rgba(base.$color-primary-dark,0.5) 80%)
+
+    i
+        color: base.$gray-1000
+
+clickable-image
+    isolation: isolate
+
+    .clickable-image__wrapper
+        width: 100%
+        position: relative
+        aspect-ratio: 1 / 1.45
+        margin-bottom: base.$unit-2x
+
+        img
+            position: relative
+            border-radius: base.$unit-1x
+            height: 100%
+            width: 100%
+            object-fit: cover
+            display: block
+            z-index: 1
+
+        .clickable-image__backlight-wrapper
+            position: absolute
+            height: base.$unit-4x
+            width: 100%
+            bottom: 0
+            transform: translateY(12px) scaleY(-1)
+            overflow: hidden
+            filter: blur(10px)
+            z-index: -10
+            transition: transform 0.2s
+
+            img
+                position: relative
+                object-fit: fill
+                width: 100%
+                height: base.$unit-2x
+                transform: scaleX(2)
+                transform-origin: center bottom
+                pointer-events: none
+                transition: transform 0s
+
+        &:focus-within, &:hover
+            transform: translateY(-4px)
+            transition: all 0.2s
+            .clickable-image__backlight-wrapper
+                transform: translateY(16px) scaleY(-1)
+                opacity: 0.66
+
+section-subheader
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .section-subheader__title
+        font: base.$text-subtitle-1
+
+movie-rating
+    .movie-rating
+
+        &__rating
+            display: inline-flex
+            width: 100%
+            align-items: center
+            gap: base.$unit-05x
+            color: base.$gray-300
+        &__rating-score
+            font-weight: 700
+            font-style: normal
+        &__star-icon
+            color: base.$color-accent
+        &__scale
+            display: inline-flex
+            white-space: nowrap
+        &__vote-count
+            margin-left: auto
+            font: base.$text-body-1
+
+movie-card
+    gap: base.$unit-1x
+    position: relative
+    height: 100%
+
+    scroll-snap-align: center
+
+    .movie-card
+        &__rating
+            display: inline-flex
+            width: 100%
+            align-items: center
+            gap: base.$unit-05x
+            color: base.$gray-300
+        &__rating-score
+            font-weight: 700
+            font-style: normal
+        &__star-icon
+            color: base.$color-accent
+        &__vote-count
+            margin-left: auto
+            font: base.$text-body-1
+        &__movie-title
+            font: base.$text-subtitle-2
+            transition: color 0.4s
+        &__runtime
+            display: inline-flex
+            gap: base.$unit-05x
+            align-items: center
+            font: base.$text-body-2
+            color: base.$gray-300
+    .movie-card__info-container
+        @include base.fxcol
+        gap: base.$unit-1x
+        width: 100%
+    &[vertical]
+        @include base.fxcol
+    &[horizontal]
+        @include base.fxrow
+        clickable-image
+            height: 100%
+        .clickable-image__wrapper
+            height: 100%
+    .clickable-image:hover,.clickable-image:focus-within
+        ~.movie-card__info-container .movie-card__movie-title
+            color: base.$color-primary-mid
+
+movie-list
+    animation: fadeIn 0.4s forwards
+    @include base.fxcol
+    position: relative
+    gap: base.$unit-2x
+    margin-bottom: base.$unit-3x
+
+    .movie-list
+        &__items-container
+            display: grid
+
+            padding: base.$unit-2x
+            gap: base.$unit-2x
+            position: relative
+            border-radius: base.$unit-2x
+            background-color: base.$gray-950
+            border: 1px solid base.$gray-900
+            background: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
+
+            &[horizontal]
+                @include base.infite-list-horizontal($grid-item-width: 14rem)
+                scroll-behavior: smooth
+                scroll-snap-type: x mandatory
+            &[vertical]
+                @include base.infite-list-vertical($grid-item-width: 18rem)
+
+        &__buttons-container
+            @include base.fxrow
+            position: absolute
+            z-index: 100
+            width: 100%
+            justify-content: space-between
+            padding: 0 0.75rem
+            top: 45%
+            button
+                font-size: 0.75rem
+                width: 2rem
+                height: 2rem
+                background-color: rgba(base.$color-primary-light,0.8)
+                color: base.$color-primary-mid
+                box-shadow: base.$box-shadow-2x
+                border: 1px solid base.$black-tint-100
+
+#movie-list__items-cast-members
+    @include base.infite-list-horizontal($grid-item-width: 10rem)
+    background: base.$gray-950 !important
+
+genre-tags
+    .genre-tags
+        &__list
+            @include base.fxrow
+            gap: base.$unit-1x
+            flex-wrap: wrap
+        &__item
+            display: inline-flex
+    a
+        @include base.reset-links
+        width: 100%
+        padding: base.$unit-05x base.$unit-1x
+        background-color: base.$color-primary-light
+        color: base.$color-primary-mid
+        box-shadow: base.$box-shadow-2x
+        border-radius: base.$unit-2x
+        border: 1px solid base.$black-tint-100
+        font: base.$text-caption
+
+nav-footer
+    @include base.fxrow
+    justify-content: space-evenly
+    align-items: center
+
+    width: 100%
+    max-width: base.$max-width-page
+    height: 3rem
+    background-color: rgba(base.$gray-900, 0.5)
+    backdrop-filter: blur(base.$unit-8x)
+    border-radius: base.$unit-2x base.$unit-2x 0 0
+    border: 1px solid base.$gray-800
+    box-shadow: 0rem base.$unit-1x*-1 base.$unit-2x base.$black-tint-100
+
+    position: fixed
+    bottom: 0
+    left: 50%
+    transform: translate(-50%, 0)
+
+    a
+        width: 4rem
+        text-align: center
+        color: base.$gray-400
+        font-size: 1.25rem
+        border: none
+        .site-footer__favorites-link
+            font-size: 1rem
+
+        &.nav-current-location
+            color: base.$color-primary-dark
+
+detail-backdrop
+    display: block
+    .detail-backdrop__backdrop-container
+
+        width: 100%
+        .detail-backdrop__backdrop-img
+            display: block
+            object-fit: cover
+            width: 100%
+            max-height: 24rem
+
+detail-card
+    .detail-card
+        height: 100%
+        position: relative
+        &__content-container
+            @include base.fxcol
+            height: 100%
+            gap: base.$unit-2x
+            transform: translateY(- base.$unit-2x)
+            position: relative
+            border-radius: base.$unit-2x
+            background-color: base.$gray-950
+            border: 1px solid base.$gray-900
+            background: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
+            padding: base.$unit-2x base.$unit-2x base.$unit-3x
+        &__meta-information
+            @include base.fxcol
+            gap: base.$unit-2x
+            max-width: 20rem
+        &__movie-description-section
+            @include base.fxcol
+            gap: base.$unit-05x
+            max-width: 90ch
+        &__movie-description-text
+            font: base.$text-body-1
+            color: base.$gray-500
+        &__cast-item
+            .clickable-image:hover,.clickable-image:focus-within
+                ~.detail-card__cast-name
+                    color: base.$color-primary-mid
+        &__cast-name
+            font: base.$text-subtitle-3
+        &__cast-role
+            font: base.$text-body-1
+        &__cast-as
+            color: base.$gray-500
+
+.content-details
+    position: relative
+    top: -(base.$unit-8x)
+
+detail-meta-list
+    .detail-meta-list
+        &__list
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr
+            font: base.$text-body-1
+        &__meta-item-title
+            color: base.$gray-600
+            font-weight: 700
+            font-style: normal
+            margin-bottom: base.$unit-025x
+        &__meta-item-value
+            color: base.$color-primary-dark

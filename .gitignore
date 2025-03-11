@@ -1,0 +1,4 @@
+*.fig
+misc/
+api-token.js
+useful-for-later.js
