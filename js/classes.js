@@ -111,6 +111,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     render() {
         //CUSTOM ATTRIBUTES    
         this.genreItems = JSON.parse(this.getAttribute("genres"))
+        //console.log(this.genreItems)
 
         //TEMPLATE
         let list = initElement("ul", {
@@ -123,11 +124,12 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     }
 
     createListItem(_genre) {
+        let link = `discover.html?&sort_by=popularity.desc&with_genres=${_genre}&dTopic=${_genre}`
         let item = initElement("li", {
             'class': `${this.className}__item`
         })
 
-        item.innerHTML = `<a href="discover.html?cat=genre&genre=${_genre}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
+        item.innerHTML = `<a href="${link}" aria-label="navigate to category" class="genre-${_genre}"></a>`;
         return item
     }
 })
@@ -455,15 +457,16 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
     createCastCard(_crew) {
         let imgPath = `${_crew.profile_path}`
+        let crewName = _crew.name
         let crewID = _crew.id;
         let castListItem = initElement("li", {
             'class': `${this.className}__cast-item`
         })
-        let actorLink = `discover.html?language=en-US&sort_by=release_date.asce&page=1&with_cast=${crewID}`
+        let actorLink = `discover.html?language=en-US&sort_by=release_date.asce&page=1&with_cast=${crewID}&dTopic=${crewName}`
 
         castListItem.innerHTML = `
             <clickable-image image-path="${imgPath}" movie-title="${_crew.name}" link-ref="${actorLink}"></clickable-image>
-            <h3 class="${this.className}__cast-name">${_crew.name}</h3>
+            <h3 class="${this.className}__cast-name">${crewName}</h3>
             <p class="${this.className}__cast-role"><span class="${this.className}__cast-as">as </span>${_crew.character}</p>
            
         `
