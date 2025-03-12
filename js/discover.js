@@ -66,7 +66,8 @@ function insertDiscoverCards(json) {
     genreItemsElm.append(createMovieCard(movie, "horizontal"))
     fetchData(det_base_url + movie.id, insertRuntimes)
   })
-  fetchData(genres_url, insertGenres)
+   //fetchData(genres_url, insertGenres);
+   insertGenresLocal(allGenres)
 }
 
 buildSite();

@@ -93,7 +93,14 @@ function setAttributes(el, attrs) {
 function insertGenres(json) {
     json.genres.map(genre => {
         let list = document.querySelectorAll(`.genre-${genre.id}`);
-        Array.from(list).map(item => item.innerHTML = genre.name)
+        Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
+    })
+}
+
+function insertGenresLocal(arr) {
+    arr.map(genre => {
+        let list = document.querySelectorAll(`.genre-${genre.id}`);
+        Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
     })
 }
 
@@ -123,79 +130,98 @@ console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"
 let allGenres = [
     {
         "id": 28,
-        "name": "Action"
+        "name": "Action",
+        "emoji": "🧨"
     },
     {
         "id": 12,
-        "name": "Adventure"
+        "name": "Adventure",
+        "emoji": "🍿"
     },
     {
         "id": 16,
-        "name": "Animation"
+        "name": "Animation",
+        "emoji": "🎨"
     },
     {
         "id": 35,
-        "name": "Comedy"
+        "name": "Comedy",
+        "emoji": "🤡"
     },
     {
         "id": 80,
-        "name": "Crime"
+        "name": "Crime",
+        "emoji": "🚨"
     },
     {
         "id": 99,
-        "name": "Documentary"
+        "name": "Documentary",
+        "emoji": "📼"
     },
     {
         "id": 18,
-        "name": "Drama"
+        "name": "Drama",
+        "emoji": "🎭"
     },
     {
         "id": 10751,
-        "name": "Family"
+        "name": "Family",
+        "emoji": "🧸"
     },
     {
         "id": 14,
-        "name": "Fantasy"
+        "name": "Fantasy",
+        "emoji": "🐲"
     },
     {
         "id": 36,
-        "name": "History"
+        "name": "History",
+        "emoji": "⏳"
     },
     {
         "id": 27,
-        "name": "Horror"
+        "name": "Horror",
+        "emoji": "👹"
     },
     {
         "id": 10402,
-        "name": "Music"
+        "name": "Music",
+        "emoji": "🎸"
     },
     {
         "id": 9648,
-        "name": "Mystery"
+        "name": "Mystery",
+        "emoji": "🔎"
     },
     {
         "id": 10749,
-        "name": "Romance"
+        "name": "Romance",
+        "emoji": "💘"
     },
     {
         "id": 878,
-        "name": "Science Fiction"
+        "name": "Science Fiction",
+        "emoji": "🤖"
     },
     {
         "id": 10770,
-        "name": "TV Movie"
+        "name": "TV Movie",
+        "emoji": "📺"
     },
     {
         "id": 53,
-        "name": "Thriller"
+        "name": "Thriller",
+        "emoji": "🔪"
     },
     {
         "id": 10752,
-        "name": "War"
+        "name": "War",
+        "emoji": "⚔️"
     },
     {
         "id": 37,
-        "name": "Western"
+        "name": "Western",
+        "emoji": "🐴"
     }
 
 ]
