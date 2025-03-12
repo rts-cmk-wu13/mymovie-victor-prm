@@ -21,7 +21,6 @@ function buildSite() {
   let headerElm = initElement("header")
   let siteHeaderElm = initElement("site-header", {
     'header-title': "Home",
-    'back': "",
     'toggle': "",
   })
   headerElm.append(siteHeaderElm)

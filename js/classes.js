@@ -39,7 +39,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let headerTitle = initElement("h1", {
             'class': `${this.className}__header-title`,
         })
-        .ihtml("Home")
+            .ihtml("Home")
         this.append(headerTitle)
     }
 
@@ -106,7 +106,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let movieTitle = initElement("h3", {
             'class': `${this.className}__movie-title`,
         })
-        .ihtml(this._movieTitle + this._originalTitle)
+            .ihtml(this._movieTitle + this._originalTitle)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
@@ -176,7 +176,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
         item.append(initElement("a", {
             'href': link,
             'aria-label': "navigate to category",
-            'class': `genre-${_genre}`
+            'class': `${this.className}__link genre-${_genre}`
         }))
         return item
     }
@@ -255,7 +255,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         this._sectionTitle = this.getAttribute("section-title")
         this._direction = checkLayoutDirection(this)
         this._containerID = setMovieListID(this.id);
-       
+
         this.ariaLabel = `Category ${this._sectionTitle}`//Setting this here because section title is needed
 
         //TEMPLATE(S)
@@ -324,17 +324,17 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         let score = initElement("em", {
             'class': `${this.className}__rating-score`
         })
-        .ihtml(this._movieRating);
+            .ihtml(this._movieRating);
 
         let scale = initElement("span", {
             'class': `${this.className}__scale`
         })
-        .ihtml("/ 10 IMDb");
+            .ihtml("/ 10 IMDb");
 
         let voteCount = initElement("span", {
             'class': `${this.className}__vote-count`
         })
-        .ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
+            .ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
 
         rating.append(starIcon, score, scale, voteCount)
         this.append(rating)
@@ -364,17 +364,17 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
             let hGroup = initElement("hgroup", {
 
             })
-            let heading = initElement("h2",{
+            let heading = initElement("h2", {
                 'class': `${this.className}__title`
             })
-            .ihtml(this._headingTitle)
+                .ihtml(this._headingTitle)
             hGroup.append(heading)
 
-            if(this._includeButton){
+            if (this._includeButton) {
                 let button = initElement("button", {
                     'class': `${this.className}__see-more-btn`
                 })
-                .ihtml("See more")
+                    .ihtml("See more")
                 hGroup.append(button)
             }
             this.append(hGroup)
@@ -401,16 +401,16 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         let _isDarkMode = getLS("dark-mode")
 
         //TEMPLATE
-        let toggleLabel = initElement("label",{
-            'for' : "dark-mode-input",
+        let toggleLabel = initElement("label", {
+            'for': "dark-mode-input",
             'aria-label': "Dark mode",
         })
-        let toggleIcon = initElement("i",{
-            'class' : `${this.className}__icon`
+        let toggleIcon = initElement("i", {
+            'class': `${this.className}__icon`
         })
         toggleLabel.append(toggleIcon)
 
-        let toggleInput = initElement("input",{
+        let toggleInput = initElement("input", {
             'type': "checkbox",
             'role': "switch",
             'id': "dark-mode-input"
@@ -422,7 +422,7 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
             this.updateIcon()
         });
 
-      
+        //Used for updating icon
         this.iconElm = toggleIcon;
         toggleInput.checked = _isDarkMode;
 
@@ -432,7 +432,7 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
     updateIcon() {
         let isDarkMode = getLS("dark-mode")
         let iconSource = isDarkMode ? "far fa-moon" : "far fa-sun";
-        this.iconElm.className = `${ this.iconElm.className}__icon ${iconSource}`
+        this.iconElm.className = `${this.iconElm.className}__icon ${iconSource}`
     }
 })
 
@@ -455,17 +455,27 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
         //CUSTOM ATTRIBUTES
         /* let current = this.getAttribute("current"); */
 
-        //TEMPLATE(S)
-        let homeButton = `<a href="/" aria-label="navigate to home"><i class="fas fa-film ${this.className}__home-link"></i></a>`
-        let nowPlayingButton = `<a href="/nowplaying.html" aria-label="navigate to now playing"><i class="fa fa-ticket ${this.className}__now-playing-link"></i></a>`
-        let favoritesButton = `<a href="/favorites.html" aria-label="navigate to favorites"><i class="fas fa-heart ${this.className}__favorites-link"></i></a>`
+        //TEMPLATE
+        let homeNav = initElement("a", {
+            'class': `${this.className}__nav-link`,
+            'href': "/index.html",
+            'aria-label': "navigate to home",
+        }).ihtml(`<i class="fas fa-film ${this.className}__home-link"></i>`)
 
-        //INNER HTML
-        this.innerHTML = `
-        ${homeButton}
-        ${nowPlayingButton}
-        ${favoritesButton}
-        `
+        let nowPlayingNav = initElement("a", {
+            'class': `${this.className}__nav-link`,
+            'href': "/nowplaying.html",
+            'aria-label': "navigate to now playing",
+        }).ihtml(`<i class="fa fa-ticket ${this.className}__now-playing-link"></i>`)
+
+        let favoritesNav = initElement("a", {
+            'class': `${this.className}__nav-link`,
+            'href': "/favorites.html",
+            'aria-label': "navigate to favorites",
+        }).ihtml(`<i class="fas fa-heart ${this.className}__favorites-link"></i>`)
+
+        //APPEND
+        this.append(homeNav, nowPlayingNav, favoritesNav)
     }
 
     handleCurrentPage() {
@@ -474,6 +484,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
         links.forEach(link => {
             let linkRef = link.getAttribute("href");
             if (linkRef === location) {
+                console.log(linkRef)
                 link.classList.add("nav-current-location")
             } else {
                 link.classList.remove("nav-current-location")

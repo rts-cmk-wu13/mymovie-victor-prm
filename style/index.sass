@@ -277,7 +277,8 @@ genre-tags
             flex-wrap: wrap
         &__item
             display: inline-flex
-    a
+    
+    .genre-tags__link
         @include base.reset-links
         width: 100%
         padding: base.$unit-05x base.$unit-1x
@@ -287,6 +288,9 @@ genre-tags
         border-radius: base.$unit-2x
         border: 1px solid base.$black-tint-100
         font: base.$text-caption
+
+        :visited
+            color:  inherit
 
 nav-footer
     @include base.fxrow
@@ -307,10 +311,10 @@ nav-footer
     left: 50%
     transform: translate(-50%, 0)
 
-    a
+    .nav-footer__nav-link
         width: 4rem
         text-align: center
-        color: base.$gray-400
+        color: base.$gray-500
         font-size: 1.25rem
         border: none
         .site-footer__favorites-link

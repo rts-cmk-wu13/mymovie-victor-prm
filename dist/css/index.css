@@ -394,7 +394,7 @@ genre-tags .genre-tags__list {
 genre-tags .genre-tags__item {
   display: inline-flex;
 }
-genre-tags a {
+genre-tags .genre-tags__link {
   color: black;
   text-decoration: none;
   width: 100%;
@@ -405,6 +405,9 @@ genre-tags a {
   border-radius: 1rem;
   border: 1px solid rgba(26, 26, 26, 0.2);
   font: 800 0.575rem/normal Mulish, Arial, Helvetica, sans-serif;
+}
+genre-tags .genre-tags__link :visited {
+  color: inherit;
 }
 
 nav-footer {
@@ -427,17 +430,17 @@ nav-footer {
   left: 50%;
   transform: translate(-50%, 0);
 }
-nav-footer a {
+nav-footer .nav-footer__nav-link {
   width: 4rem;
   text-align: center;
-  color: #666666;
+  color: #7f7f7f;
   font-size: 1.25rem;
   border: none;
 }
-nav-footer a .site-footer__favorites-link {
+nav-footer .nav-footer__nav-link .site-footer__favorites-link {
   font-size: 1rem;
 }
-nav-footer a.nav-current-location {
+nav-footer .nav-footer__nav-link.nav-current-location {
   color: #110E47;
 }
 
