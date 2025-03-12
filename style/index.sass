@@ -1,6 +1,7 @@
 @use "../style/base"
 
 html
+    animation: fadeIn 0.6s forwards ease-in
     background: base.$gray-950
     /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
 
@@ -9,7 +10,7 @@ body
     min-height: 100dvh
     color: base.$color-primary-dark
     font: base.$text-body-1
-    padding: 0 base.$unit-1x base.$unit-6x
+    padding: 0 0 base.$unit-6x
 
 button
     @include base.button-base
@@ -17,6 +18,7 @@ button
 .content-main
     @include base.fxcol
     gap: base.$unit-2x
+    margin: 0 base.$unit-2x
 
 .movie__original-title
     white-space: nowrap
@@ -27,7 +29,7 @@ site-header
     display: grid
     height: base.$unit-8x
     align-items: center
-    padding: 0 base.$unit-1x
+    padding: 0 base.$unit-2x
 
     *
         width: fit-content
@@ -46,6 +48,9 @@ site-header
         font: base.$text-headline
 
     dark-mode-toggle
+        display: inline-flex
+        gap: base.$unit-05x
+        align-items: center
         align-self: center
         justify-self: right
         input
@@ -102,6 +107,7 @@ clickable-image
         position: relative
         aspect-ratio: 1 / 1.45
         margin-bottom: base.$unit-2x
+        transition: scale 0.5s
 
         img
             position: relative
@@ -112,16 +118,16 @@ clickable-image
             display: block
             z-index: 1
 
-        .clickable-image__backlight-wrapper
+        .clickable-image__shadow-wrapper
             position: absolute
             height: base.$unit-4x
             width: 100%
             bottom: 0
-            transform: translateY(12px) scaleY(-1)
+            transform: translateY(8px) scaleY(-1)
             overflow: hidden
             filter: blur(10px)
             z-index: -10
-            transition: transform 0.2s
+            transition: opacity 0.5s
 
             img
                 position: relative
@@ -131,21 +137,19 @@ clickable-image
                 transform: scaleX(2)
                 transform-origin: center bottom
                 pointer-events: none
-                transition: transform 0s
 
         &:focus-within, &:hover
-            transform: translateY(-4px)
-            transition: all 0.2s
-            .clickable-image__backlight-wrapper
-                transform: translateY(16px) scaleY(-1)
-                opacity: 0.66
+            scale: 1.025
+            .clickable-image__shadow-wrapper
+                opacity: 0.75
 
-section-subheader
-    display: flex
-    justify-content: space-between
-    align-items: center
+section-subheading
+    hgroup
+        display: flex
+        justify-content: space-between
+        align-items: center
 
-    .section-subheader__title
+    .section-subheading__title
         font: base.$text-subtitle-1
 
 movie-rating
@@ -208,6 +212,8 @@ movie-card
         @include base.fxcol
     &[horizontal]
         @include base.fxrow
+        width: 100%
+        max-width: 24rem
         clickable-image
             height: 100%
         .clickable-image__wrapper
@@ -217,7 +223,6 @@ movie-card
             color: base.$color-primary-mid
 
 movie-list
-    animation: fadeIn 0.4s forwards
     @include base.fxcol
     position: relative
     gap: base.$unit-2x
@@ -226,7 +231,6 @@ movie-list
     .movie-list
         &__items-container
             display: grid
-
             padding: base.$unit-2x
             gap: base.$unit-2x
             position: relative
@@ -244,6 +248,7 @@ movie-list
 
         &__buttons-container
             @include base.fxrow
+            pointer-events: none
             position: absolute
             z-index: 100
             width: 100%
@@ -251,6 +256,7 @@ movie-list
             padding: 0 0.75rem
             top: 45%
             button
+                pointer-events: auto
                 font-size: 0.75rem
                 width: 2rem
                 height: 2rem
@@ -267,20 +273,24 @@ genre-tags
     .genre-tags
         &__list
             @include base.fxrow
-            gap: base.$unit-1x
+            gap: base.$unit-05x
             flex-wrap: wrap
         &__item
             display: inline-flex
-    a
+
+    .genre-tags__link
         @include base.reset-links
         width: 100%
-        padding: base.$unit-05x base.$unit-1x
+        padding: base.$unit-025x base.$unit-1x
         background-color: base.$color-primary-light
         color: base.$color-primary-mid
         box-shadow: base.$box-shadow-2x
         border-radius: base.$unit-2x
         border: 1px solid base.$black-tint-100
         font: base.$text-caption
+
+        :visited
+            color: inherit
 
 nav-footer
     @include base.fxrow
@@ -301,10 +311,10 @@ nav-footer
     left: 50%
     transform: translate(-50%, 0)
 
-    a
+    .nav-footer__nav-link
         width: 4rem
         text-align: center
-        color: base.$gray-400
+        color: base.$gray-500
         font-size: 1.25rem
         border: none
         .site-footer__favorites-link
@@ -316,13 +326,48 @@ nav-footer
 detail-backdrop
     display: block
     .detail-backdrop__backdrop-container
-
         width: 100%
+        position: relative
         .detail-backdrop__backdrop-img
             display: block
             object-fit: cover
             width: 100%
             max-height: 24rem
+        .detail-backdrop__play-button-container
+            @include base.fxcol
+            gap: base.$unit-1x
+            align-items: center
+
+            position: absolute
+            transform: translate(-50%, -50%)
+            left: 50%
+            top: 75%
+
+        .detail-backdrop__play-button
+            min-width: 2rem
+            min-height: 2rem
+            background: base.$gray-950
+            border-color: base.$black-tint-100
+            color: base.$color-primary-dark
+            font-size: 1rem
+            box-shadow: 0 0 base.$unit-2x base.$unit-1x rgba(base.$color-primary-dark,0.4)
+
+        .detail-backdrop__play-button-text
+            color: base.$gray-950
+            font: base.$text-body-1
+            font-weight: 700
+            text-shadow: 0 0 base.$unit-1x rgba(base.$color-primary-dark,0.6)
+
+    .detail-backdrop-trailer-modal
+        width: 100%
+        &::backdrop
+            background-color: rgba(base.$color-primary-dark,0.8)
+            backdrop-filter: blur(base.$unit-1x)
+    
+    .detail-backdrop-trailer
+        width: 100%
+        aspect-ratio: 192/108
+        top: 50%
 
 detail-card
     .detail-card
@@ -338,7 +383,7 @@ detail-card
             background-color: base.$gray-950
             border: 1px solid base.$gray-900
             background: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
-            padding: base.$unit-2x base.$unit-2x base.$unit-3x
+            padding: base.$unit-2x base.$unit-2x 0
         &__meta-information
             @include base.fxcol
             gap: base.$unit-2x

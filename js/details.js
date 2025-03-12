@@ -41,9 +41,8 @@ buildSite();
 
 function insertDetails(json) {
   //Inject Details
-  console.log(json)
   let mainElm = document.querySelector(`.content-details`)
   mainElm.append(createDetailCard(json));
-  fetchData(genres_url, insertGenres);
-
+  //fetchData(genres_url, insertGenres);
+  insertGenresLocal(allGenres)
 }
