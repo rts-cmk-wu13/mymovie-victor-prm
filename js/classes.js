@@ -523,14 +523,30 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
             })
 
             let playButton = initElement("button", {
-                'class': `${this.className}__play-button`
+                'class': `${this.className}__play-button`,
+                'popovertarget': "trailer-modal"
             }).ihtml(`<i class="fas fa-play"></i>`)
 
             let playButtonText = initElement("p", {
-                'class': `${this.className}__play-button-text`
+                'class': `${this.className}__play-button-text`,
             }).ihtml("Play Trailer")
 
-            playButtonContainer.append(playButton, playButtonText)
+            let videoModal = initElement("div", {
+                'class': `${this.className}-trailer-modal`,
+                'id': "trailer-modal",
+                'popover': ""
+            })
+            let video = initElement("iframe", {
+                'class': `${this.className}-trailer`,
+                'src': `https://www.youtube-nocookie.com/embed/${this._trailerSource}?si=bOnthSOlKCEOTKBr&amp;controls=0`,
+                'title': "YouTube video player",
+                'frame-border': 0,
+                'allow': "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+                'referrerpolicy': "strict-origin-when-cross-origin",
+                'allowfullscreen': ""
+            })
+            videoModal.append(video)
+            playButtonContainer.append(playButton, playButtonText, videoModal)
 
             backdropContainer.append(playButtonContainer)
         }

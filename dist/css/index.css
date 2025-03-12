@@ -483,6 +483,19 @@ detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__play-butt
   font-weight: 700;
   text-shadow: 0 0 0.5rem rgba(17, 14, 71, 0.6);
 }
+detail-backdrop .detail-backdrop-trailer-modal {
+  width: 100%;
+}
+detail-backdrop .detail-backdrop-trailer-modal::backdrop {
+  background-color: rgba(17, 14, 71, 0.8);
+  -webkit-backdrop-filter: blur(0.5rem);
+          backdrop-filter: blur(0.5rem);
+}
+detail-backdrop .detail-backdrop-trailer {
+  width: 100%;
+  aspect-ratio: 192/108;
+  top: 50%;
+}
 
 detail-card .detail-card {
   height: 100%;

@@ -337,12 +337,12 @@ detail-backdrop
             @include base.fxcol
             gap: base.$unit-1x
             align-items: center
-            
+
             position: absolute
             transform: translate(-50%, -50%)
             left: 50%
             top: 75%
-        
+
         .detail-backdrop__play-button
             min-width: 2rem
             min-height: 2rem
@@ -351,14 +351,23 @@ detail-backdrop
             color: base.$color-primary-dark
             font-size: 1rem
             box-shadow: 0 0 base.$unit-2x base.$unit-1x rgba(base.$color-primary-dark,0.4)
-        
+
         .detail-backdrop__play-button-text
             color: base.$gray-950
             font: base.$text-body-1
             font-weight: 700
             text-shadow: 0 0 base.$unit-1x rgba(base.$color-primary-dark,0.6)
 
-
+    .detail-backdrop-trailer-modal
+        width: 100%
+        &::backdrop
+            background-color: rgba(base.$color-primary-dark,0.8)
+            backdrop-filter: blur(base.$unit-1x)
+    
+    .detail-backdrop-trailer
+        width: 100%
+        aspect-ratio: 192/108
+        top: 50%
 
 detail-card
     .detail-card
