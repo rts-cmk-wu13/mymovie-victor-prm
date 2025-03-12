@@ -510,6 +510,8 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         this._imageTitle = this.getAttribute("image-title");
         this._imgPath = this.getAttribute("image-path");
         this._imgSource = `${imageBasePath}original${this._imgPath}`;
+        this._trailerSource = this.getAttribute("trailer-link");
+        console.log(this._trailerSource)
 
         //TEMPLATE(S)
         let backdropContainer = initElement("figure", {
@@ -521,6 +523,26 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
             'class': `${this.className}__backdrop-img`
         })
         backdropContainer.append(backdrop)
+
+        if (this._trailerSource) {
+            let playButtonContainer = initElement("div", {
+                'class': `${this.className}__play-button-container`
+            })
+
+            let playButton = initElement("button", {
+                'class': `${this.className}__play-button`
+            })
+                .ihtml(`<i class="fas fa-play"></i>`)
+
+            let playButtonText = initElement("p", {
+                'class': `${this.className}__play-button-text`
+            }).ihtml("Play Trailer")
+
+            playButtonContainer.append(playButton, playButtonText)
+
+            backdropContainer.append(playButtonContainer)
+        }
+
         this.append(backdropContainer)
     }
 })
@@ -608,20 +630,18 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         //Find Trailer
         this._trailer = this._dataObject.videos.results.filter(video => (video.type === "Trailer" && video.site === "YouTube"))[0].key;
         console.log(this._trailer)
-        
+
         //Format Genres
         this._genres = this._dataObject.genres
         this._genres = JSON.stringify(this._genres.map(genre => genre.id))
         //genres = genres.replaceAll('"',"&quot;") //Ugly but works
 
 
-
-
-
         //TEMPLATE(S)
         let backdrop = initElement("detail-backdrop", {
             'image-path': this._imgPath,
-            'image-title': this._movieTitle
+            'image-title': this._movieTitle,
+            'trailer-link': this._trailer
         })
         let contentContainer = initElement("div", {
             'class': `${this.className}__content-container`

@@ -277,7 +277,7 @@ genre-tags
             flex-wrap: wrap
         &__item
             display: inline-flex
-    
+
     .genre-tags__link
         @include base.reset-links
         width: 100%
@@ -290,7 +290,7 @@ genre-tags
         font: base.$text-caption
 
         :visited
-            color:  inherit
+            color: inherit
 
 nav-footer
     @include base.fxrow
@@ -326,13 +326,39 @@ nav-footer
 detail-backdrop
     display: block
     .detail-backdrop__backdrop-container
-
         width: 100%
+        position: relative
         .detail-backdrop__backdrop-img
             display: block
             object-fit: cover
             width: 100%
             max-height: 24rem
+        .detail-backdrop__play-button-container
+            @include base.fxcol
+            gap: base.$unit-1x
+            align-items: center
+            
+            position: absolute
+            transform: translate(-50%, -50%)
+            left: 50%
+            top: 75%
+        
+        .detail-backdrop__play-button
+            min-width: 2rem
+            min-height: 2rem
+            background: base.$gray-950
+            border-color: base.$black-tint-100
+            color: base.$color-primary-dark
+            font-size: 1rem
+            box-shadow: 0 0 base.$unit-2x base.$unit-1x rgba(base.$color-primary-dark,0.4)
+        
+        .detail-backdrop__play-button-text
+            color: base.$gray-950
+            font: base.$text-body-1
+            font-weight: 700
+            text-shadow: 0 0 base.$unit-1x rgba(base.$color-primary-dark,0.6)
+
+
 
 detail-card
     .detail-card
