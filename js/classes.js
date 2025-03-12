@@ -88,7 +88,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             //Clickable Image
             let clickableImage = initElement("clickable-image", {
                 'image-path': this._imgPath,
-                'movie-title': this._movieTitle,
+                'image-title': this._movieTitle,
                 'link-ref': `details.html?id=${this._movieID}`,
             })
             this.append(clickableImage)
@@ -200,7 +200,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         this._linkRef = this.getAttribute("link-ref");
         this._fallBackImageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019";
         this._imgSource = this._imgPath === "null" ? this._fallBackImageSrc : `${imageBasePath}${devOrProd("w300", "w500")}${this._imgPath}`
-        this._movieTitle = this.getAttribute("movie-title");
+        this._movieTitle = this.getAttribute("image-title");
         this._shadowSrc = this._imgSource.replace("/w500/", "/w200");
 
         //TEMPLATE(S)
@@ -704,7 +704,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
         let actorImage = initElement("clickable-image", {
             'image-path': imgPath,
-            'movie-title': _crew.name,
+            'image-title': _crew.name,
             'link-ref': actorLink
         })
 
