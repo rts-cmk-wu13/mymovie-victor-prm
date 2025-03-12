@@ -499,7 +499,7 @@ detail-card .detail-card__content-container {
   background-color: #f2f2f2;
   border: 1px solid #e5e5e5;
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
-  padding: 1rem 1rem 1.5rem;
+  padding: 1rem 1rem 0;
 }
 detail-card .detail-card__meta-information {
   display: flex;

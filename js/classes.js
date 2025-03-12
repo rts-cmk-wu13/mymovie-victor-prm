@@ -38,8 +38,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
     createHeaderTitle() {
         let headerTitle = initElement("h1", {
             'class': `${this.className}__header-title`,
-        })
-            .ihtml(this._headerTitle)
+        }).ihtml(this._headerTitle)
         this.append(headerTitle)
     }
 
@@ -105,8 +104,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
         let movieTitle = initElement("h3", {
             'class': `${this.className}__movie-title`,
-        })
-            .ihtml(this._movieTitle + this._originalTitle)
+        }).ihtml(this._movieTitle + this._originalTitle)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
@@ -323,18 +321,15 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
 
         let score = initElement("em", {
             'class': `${this.className}__rating-score`
-        })
-            .ihtml(this._movieRating);
+        }).ihtml(this._movieRating);
 
         let scale = initElement("span", {
             'class': `${this.className}__scale`
-        })
-            .ihtml("/ 10 IMDb");
+        }).ihtml("/ 10 IMDb");
 
         let voteCount = initElement("span", {
             'class': `${this.className}__vote-count`
-        })
-            .ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
+        }).ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
 
         rating.append(starIcon, score, scale, voteCount)
         this.append(rating)
@@ -366,15 +361,13 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
             })
             let heading = initElement("h2", {
                 'class': `${this.className}__title`
-            })
-                .ihtml(this._headingTitle)
+            }).ihtml(this._headingTitle)
             hGroup.append(heading)
 
             if (this._includeButton) {
                 let button = initElement("button", {
                     'class': `${this.className}__see-more-btn`
-                })
-                    .ihtml("See more")
+                }).ihtml("See more")
                 hGroup.append(button)
             }
             this.append(hGroup)
@@ -531,8 +524,7 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
 
             let playButton = initElement("button", {
                 'class': `${this.className}__play-button`
-            })
-                .ihtml(`<i class="fas fa-play"></i>`)
+            }).ihtml(`<i class="fas fa-play"></i>`)
 
             let playButtonText = initElement("p", {
                 'class': `${this.className}__play-button-text`
@@ -580,9 +572,8 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
         })
         let itemContentContainer = initElement("div", {
             'class': `${this.className}__meta-item`
-        })
-            .ihtml(`<p class="${this.className}__meta-item-title">${_key}</p>
-                <p class="${this.className}__meta-item-value">${_value}</p>`)
+        }).ihtml(`<p class="${this.className}__meta-item-title">${_key}</p>
+                  <p class="${this.className}__meta-item-value">${_value}</p>`)
 
         item.append(itemContentContainer)
         return item
@@ -734,13 +725,11 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
         let actorName = initElement("h3", {
             'class': `${this.className}__cast-name`
-        })
-            .ihtml(crewName)
+        }).ihtml(crewName)
 
         let actorRole = initElement("p", {
             'class': `${this.className}__cast-role`
-        })
-            .ihtml(`<span class="${this.className}__cast-as">as </span>${_crew.character}`)
+        }).ihtml(`<span class="${this.className}__cast-as">as </span>${_crew.character}`)
 
         castListItem.append(actorImage, actorName, actorRole)
 
