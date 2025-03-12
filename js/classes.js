@@ -510,14 +510,14 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         this._imageTitle = this.getAttribute("image-title");
         this._imgPath = this.getAttribute("image-path");
         this._imgSource = `${imageBasePath}original${this._imgPath}`;
-        
+
         //TEMPLATE(S)
-        let backdropContainer = initElement("figure",{
-            'class' : `${this.className}__backdrop-container`
+        let backdropContainer = initElement("figure", {
+            'class': `${this.className}__backdrop-container`
         })
-        let backdrop = initElement("img",{
-            'src' : this._imgSource,
-            'alt' : `Backdrop image for ${this._imageTitle}`,
+        let backdrop = initElement("img", {
+            'src': this._imgSource,
+            'alt': `Backdrop image for ${this._imageTitle}`,
             'class': `${this.className}__backdrop-img`
         })
         backdropContainer.append(backdrop)
@@ -541,7 +541,6 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
     render() {
         //CUSTOM ATTRIBUTES    
         this.metaItems = JSON.parse(this.getAttribute("meta-items"))
-        console.log(this.metaItems, typeof this.metaItems)
 
         //TEMPLATE
         let list = initElement("ul", {
@@ -557,10 +556,10 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
         let item = initElement("li", {
             'class': `${this.className}__item`
         })
-        let itemContentContainer = initElement("div",{
-            'class' : `${this.className}__meta-item`
+        let itemContentContainer = initElement("div", {
+            'class': `${this.className}__meta-item`
         })
-        .ihtml(`<p class="${this.className}__meta-item-title">${_key}</p>
+            .ihtml(`<p class="${this.className}__meta-item-title">${_key}</p>
                 <p class="${this.className}__meta-item-value">${_value}</p>`)
 
         item.append(itemContentContainer)
@@ -606,14 +605,20 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         this._castArray = this._dataObject.credits.cast
         this._castListID = "items-cast-members";
 
+        //Find Trailer
+        this._trailer = this._dataObject.videos.results.filter(video => (video.type === "Trailer" && video.site === "YouTube"))[0].key;
+        console.log(this._trailer)
+        
         //Format Genres
         this._genres = this._dataObject.genres
         this._genres = JSON.stringify(this._genres.map(genre => genre.id))
         //genres = genres.replaceAll('"',"&quot;") //Ugly but works
 
+
+
+
+
         //TEMPLATE(S)
-
-
         let backdrop = initElement("detail-backdrop", {
             'image-path': this._imgPath,
             'image-title': this._movieTitle
@@ -657,7 +662,6 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
             'meta-items': this._metaArray
         })
         metaInfoContainer.append(movieRating, genreTags, detailMetaList)
-        console.log(metaInfoContainer)
         return metaInfoContainer
     }
 
