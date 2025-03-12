@@ -40,7 +40,7 @@ function buildSite() {
 
   //Main
   let mainElm = initElement("main", {
-    'class': "main-content",
+    'class': "content-main",
   })
   let genreElm = initElement("movie-list", {
     'section-title': discoverTitle,

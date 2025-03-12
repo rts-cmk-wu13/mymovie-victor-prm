@@ -39,7 +39,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let headerTitle = initElement("h1", {
             'class': `${this.className}__header-title`,
         })
-            .ihtml("Home")
+            .ihtml(this._headerTitle)
         this.append(headerTitle)
     }
 
@@ -509,59 +509,103 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
     connectedCallback() {
         this.className = "detail-card"
         this.render();
-        this.createCastList(this._dataObject.credits.cast);
     }
 
     render() {
         //CUSTOM ATTRIBUTES
-        //let headerTitle = this.getAttribute("header-title");
-        //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
-        let imgPath = this._dataObject.backdrop_path;
-        let movieRating = this._dataObject.vote_average
-        let voteCount = this._dataObject.vote_count;
-        let genres = this._dataObject.genres
-        let description = this._dataObject.overview
+        this._imgPath = this._dataObject.backdrop_path;
+        this._movieRating = this._dataObject.vote_average
+        this._voteCount = this._dataObject.vote_count;
+        this._description = this._dataObject.overview
+        this._movieTitle = this._dataObject.title
+        this._originalTitle = checkOriginalTitle(this._dataObject);
+        this._movieTagline = this._dataObject.tagline;
+        this._metaArray = this.createMetaArray();
+        this._castArray = this._dataObject.credits.cast
+        this._castListID = "items-cast-members";
 
         //Format Genres
-        genres = JSON.stringify(genres.map(genre => genre.id))
+        this._genres = this._dataObject.genres
+        this._genres = JSON.stringify(this._genres.map(genre => genre.id))
         //genres = genres.replaceAll('"',"&quot;") //Ugly but works
 
-        let movieTitle = this._dataObject.title
-        let originalTitle = checkOriginalTitle(this._dataObject);
-        let movieTagline = this._dataObject.tagline;
-        let metaArray = this.createMetaArray();
-        //console.log(metaArray)
-
         //TEMPLATE(S)
-        let template = `
-        <detail-backdrop image-path="${imgPath}"></detail-backdrop>
-        <div class="${this.className}__content-container">
-            <hgroup>
-                <h1 class="${this.className}__movie-title">${movieTitle}${originalTitle}</h1>
-                <p class="${this.className}__movie-tagline">${movieTagline}</p>
-            </hgroup>
-            <div class="${this.className}__meta-information">
-                <movie-rating parent-class="${this.className}" movie-rating="${movieRating}" vote-count="${voteCount}"></movie-rating>
-                <genre-tags genres="${genres}" mounted></genre-tags>
-                <detail-meta-list meta-items="${metaArray}"></detail-meta-list>
-            </div>
-            <section class="${this.className}__movie-description-section">
-                <section-subheading header-title="Description"></section-subheading>
-                <p class="${this.className}__movie-description-text">${description}</p> 
-            </section>
-            <movie-list class="${this.className}__cast-list" id="items-cast-members" section-title="Cast" horizontal></movie-list>
-        </div>
-        `
 
-        //INNER HTML
-        this.innerHTML = template;
+
+        let backdrop = initElement("detail-backdrop", {
+            'image-path': this._imgPath
+        })
+        let contentContainer = initElement("div", {
+            'class': `${this.className}__content-container`
+        })
+        contentContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription(), this.createCastList())
+        this.append(backdrop, contentContainer)
+        this.fillCastList();
     }
 
-    createCastList(_castArray) {
-        let castListElm = document.querySelector(`#${getMovieListID("items-cast-members")}`)
-        _castArray.map(crew => {
-            castListElm.append(this.createCastCard(crew));
-            //console.log(this.createCastCard(crew))
+
+    createHeading() {
+        let hGroup = initElement("hgroup")
+        let movieTitle = initElement("h1", {
+            'class': `${this.className}__movie-title`
+        }).ihtml(this._movieTitle + this._originalTitle)
+
+        let tagline = initElement("p", {
+            'class': `${this.className}__movie-tagline`
+        }).ihtml(this._movieTagline)
+
+        hGroup.append(movieTitle, tagline)
+        return hGroup;
+    }
+
+    createMetaInfo() {
+        let metaInfoContainer = initElement("div", {
+            'class': `${this.className}__meta-information`
+        })
+        let movieRating = initElement("movie-rating", {
+            'parent-class': this.className,
+            'movie-rating': this._movieRating,
+            'vote-count': this._voteCount
+        })
+        let genreTags = initElement("genre-tags", {
+            'genres': this._genres,
+        })
+        let detailMetaList = initElement("detail-meta-list", {
+            'meta-items': this._metaArray
+        })
+        metaInfoContainer.append(movieRating, genreTags, detailMetaList)
+        console.log(metaInfoContainer)
+        return metaInfoContainer
+    }
+
+    createDescription() {
+        let descriptionSection = initElement("section", {
+            'class': `${this.className}__movie-description-section`
+        })
+        let subheading = initElement("section-subheading", {
+            'header-title': "Description",
+        })
+        let descriptionText = initElement("p", {
+            'class': `${this.className}__movie-description-text`
+        }).ihtml(this._description)
+
+        descriptionSection.append(subheading, descriptionText)
+        return descriptionSection;
+    }
+
+    createCastList() {
+        let castList = initElement("movie-list", {
+            'class': `${this.className}__cast-list`,
+            'id': this._castListID,
+            'section-title': "Cast",
+            'horizontal': ""
+        })
+        return castList;
+    }
+
+    fillCastList() {
+        this._castArray.map(crew => {
+            this.querySelector(`#${getMovieListID(this._castListID)}`).appendChild(this.createCastCard(crew));
         })
     }
 
@@ -569,17 +613,30 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let imgPath = `${_crew.profile_path}`
         let crewName = _crew.name
         let crewID = _crew.id;
+
         let castListItem = initElement("li", {
             'class': `${this.className}__cast-item`
         })
         let actorLink = `discover.html?language=en-US&sort_by=release_date.asce&page=1&with_cast=${crewID}&dTopic=${crewName}`
 
-        castListItem.innerHTML = `
-            <clickable-image image-path="${imgPath}" movie-title="${_crew.name}" link-ref="${actorLink}"></clickable-image>
-            <h3 class="${this.className}__cast-name">${crewName}</h3>
-            <p class="${this.className}__cast-role"><span class="${this.className}__cast-as">as </span>${_crew.character}</p>
-           
-        `
+        let actorImage = initElement("clickable-image", {
+            'image-path': imgPath,
+            'movie-title': _crew.name,
+            'link-ref': actorLink
+        })
+
+        let actorName = initElement("h3", {
+            'class': `${this.className}__cast-name`
+        })
+            .ihtml(crewName)
+
+        let actorRole = initElement("p", {
+            'class': `${this.className}__cast-role`
+        })
+            .ihtml(`<span class="${this.className}__cast-as">as </span>${_crew.character}`)
+
+        castListItem.append(actorImage, actorName, actorRole)
+
         return castListItem;
     }
 
@@ -606,7 +663,8 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
             {
                 'title': "Rating",
                 'value': MPA_Rating,
-            }]).replaceAll('"', "&quot;")
+            }])
+        //.replaceAll('"', "&quot;")
     }
 })
 
@@ -657,7 +715,7 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
     render() {
         //CUSTOM ATTRIBUTES    
         this.metaItems = JSON.parse(this.getAttribute("meta-items"))
-        //console.log(this.metaItems)
+        console.log(this.metaItems, typeof this.metaItems)
 
         //TEMPLATE
         let list = initElement("ul", {
