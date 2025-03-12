@@ -109,7 +109,7 @@ site-header button i {
 site-header h1 {
   align-self: center;
   justify-self: center;
-  font: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+  font: 800 2rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 site-header dark-mode-toggle {
   align-self: center;
@@ -219,7 +219,7 @@ section-subheading hgroup {
   align-items: center;
 }
 section-subheading .section-subheading__title {
-  font: 1.25rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
+  font: 1.5rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
 }
 
 movie-rating .movie-rating__rating {
@@ -270,7 +270,7 @@ movie-card .movie-card__vote-count {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 movie-card .movie-card__movie-title {
-  font: 800 1.25rem/normal Mulish, Arial, Helvetica, sans-serif;
+  font: 800 1.125rem/normal Mulish, Arial, Helvetica, sans-serif;
   transition: color 0.4s;
 }
 movie-card .movie-card__runtime {
@@ -314,6 +314,7 @@ movie-list {
   position: relative;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  min-height: 8rem;
 }
 movie-list .movie-list__items-container {
   display: grid;
