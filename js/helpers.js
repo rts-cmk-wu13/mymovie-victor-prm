@@ -50,10 +50,25 @@ function createDetailCard(movieObj) {
 }
 
 function initElement(tag, attributesObj) {
+    if (typeof tag !== "string") {
+        throw new Error("initElement: 'tag' must be a valid string.");
+    }
+
     let newElm = document.createElement(tag);
-    if (attributesObj) setAttributes(newElm, attributesObj);
-    //console.log(tag,attributesObj);
-    return newElm;
+    
+    if (attributesObj && typeof attributesObj === "object") {
+        setAttributes(newElm, attributesObj);
+    }
+
+    // Attach a method to set content directly on the created element
+    newElm.ihtml = function (html) {
+        if (typeof html !== "undefined") {
+            this.innerHTML = String(html); // Convert to string to avoid errors
+        }
+        return this; // Enables method chaining
+    };
+
+    return newElm; // Return the actual element
 }
 
 function getLS(key) {

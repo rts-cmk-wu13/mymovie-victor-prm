@@ -1,6 +1,7 @@
 @use "../style/base"
 
 html
+    animation: fadeIn 0.6s forwards ease-in
     background: base.$gray-950
     /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
 
@@ -102,6 +103,7 @@ clickable-image
         position: relative
         aspect-ratio: 1 / 1.45
         margin-bottom: base.$unit-2x
+        transition: scale 0.5s
 
         img
             position: relative
@@ -117,11 +119,11 @@ clickable-image
             height: base.$unit-4x
             width: 100%
             bottom: 0
-            transform: translateY(12px) scaleY(-1)
+            transform: translateY(8px) scaleY(-1)
             overflow: hidden
             filter: blur(10px)
             z-index: -10
-            transition: transform 0.2s
+            transition: opacity 0.5s
 
             img
                 position: relative
@@ -131,14 +133,11 @@ clickable-image
                 transform: scaleX(2)
                 transform-origin: center bottom
                 pointer-events: none
-                transition: transform 0s
 
         &:focus-within, &:hover
-            transform: translateY(-4px)
-            transition: all 0.2s
+            scale: 1.025
             .clickable-image__shadow-wrapper
-                transform: translateY(16px) scaleY(-1)
-                opacity: 0.66
+                opacity: 0.75
 
 section-subheading
     hgroup
@@ -220,12 +219,10 @@ movie-card
             color: base.$color-primary-mid
 
 movie-list
-    animation: fadeIn 0.4s forwards
     @include base.fxcol
     position: relative
     gap: base.$unit-2x
     margin-bottom: base.$unit-3x
-    min-height: 8rem
 
     .movie-list
         &__items-container
@@ -247,6 +244,7 @@ movie-list
 
         &__buttons-container
             @include base.fxrow
+            pointer-events: none
             position: absolute
             z-index: 100
             width: 100%
@@ -254,6 +252,7 @@ movie-list
             padding: 0 0.75rem
             top: 45%
             button
+                pointer-events: auto
                 font-size: 0.75rem
                 width: 2rem
                 height: 2rem

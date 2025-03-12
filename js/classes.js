@@ -39,7 +39,7 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
         let headerTitle = initElement("h1", {
             'class': `${this.className}__header-title`,
         })
-        headerTitle.innerHTML = this._headerTitle;
+        .ihtml("Home")
         this.append(headerTitle)
     }
 
@@ -106,7 +106,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         let movieTitle = initElement("h3", {
             'class': `${this.className}__movie-title`,
         })
-        movieTitle.innerHTML = this._movieTitle + this._originalTitle;
+        .ihtml(this._movieTitle + this._originalTitle)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
@@ -255,7 +255,7 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         this._sectionTitle = this.getAttribute("section-title")
         this._direction = checkLayoutDirection(this)
         this._containerID = setMovieListID(this.id);
-        console.log(this._containerID)
+       
         this.ariaLabel = `Category ${this._sectionTitle}`//Setting this here because section title is needed
 
         //TEMPLATE(S)
@@ -279,14 +279,12 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
             'class': `${this.className}__buttons-container`
         })
 
-        let buttonBack = initElement("button")
-        buttonBack.innerHTML = `<i class="fas fa-chevron-left"></i>`
+        let buttonBack = initElement("button").ihtml(`<i class="fas fa-chevron-left"></i>`);
         buttonBack.addEventListener("click", () => {
             document.querySelector(`#${this._containerID}`).scrollLeft -= 200;
         })
 
-        let buttonNext = initElement("button")
-        buttonNext.innerHTML = `<i class="fas fa-chevron-right"></i>`
+        let buttonNext = initElement("button").ihtml(`<i class="fas fa-chevron-right"></i>`);
         buttonNext.addEventListener("click", () => {
             document.querySelector(`#${this._containerID}`).scrollLeft += 200;
         })
@@ -326,17 +324,17 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         let score = initElement("em", {
             'class': `${this.className}__rating-score`
         })
-        score.innerHTML = this._movieRating;
+        .ihtml(this._movieRating);
 
         let scale = initElement("span", {
             'class': `${this.className}__scale`
         })
-        scale.innerHTML = "/ 10 IMDb"
+        .ihtml("/ 10 IMDb");
 
         let voteCount = initElement("span", {
             'class': `${this.className}__vote-count`
         })
-        voteCount.innerHTML = `${this._voteCount} <i class='fas fa-user'></i>`
+        .ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
 
         rating.append(starIcon, score, scale, voteCount)
         this.append(rating)
@@ -369,14 +367,14 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
             let heading = initElement("h2",{
                 'class': `${this.className}__title`
             })
-            heading.innerHTML = this._headingTitle
+            .ihtml(this._headingTitle)
             hGroup.append(heading)
 
             if(this._includeButton){
                 let button = initElement("button", {
                     'class': `${this.className}__see-more-btn`
                 })
-                button.innerHTML = "See more";
+                .ihtml("See more")
                 hGroup.append(button)
             }
             this.append(hGroup)
@@ -576,8 +574,8 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let language = this._dataObject.original_language.toUpperCase()
 
         //Rating
-        let ratings = this._dataObject.release_dates.results.filter(country => (country["iso_3166_1"] === "US"))
-        let MPA_Rating = ratings[0].release_dates.find(item => item.certification.trim().length > 0)?.certification || "N/A";
+        let ratings = this._dataObject.release_dates.results.filter(country => (country["iso_3166_1"] === "US"));
+        let MPA_Rating = ratings[0] ? ratings[0].release_dates.find(item => item.certification.trim().length > 0)?.certification : "N/A";
 
         return JSON.stringify([
             {
