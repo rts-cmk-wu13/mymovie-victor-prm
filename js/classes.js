@@ -392,41 +392,47 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         //HTML ATTRIBUTES
         this.className = "dark-mode-toggle"
         this.render();
-        this.handleToggle();
+        this.updateIcon();
     }
 
 
     render() {
         //CUSTOM ATTRIBUTES
-        let isDarkMode = getLS("dark-mode")
+        let _isDarkMode = getLS("dark-mode")
 
-        //TEMPLATE(S)
-        let template = `
-        <label for="ms1" aria-label="Dark mode"><i class="${this.className}__icon"></i></label>
-        <input type="checkbox" role="switch" id="ms1"/>
-        `
+        //TEMPLATE
+        let toggleLabel = initElement("label",{
+            'for' : "dark-mode-input",
+            'aria-label': "Dark mode",
+        })
+        let toggleIcon = initElement("i",{
+            'class' : `${this.className}__icon`
+        })
+        toggleLabel.append(toggleIcon)
 
-        //INNER HTML
-        this.innerHTML = template;
-        this.checkbox = this.querySelector("input");
-        this.checkbox.checked = isDarkMode;
-    }
-    handleToggle() {
-        if (this.hasAttribute("checked")) this.checkbox.checked = true;
-        changeIcon(this)
+        let toggleInput = initElement("input",{
+            'type': "checkbox",
+            'role': "switch",
+            'id': "dark-mode-input"
+        })
 
-        this.checkbox.addEventListener("change", () => {
-            this.toggleAttribute("checked", this.checkbox.checked);
-            setLS("dark-mode", this.checkbox.checked)
-            changeIcon(this)
+        toggleInput.addEventListener("change", () => {
+            this.toggleAttribute("checked", toggleInput.checked);
+            setLS("dark-mode", toggleInput.checked)
+            this.updateIcon()
         });
 
-        function changeIcon(thisElm) {
-            let iconElement = thisElm.parentNode.querySelector(`.${thisElm.className}__icon`);
-            let isDarkMode = getLS("dark-mode")
-            let iconSource = isDarkMode ? "far fa-moon" : "far fa-sun";
-            iconElement.className = `${thisElm.className}__icon ${iconSource}`
-        }
+      
+        this.iconElm = toggleIcon;
+        toggleInput.checked = _isDarkMode;
+
+        //APPEND
+        this.append(toggleLabel, toggleInput)
+    }
+    updateIcon() {
+        let isDarkMode = getLS("dark-mode")
+        let iconSource = isDarkMode ? "far fa-moon" : "far fa-sun";
+        this.iconElm.className = `${ this.iconElm.className}__icon ${iconSource}`
     }
 })
 

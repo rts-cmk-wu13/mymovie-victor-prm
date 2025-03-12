@@ -28,7 +28,7 @@ function buildSite() {
 
   //Main
   let mainElm = initElement("main", {
-    'class': "main-content",
+    'class': "content-main",
   })
   let nowPlayingElm = initElement("movie-list", {
     'section-title': "Now Playing",
