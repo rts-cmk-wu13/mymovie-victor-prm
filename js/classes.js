@@ -494,6 +494,88 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
 })
 
+//DETAIL BACKDROP
+customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.className = "detail-backdrop"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        this._imageTitle = this.getAttribute("image-title");
+        this._imgPath = this.getAttribute("image-path");
+        this._imgSource = `${imageBasePath}original${this._imgPath}`;
+        
+        //TEMPLATE(S)
+        let backdropContainer = initElement("figure",{
+            'class' : `${this.className}__backdrop-container`
+        })
+        let backdrop = initElement("img",{
+            'src' : this._imgSource,
+            'alt' : `Backdrop image for ${this._imageTitle}`,
+            'class': `${this.className}__backdrop-img`
+        })
+        backdropContainer.append(backdrop)
+        this.append(backdropContainer)
+    }
+})
+
+//DETAIL META LIST
+customElements.define("detail-meta-list", class DetailMetaList extends HTMLElement {
+    constructor() {
+        super();
+
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "detail-meta-list"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES    
+        this.metaItems = JSON.parse(this.getAttribute("meta-items"))
+        console.log(this.metaItems, typeof this.metaItems)
+
+        //TEMPLATE
+        let list = initElement("ul", {
+            'class': `${this.className}__list`,
+        })
+        this.metaItems.map(item => {
+            list.append(this.createListItem(item.title, item.value))
+        })
+        this.append(list)
+    }
+
+    createListItem(_key, _value) {
+        let item = initElement("li", {
+            'class': `${this.className}__item`
+        })
+        let itemContentContainer = initElement("div",{
+            'class' : `${this.className}__meta-item`
+        })
+        .ihtml(`<p class="${this.className}__meta-item-title">${_key}</p>
+                <p class="${this.className}__meta-item-value">${_value}</p>`)
+
+        item.append(itemContentContainer)
+        return item
+    }
+})
+
+
+
+
+
+
+
+
+
 //DETAIL CARD
 customElements.define("detail-card", class DetailCard extends HTMLElement {
     constructor() {
@@ -533,7 +615,8 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
 
         let backdrop = initElement("detail-backdrop", {
-            'image-path': this._imgPath
+            'image-path': this._imgPath,
+            'image-title': this._movieTitle
         })
         let contentContainer = initElement("div", {
             'class': `${this.className}__content-container`
@@ -665,78 +748,5 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
                 'value': MPA_Rating,
             }])
         //.replaceAll('"', "&quot;")
-    }
-})
-
-//DETAIL BACKDROP
-customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElement {
-    constructor() {
-        super();
-    }
-
-    connectedCallback() {
-        this.className = "detail-backdrop"
-        this.render();
-    }
-
-    render() {
-        //CUSTOM ATTRIBUTES
-        //let headerTitle = this.getAttribute("header-title");
-        //this.ariaLabel = `${headerTitle} header group` //Setting this here because section title is needed
-        let imgPath = this.getAttribute("image-path");
-        let imgSource = `${imageBasePath}original${imgPath}`;
-
-
-        //TEMPLATE(S)
-        let template = `
-        <div class="${this.className}__backdrop-container">
-            <img src="${imgSource}" alt="" class="${this.className}__backdrop-img">
-        </div>
-        `
-
-        //INNER HTML
-        this.innerHTML = template;
-    }
-})
-
-//DETAIL META LIST
-customElements.define("detail-meta-list", class DetailMetaList extends HTMLElement {
-    constructor() {
-        super();
-
-    }
-
-    connectedCallback() {
-        //HTML ATTRIBUTES
-        this.className = "detail-meta-list"
-        this.render();
-    }
-
-    render() {
-        //CUSTOM ATTRIBUTES    
-        this.metaItems = JSON.parse(this.getAttribute("meta-items"))
-        console.log(this.metaItems, typeof this.metaItems)
-
-        //TEMPLATE
-        let list = initElement("ul", {
-            'class': `${this.className}__list`,
-        })
-        this.metaItems.map(item => {
-            list.append(this.createListItem(item.title, item.value))
-        })
-        this.append(list)
-    }
-
-    createListItem(_key, _value) {
-        let item = initElement("li", {
-            'class': `${this.className}__item`
-        })
-
-        item.innerHTML = `
-        <div class="${this.className}__meta-item">
-            <p class="${this.className}__meta-item-title">${_key}</p>
-            <p class="${this.className}__meta-item-value">${_value}</p>
-        </div>`
-        return item
     }
 })

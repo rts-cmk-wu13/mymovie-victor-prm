@@ -55,7 +55,7 @@ function initElement(tag, attributesObj) {
     }
 
     let newElm = document.createElement(tag);
-    
+
     if (attributesObj && typeof attributesObj === "object") {
         setAttributes(newElm, attributesObj);
     }
@@ -108,14 +108,16 @@ function setAttributes(el, attrs) {
 function insertGenres(json) {
     json.genres.map(genre => {
         let list = document.querySelectorAll(`.genre-${genre.id}`);
-        Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
+        //Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
+        Array.from(list).map(item => item.innerHTML = genre.name)
     })
 }
 
 function insertGenresLocal(arr) {
     arr.map(genre => {
         let list = document.querySelectorAll(`.genre-${genre.id}`);
-        Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
+        //Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
+        Array.from(list).map(item => item.innerHTML = genre.name)
     })
 }
 
