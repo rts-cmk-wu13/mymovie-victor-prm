@@ -25,11 +25,12 @@ customElements.define("site-header", class SiteHeader extends HTMLElement {
 
     createBackLink() {
         let backLink = initElement("a", {
+            'class': `site-header__back-link`,
             'href': "index.html",
             'aria-label': "back to home",
         })
         let backLinkIcon = initElement("i", {
-            'class': `fas fa-arrow-left ${this.className}__back-button`,
+            'class': `fas fa-arrow-left site-header__back-link-icon`,
         })
         backLink.append(backLinkIcon)
         this.append(backLink)
