@@ -73,6 +73,7 @@ function insertHighestRated(json) {
     highestRatedElm.append(createMovieCard(movie, "horizontal"))
     fetchData(det_base_url + movie.id, insertRuntimes)
   })
+  insertGenresLocal(allGenres)
 }
 
 function insertPopular(json) {
