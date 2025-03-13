@@ -603,6 +603,7 @@ detail-card .detail-card__cast-as {
 .content-details {
   position: relative;
   top: -4rem;
+  margin-bottom: -4rem;
 }
 
 detail-meta-list .detail-meta-list__list {
