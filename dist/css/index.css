@@ -59,14 +59,32 @@ ul li {
 }
 html {
   animation: fadeIn 0.6s forwards ease-in;
-  background: #f2f2f2;
-  /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
+  background: light-dark(#f2f2f2, #333333);
+  transition-property: background;
+  transition-duration: 0.3s;
+}
+
+html[data-darkmode=true] {
+  color-scheme: dark;
+}
+html[data-darkmode=true] .card-list__items-container {
+  background: linear-gradient(30deg, #2c2d33 0%, #414248 90%);
+}
+html[data-darkmode=true] .detail-card__content-container {
+  background: linear-gradient(30deg, #2c2d33 0%, #414248 90%);
+}
+html[data-darkmode=true] #card-list__items-cast-members {
+  background-color: #1a1a1a;
+}
+
+html[data-darkmode=false] {
+  color-scheme: light;
 }
 
 body {
   position: relative;
   min-height: 100dvh;
-  color: #110E47;
+  color: light-dark(#110E47, #DBE3FF);
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
   padding: 0 0 3rem;
 }
@@ -76,8 +94,8 @@ button {
   padding: 0.25rem 0.5rem;
   font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
   background: transparent;
-  border: 1px solid #4d4d4d;
-  color: #4d4d4d;
+  border: 1px solid light-dark(#4d4d4d, #DBE3FF);
+  color: light-dark(#4d4d4d, #DBE3FF);
 }
 
 .content-main {
@@ -90,7 +108,7 @@ button {
 .movie__original-title {
   white-space: nowrap;
   font-size: 0.75rem;
-  color: #7f7f7f;
+  color: light-dark(#7f7f7f, #b3b3b3);
 }
 
 site-header {
@@ -104,18 +122,10 @@ site-header * {
   width: fit-content;
   grid-area: 1/1;
 }
-site-header button {
-  background-color: transparent;
-  border: none;
-}
-site-header button i {
-  color: #110E47;
-  font-size: 1rem;
-}
 site-header h1 {
   align-self: center;
   justify-self: center;
-  font: 800 2rem/normal Mulish, Arial, Helvetica, sans-serif;
+  font: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 site-header dark-mode-toggle {
   display: inline-flex;
@@ -165,11 +175,8 @@ site-header dark-mode-toggle input:checked:before {
 .site-header--details {
   position: relative;
   z-index: 100;
-  color: #ffffff;
-  background: linear-gradient(0deg, transparent 0%, rgba(17, 14, 71, 0.5) 80%);
-}
-.site-header--details i {
-  color: #ffffff;
+  color: #DBE3FF;
+  background: linear-gradient(0deg, transparent 0%, rgba(24, 23, 37, 0.66) 100%);
 }
 
 clickable-image {
@@ -180,7 +187,8 @@ clickable-image .clickable-image__wrapper {
   position: relative;
   aspect-ratio: 1/1.45;
   margin-bottom: 1rem;
-  transition: scale 0.5s;
+  transition-property: scale;
+  transition-duration: 0.5s;
 }
 clickable-image .clickable-image__wrapper img {
   position: relative;
@@ -200,8 +208,10 @@ clickable-image .clickable-image__wrapper .clickable-image__shadow-wrapper {
   transform: translateY(8px) scaleY(-1);
   overflow: hidden;
   filter: blur(10px);
+  opacity: 0.75;
   z-index: -10;
-  transition: opacity 0.5s;
+  transition-property: opacity;
+  transition-duration: 0.3s;
 }
 clickable-image .clickable-image__wrapper .clickable-image__shadow-wrapper img {
   position: relative;
@@ -217,7 +227,7 @@ clickable-image .clickable-image__wrapper:focus-within, clickable-image .clickab
   scale: 1.025;
 }
 clickable-image .clickable-image__wrapper:focus-within .clickable-image__shadow-wrapper, clickable-image .clickable-image__wrapper:hover .clickable-image__shadow-wrapper {
-  opacity: 0.75;
+  opacity: 0.5;
 }
 
 section-subheading hgroup {
@@ -226,7 +236,10 @@ section-subheading hgroup {
   align-items: center;
 }
 section-subheading .section-subheading__title {
-  font: 1.5rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
+  font: 1.25rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
+}
+section-subheading .section-subheading__title--discover {
+  font-size: 0.8rem;
 }
 
 movie-rating .movie-rating__rating {
@@ -234,7 +247,7 @@ movie-rating .movie-rating__rating {
   width: 100%;
   align-items: center;
   gap: 0.25rem;
-  color: #4d4d4d;
+  color: light-dark(#4d4d4d, #999999);
 }
 movie-rating .movie-rating__rating-score {
   font-weight: 700;
@@ -277,15 +290,16 @@ movie-card .movie-card__vote-count {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 movie-card .movie-card__movie-title {
-  font: 800 1.125rem/normal Mulish, Arial, Helvetica, sans-serif;
-  transition: color 0.4s;
+  font: 800 1.15rem/normal Mulish, Arial, Helvetica, sans-serif;
+  transition-property: color;
+  transition-duration: 0.3s;
 }
 movie-card .movie-card__runtime {
   display: inline-flex;
   gap: 0.25rem;
   align-items: center;
   font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
-  color: #4d4d4d;
+  color: light-dark(#4d4d4d, #999999);
 }
 movie-card .movie-card__info-container {
   display: flex;
@@ -311,27 +325,29 @@ movie-card[horizontal] .clickable-image__wrapper {
   height: 100%;
 }
 movie-card .clickable-image:hover ~ .movie-card__info-container .movie-card__movie-title, movie-card .clickable-image:focus-within ~ .movie-card__info-container .movie-card__movie-title {
-  color: #3e5b9f;
+  color: #5776c1;
 }
 
-movie-list {
+card-list {
   display: flex;
   flex-direction: column;
   position: relative;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
-movie-list .movie-list__items-container {
+card-list .card-list__items-container {
   display: grid;
   padding: 1rem;
   gap: 1rem;
   position: relative;
   border-radius: 1rem;
-  background-color: #f2f2f2;
-  border: 1px solid #e5e5e5;
+  background-color: light-dark(#f2f2f2, #1a1a1a);
+  border: 1px solid light-dark(#e5e5e5, rgba(77, 77, 77, 0.33));
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
+  transition-property: background;
+  transition-duration: 0.3s;
 }
-movie-list .movie-list__items-container[horizontal] {
+card-list .card-list__items-container[horizontal] {
   grid-auto-flow: column;
   grid-auto-columns: 14rem;
   overflow-x: auto;
@@ -339,17 +355,17 @@ movie-list .movie-list__items-container[horizontal] {
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 }
-movie-list .movie-list__items-container[horizontal] * {
+card-list .card-list__items-container[horizontal] * {
   word-wrap: break-word;
   white-space: normal;
 }
-movie-list .movie-list__items-container[vertical] {
+card-list .card-list__items-container[vertical] {
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   grid-auto-rows: 10rem;
   gap: 1.5rem 1.5rem;
   overflow-y: auto;
 }
-movie-list .movie-list__buttons-container {
+card-list .card-list__buttons-container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -361,25 +377,27 @@ movie-list .movie-list__buttons-container {
   padding: 0 0.75rem;
   top: 45%;
 }
-movie-list .movie-list__buttons-container button {
+card-list .card-list__buttons-container button {
   pointer-events: auto;
   font-size: 0.75rem;
   width: 2rem;
   height: 2rem;
-  background-color: rgba(219, 227, 255, 0.8);
-  color: #3e5b9f;
+  background-color: rgba(219, 227, 255, 0.75);
+  color: #110E47;
   box-shadow: 0 0 1rem rgba(26, 26, 26, 0.2);
   border: 1px solid rgba(26, 26, 26, 0.2);
 }
 
-#movie-list__items-cast-members {
+#card-list__items-cast-members {
   grid-auto-flow: column;
   grid-auto-columns: 10rem;
   overflow-x: auto;
   white-space: nowrap;
-  background: #f2f2f2 !important;
+  background: #f2f2f2;
+  transition-property: background;
+  transition-duration: 0.5s;
 }
-#movie-list__items-cast-members * {
+#card-list__items-cast-members * {
   word-wrap: break-word;
   white-space: normal;
 }
@@ -399,11 +417,11 @@ genre-tags .genre-tags__link {
   text-decoration: none;
   width: 100%;
   padding: 0.125rem 0.5rem;
-  background-color: #DBE3FF;
-  color: #3e5b9f;
+  background-color: light-dark(#DBE3FF, #5776c1);
+  color: light-dark(#5776c1, #110E47);
   box-shadow: 0 0 1rem rgba(26, 26, 26, 0.2);
   border-radius: 1rem;
-  border: 1px solid rgba(26, 26, 26, 0.2);
+  border: 1px solid rgba(127, 127, 127, 0.33);
   font: 800 0.575rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 genre-tags .genre-tags__link :visited {
@@ -419,11 +437,11 @@ nav-footer {
   width: 100%;
   max-width: 54rem;
   height: 3rem;
-  background-color: rgba(229, 229, 229, 0.5);
+  background-color: light-dark(rgba(229, 229, 229, 0.5), rgba(26, 26, 26, 0.5));
   -webkit-backdrop-filter: blur(4rem);
           backdrop-filter: blur(4rem);
   border-radius: 1rem 1rem 0 0;
-  border: 1px solid #cccccc;
+  border: 1px solid light-dark(#cccccc, rgba(26, 26, 26, 0.2));
   box-shadow: 0rem -0.5rem 1rem rgba(26, 26, 26, 0.2);
   position: fixed;
   bottom: 0;
@@ -433,7 +451,7 @@ nav-footer {
 nav-footer .nav-footer__nav-link {
   width: 4rem;
   text-align: center;
-  color: #7f7f7f;
+  color: light-dark(#7f7f7f, #cccccc);
   font-size: 1.25rem;
   border: none;
 }
@@ -441,7 +459,7 @@ nav-footer .nav-footer__nav-link .site-footer__favorites-link {
   font-size: 1rem;
 }
 nav-footer .nav-footer__nav-link.nav-current-location {
-  color: #110E47;
+  color: light-dark(#110E47, #5776c1);
 }
 
 detail-backdrop {
@@ -471,7 +489,7 @@ detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__play-butt
 detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__play-button {
   min-width: 2rem;
   min-height: 2rem;
-  background: #f2f2f2;
+  background: #DBE3FF;
   border-color: rgba(26, 26, 26, 0.2);
   color: #110E47;
   font-size: 1rem;
@@ -483,18 +501,47 @@ detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__play-butt
   font-weight: 700;
   text-shadow: 0 0 0.5rem rgba(17, 14, 71, 0.6);
 }
-detail-backdrop .detail-backdrop-trailer-modal {
+detail-backdrop .detail-backdrop__trailer-modal {
   width: 100%;
+  background-color: transparent;
+  border: none;
+  position: relative;
 }
-detail-backdrop .detail-backdrop-trailer-modal::backdrop {
-  background-color: rgba(17, 14, 71, 0.8);
+detail-backdrop .detail-backdrop__trailer-modal .detail-backdrop__video {
+  display: none;
+}
+detail-backdrop .detail-backdrop__trailer-modal::backdrop {
+  background-color: rgba(24, 23, 37, 0.5);
   -webkit-backdrop-filter: blur(0.5rem);
           backdrop-filter: blur(0.5rem);
 }
-detail-backdrop .detail-backdrop-trailer {
+detail-backdrop .detail-backdrop__trailer-modal:popover-open {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+detail-backdrop .detail-backdrop__trailer-modal:popover-open .detail-backdrop__video {
+  display: block;
   width: 100%;
-  aspect-ratio: 192/108;
-  top: 50%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+detail-backdrop .detail-backdrop__trailer-modal:popover-open .detail-backdrop__close-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: linear-gradient(180deg, transparent 0%, #000000 100%);
+  padding: 0.5rem;
+  width: 100%;
+  justify-content: right;
+}
+detail-backdrop .detail-backdrop__trailer-modal:popover-open .detail-backdrop__close-button-container .detail-backdrop__close-button {
+  position: relative;
+  color: #f2f2f2;
+  border-color: #f2f2f2;
 }
 
 detail-card .detail-card {
@@ -510,9 +557,14 @@ detail-card .detail-card__content-container {
   position: relative;
   border-radius: 1rem;
   background-color: #f2f2f2;
-  border: 1px solid #e5e5e5;
+  border: 1px solid light-dark(#e5e5e5, #1a1a1a);
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
+  transition-property: background;
+  transition-duration: 0.3s;
   padding: 1rem 1rem 0;
+}
+detail-card .detail-card__movie-title {
+  font: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif;
 }
 detail-card .detail-card__meta-information {
   display: flex;
@@ -528,13 +580,15 @@ detail-card .detail-card__movie-description-section {
 }
 detail-card .detail-card__movie-description-text {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
-  color: #7f7f7f;
+  color: light-dark(#7f7f7f, #cccccc);
 }
 detail-card .detail-card__cast-item .clickable-image:hover ~ .detail-card__cast-name, detail-card .detail-card__cast-item .clickable-image:focus-within ~ .detail-card__cast-name {
-  color: #3e5b9f;
+  color: #5776c1;
 }
 detail-card .detail-card__cast-name {
   font: 700 1rem/normal Mulish, Arial, Helvetica, sans-serif;
+  transition-property: color;
+  transition-duration: 0.3s;
 }
 detail-card .detail-card__cast-role {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
@@ -560,5 +614,5 @@ detail-meta-list .detail-meta-list__meta-item-title {
   margin-bottom: 0.125rem;
 }
 detail-meta-list .detail-meta-list__meta-item-value {
-  color: #110E47;
+  color: light-dark(#110E47, #000000);
 }/*# sourceMappingURL=index.css.map */

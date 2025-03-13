@@ -1,14 +1,30 @@
 @use "../style/base"
 
+$light-gradient: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
+$dark-gradient: linear-gradient(30deg, mix(base.$gray-000, base.$color-primary-light, 80%) 0%, mix(base.$gray-100, base.$color-primary-light, 80%) 90%)
+
 html
     animation: fadeIn 0.6s forwards ease-in
-    background: base.$gray-950
-    /* background: linear-gradient(15deg, base.$color-primary-light 0%, base.$gray-900 90%) */
+    background: light-dark(base.$gray-950,base.$gray-200)
+    transition-property: background
+    transition-duration: 0.3s
+
+html[data-darkmode="true"]
+    color-scheme: dark
+    .card-list__items-container
+        background: $dark-gradient
+    .detail-card__content-container
+        background: $dark-gradient
+    #card-list__items-cast-members
+        background-color: base.$gray-100
+
+html[data-darkmode="false"]
+    color-scheme: light
 
 body
     position: relative
     min-height: 100dvh
-    color: base.$color-primary-dark
+    color: light-dark(base.$color-primary-dark,base.$color-primary-light)
     font: base.$text-body-1
     padding: 0 0 base.$unit-6x
 
@@ -23,7 +39,7 @@ button
 .movie__original-title
     white-space: nowrap
     font-size: 0.75rem
-    color: base.$gray-500
+    color: light-dark(base.$gray-500,base.$gray-700)
 
 site-header
     display: grid
@@ -34,13 +50,6 @@ site-header
     *
         width: fit-content
         grid-area: 1/1
-
-    button
-        background-color: transparent
-        border: none
-        i
-            color: base.$color-primary-dark
-            font-size: base.$unit-2x
 
     h1
         align-self: center
@@ -93,11 +102,8 @@ site-header
 .site-header--details
     position: relative
     z-index: 100
-    color: base.$gray-1000
-    background: linear-gradient(0deg, transparent 0%, rgba(base.$color-primary-dark,0.5) 80%)
-
-    i
-        color: base.$gray-1000
+    color: base.$color-primary-light
+    background: linear-gradient(0deg, transparent 0%, rgba(mix(base.$color-primary-dark, base.$gray-100, 25%),0.66) 100%)
 
 clickable-image
     isolation: isolate
@@ -107,7 +113,8 @@ clickable-image
         position: relative
         aspect-ratio: 1 / 1.45
         margin-bottom: base.$unit-2x
-        transition: scale 0.5s
+        transition-property: scale
+        transition-duration: 0.5s
 
         img
             position: relative
@@ -126,8 +133,10 @@ clickable-image
             transform: translateY(8px) scaleY(-1)
             overflow: hidden
             filter: blur(10px)
+            opacity: 0.75
             z-index: -10
-            transition: opacity 0.5s
+            transition-property: opacity
+            transition-duration: 0.3s
 
             img
                 position: relative
@@ -141,7 +150,7 @@ clickable-image
         &:focus-within, &:hover
             scale: 1.025
             .clickable-image__shadow-wrapper
-                opacity: 0.75
+                opacity: 0.5
 
 section-subheading
     hgroup
@@ -151,6 +160,8 @@ section-subheading
 
     .section-subheading__title
         font: base.$text-subtitle-1
+        &--discover
+            font-size: 0.8rem
 
 movie-rating
     .movie-rating
@@ -160,7 +171,7 @@ movie-rating
             width: 100%
             align-items: center
             gap: base.$unit-05x
-            color: base.$gray-300
+            color: light-dark(base.$gray-300,base.$gray-600)
         &__rating-score
             font-weight: 700
             font-style: normal
@@ -197,13 +208,14 @@ movie-card
             font: base.$text-body-1
         &__movie-title
             font: base.$text-subtitle-2
-            transition: color 0.4s
+            transition-property: color
+            transition-duration: 0.3s
         &__runtime
             display: inline-flex
             gap: base.$unit-05x
             align-items: center
             font: base.$text-body-2
-            color: base.$gray-300
+            color: light-dark(base.$gray-300,base.$gray-600)
     .movie-card__info-container
         @include base.fxcol
         gap: base.$unit-1x
@@ -222,22 +234,24 @@ movie-card
         ~.movie-card__info-container .movie-card__movie-title
             color: base.$color-primary-mid
 
-movie-list
+card-list
     @include base.fxcol
     position: relative
     gap: base.$unit-2x
     margin-bottom: base.$unit-3x
 
-    .movie-list
+    .card-list
         &__items-container
             display: grid
             padding: base.$unit-2x
             gap: base.$unit-2x
             position: relative
             border-radius: base.$unit-2x
-            background-color: base.$gray-950
-            border: 1px solid base.$gray-900
-            background: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
+            background-color: light-dark(base.$gray-950,base.$gray-100)
+            border: 1px solid light-dark(base.$gray-900,rgba(base.$gray-300,33%))
+            background: $light-gradient
+            transition-property: background
+            transition-duration: 0.3s
 
             &[horizontal]
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
@@ -260,14 +274,16 @@ movie-list
                 font-size: 0.75rem
                 width: 2rem
                 height: 2rem
-                background-color: rgba(base.$color-primary-light,0.8)
-                color: base.$color-primary-mid
+                background-color: rgba(base.$color-primary-light,0.75)
+                color: base.$color-primary-dark
                 box-shadow: base.$box-shadow-2x
                 border: 1px solid base.$black-tint-100
 
-#movie-list__items-cast-members
+#card-list__items-cast-members
     @include base.infite-list-horizontal($grid-item-width: 10rem)
-    background: base.$gray-950 !important
+    background: base.$gray-950
+    transition-property: background
+    transition-duration: 0.5s
 
 genre-tags
     .genre-tags
@@ -282,11 +298,11 @@ genre-tags
         @include base.reset-links
         width: 100%
         padding: base.$unit-025x base.$unit-1x
-        background-color: base.$color-primary-light
-        color: base.$color-primary-mid
+        background-color: light-dark(base.$color-primary-light, base.$color-primary-mid)
+        color: light-dark(base.$color-primary-mid, base.$color-primary-dark)
         box-shadow: base.$box-shadow-2x
         border-radius: base.$unit-2x
-        border: 1px solid base.$black-tint-100
+        border: 1px solid rgba(base.$gray-500,33%)
         font: base.$text-caption
 
         :visited
@@ -300,10 +316,10 @@ nav-footer
     width: 100%
     max-width: base.$max-width-page
     height: 3rem
-    background-color: rgba(base.$gray-900, 0.5)
+    background-color: light-dark(rgba(base.$gray-900,0.5),rgba(base.$gray-100,0.5))
     backdrop-filter: blur(base.$unit-8x)
     border-radius: base.$unit-2x base.$unit-2x 0 0
-    border: 1px solid base.$gray-800
+    border: 1px solid light-dark(base.$gray-800,base.$black-tint-100)
     box-shadow: 0rem base.$unit-1x*-1 base.$unit-2x base.$black-tint-100
 
     position: fixed
@@ -314,14 +330,14 @@ nav-footer
     .nav-footer__nav-link
         width: 4rem
         text-align: center
-        color: base.$gray-500
+        color: light-dark(base.$gray-500,base.$gray-800)
         font-size: 1.25rem
         border: none
         .site-footer__favorites-link
             font-size: 1rem
 
         &.nav-current-location
-            color: base.$color-primary-dark
+            color: light-dark(base.$color-primary-dark,base.$color-primary-mid)
 
 detail-backdrop
     display: block
@@ -346,7 +362,7 @@ detail-backdrop
         .detail-backdrop__play-button
             min-width: 2rem
             min-height: 2rem
-            background: base.$gray-950
+            background: base.$color-primary-light
             border-color: base.$black-tint-100
             color: base.$color-primary-dark
             font-size: 1rem
@@ -358,16 +374,38 @@ detail-backdrop
             font-weight: 700
             text-shadow: 0 0 base.$unit-1x rgba(base.$color-primary-dark,0.6)
 
-    .detail-backdrop-trailer-modal
+    .detail-backdrop__trailer-modal
         width: 100%
+        background-color: transparent
+        border: none
+        position: relative
+        .detail-backdrop__video
+            display: none
         &::backdrop
-            background-color: rgba(base.$color-primary-dark,0.8)
+            background-color: rgba(mix(base.$color-primary-dark, base.$gray-100, 25%),0.5)
             backdrop-filter: blur(base.$unit-1x)
-    
-    .detail-backdrop-trailer
-        width: 100%
-        aspect-ratio: 192/108
-        top: 50%
+        &:popover-open
+            width: 100vw
+            height: 100vh
+            display: grid
+            grid-template-rows: auto 1fr
+            .detail-backdrop__video
+                display: block
+                width: 100%
+                height: 100%
+                padding: 0
+                margin: 0
+                border: none
+            .detail-backdrop__close-button-container
+                @include base.fxrow
+                background: linear-gradient(180deg, transparent 0%, base.$gray-000 100%)
+                padding: base.$unit-1x
+                width: 100%
+                justify-content: right
+                .detail-backdrop__close-button
+                    position: relative
+                    color: base.$gray-950
+                    border-color: base.$gray-950
 
 detail-card
     .detail-card
@@ -381,9 +419,13 @@ detail-card
             position: relative
             border-radius: base.$unit-2x
             background-color: base.$gray-950
-            border: 1px solid base.$gray-900
-            background: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
+            border: 1px solid light-dark(base.$gray-900,base.$gray-100)
+            background: $light-gradient
+            transition-property: background
+            transition-duration: 0.3s
             padding: base.$unit-2x base.$unit-2x 0
+        &__movie-title
+            font: base.$text-headline
         &__meta-information
             @include base.fxcol
             gap: base.$unit-2x
@@ -394,13 +436,15 @@ detail-card
             max-width: 90ch
         &__movie-description-text
             font: base.$text-body-1
-            color: base.$gray-500
+            color: light-dark(base.$gray-500,base.$gray-800)
         &__cast-item
             .clickable-image:hover,.clickable-image:focus-within
                 ~.detail-card__cast-name
                     color: base.$color-primary-mid
         &__cast-name
             font: base.$text-subtitle-3
+            transition-property: color
+            transition-duration: 0.3s
         &__cast-role
             font: base.$text-body-1
         &__cast-as
@@ -422,4 +466,4 @@ detail-meta-list
             font-style: normal
             margin-bottom: base.$unit-025x
         &__meta-item-value
-            color: base.$color-primary-dark
+            color: light-dark(base.$color-primary-dark, base.$gray-000)

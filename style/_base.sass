@@ -17,7 +17,7 @@ $gray-950: #f2f2f2
 $gray-1000: #ffffff
 
 $color-primary: #88A4E8
-$color-primary-mid: #3e5b9f
+$color-primary-mid: #5776c1
 $color-primary-dark: #110E47
 $color-primary-light: #DBE3FF
 $color-accent: #FFC319
@@ -41,9 +41,9 @@ $black-tint-100: rgba( $gray-100, .2)
 $box-shadow-1x: 0 0 $unit-1x $black-tint-100
 $box-shadow-2x: 0 0 $unit-2x $black-tint-100
 
-$text-headline: 800 2rem/normal Mulish, Arial, Helvetica, sans-serif
-$text-subtitle-1: 1.5rem/normal Merriweather,Georgia, 'Times New Roman', Times, serif
-$text-subtitle-2: 800 1.125rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-headline: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif
+$text-subtitle-1: 1.25rem/normal Merriweather,Georgia, 'Times New Roman', Times, serif
+$text-subtitle-2: 800 1.15rem/normal Mulish, Arial, Helvetica, sans-serif
 $text-subtitle-3: 700 1rem/normal Mulish, Arial, Helvetica, sans-serif
 $text-body-1: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif
 $text-body-2: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif
@@ -106,8 +106,8 @@ ul li
     padding: $unit-05x $unit-1x
     font: $text-body-2
     background: transparent
-    border: 1px solid $gray-300
-    color: $gray-300
+    border: 1px solid light-dark($gray-300,$color-primary-light)
+    color:  light-dark($gray-300,$color-primary-light)
 
 @mixin reset-links
     color: black

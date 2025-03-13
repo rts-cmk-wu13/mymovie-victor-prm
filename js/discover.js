@@ -11,7 +11,7 @@ let bodyElm = document.body;
 
 let page = 1;
 const dis_url = `https://api.themoviedb.org/3/discover/movie?${query}`
-let gen_id = "items-genre"
+let gen_id = "items-discover"
 const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 const det_base_url = "https://api.themoviedb.org/3/movie/"
 
@@ -42,11 +42,11 @@ function buildSite() {
   let mainElm = initElement("main", {
     'class': "content-main",
   })
-  let genreElm = initElement("movie-list", {
+  let listElm = initElement("card-list", {
     'section-title': discoverTitle,
     'id': gen_id,
   })
-  mainElm.append(genreElm)
+  mainElm.append(listElm)
 
 
   //Footer
