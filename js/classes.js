@@ -202,7 +202,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         this._shadowSrc = this._imgSource.replace("/w500/", "/w200");
 
         //TEMPLATE(S)
-        let wrapper = initElement("figure", {
+        let wrapper = initElement("div", {
             'class': `${this.className}__wrapper`
         })
 
@@ -507,7 +507,7 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         console.log(this._trailerSource)
 
         //TEMPLATE(S)
-        let backdropContainer = initElement("figure", {
+        let backdropContainer = initElement("div", {
             'class': `${this.className}__backdrop-container`
         })
         let backdrop = initElement("img", {
@@ -522,7 +522,7 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
                 'class': `${this.className}__play-button-container`
             })
 
-            let playButton = initElement("button", {
+            let playVideoButton = initElement("button", {
                 'class': `${this.className}__play-button`,
                 'popovertarget': "trailer-modal"
             }).ihtml(`<i class="fas fa-play"></i>`)
@@ -532,21 +532,43 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
             }).ihtml("Play Trailer")
 
             let videoModal = initElement("div", {
-                'class': `${this.className}-trailer-modal`,
+                'class': `${this.className}__trailer-modal`,
                 'id': "trailer-modal",
                 'popover': ""
             })
+            let closeVideoContainer = initElement("div", {
+                'class': `${this.className}__close-button-container`,
+            })
+            let closeVideoButton = initElement("button", {
+                'class': `${this.className}__close-button`,
+            }).ihtml(`Close video <i class="fa fa-close"></i>`)
+
+            closeVideoContainer.append(closeVideoButton)
+
+            let videoParams = `autoplay=1;iv_load_policy=3`
             let video = initElement("iframe", {
-                'class': `${this.className}-trailer`,
-                'src': `https://www.youtube-nocookie.com/embed/${this._trailerSource}?si=bOnthSOlKCEOTKBr&amp;controls=0`,
+                'class': `${this.className}__video`,
+                'src': "",
                 'title': "YouTube video player",
-                'frame-border': 0,
                 'allow': "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
                 'referrerpolicy': "strict-origin-when-cross-origin",
                 'allowfullscreen': ""
             })
-            videoModal.append(video)
-            playButtonContainer.append(playButton, playButtonText, videoModal)
+
+            //Hacky way of start/stop the video is to set and reset the video's src attribute
+            playVideoButton.addEventListener("click", () => {
+                video.src = `https://www.youtube-nocookie.com/embed/${this._trailerSource}?si=bOnthSOlKCEOTKBr&amp;${videoParams}`;
+                bodyElm.style.overflow = "hidden"
+            })
+
+            closeVideoButton.addEventListener("click", () => {
+                videoModal.hidePopover();
+                video.src = ""
+                bodyElm.style.overflow = "auto"
+            })
+
+            videoModal.append(closeVideoContainer, video)
+            playButtonContainer.append(playVideoButton, playButtonText, videoModal)
 
             backdropContainer.append(playButtonContainer)
         }

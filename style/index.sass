@@ -358,16 +358,38 @@ detail-backdrop
             font-weight: 700
             text-shadow: 0 0 base.$unit-1x rgba(base.$color-primary-dark,0.6)
 
-    .detail-backdrop-trailer-modal
+    .detail-backdrop__trailer-modal
         width: 100%
+        background-color: transparent
+        border: none
+        position: relative
+        .detail-backdrop__video
+            display: none
         &::backdrop
-            background-color: rgba(base.$color-primary-dark,0.8)
+            background-color: rgba(mix(base.$color-primary-dark, base.$gray-100, 25%),0.5)
             backdrop-filter: blur(base.$unit-1x)
-    
-    .detail-backdrop-trailer
-        width: 100%
-        aspect-ratio: 192/108
-        top: 50%
+        &:popover-open
+            width: 100vw
+            height: 100vh
+            display: grid
+            grid-template-rows: auto 1fr
+            .detail-backdrop__video
+                display: block
+                width: 100%
+                height: 100%
+                padding: 0
+                margin: 0
+                border: none
+            .detail-backdrop__close-button-container
+                @include base.fxrow
+                background: linear-gradient(180deg, transparent 0%, base.$gray-000 100%)
+                padding: base.$unit-1x
+                width: 100%
+                justify-content: right
+                .detail-backdrop__close-button
+                    position: relative
+                    color: base.$gray-950
+                    border-color: base.$gray-950
 
 detail-card
     .detail-card

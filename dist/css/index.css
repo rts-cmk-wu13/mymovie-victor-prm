@@ -483,18 +483,47 @@ detail-backdrop .detail-backdrop__backdrop-container .detail-backdrop__play-butt
   font-weight: 700;
   text-shadow: 0 0 0.5rem rgba(17, 14, 71, 0.6);
 }
-detail-backdrop .detail-backdrop-trailer-modal {
+detail-backdrop .detail-backdrop__trailer-modal {
   width: 100%;
+  background-color: transparent;
+  border: none;
+  position: relative;
 }
-detail-backdrop .detail-backdrop-trailer-modal::backdrop {
-  background-color: rgba(17, 14, 71, 0.8);
+detail-backdrop .detail-backdrop__trailer-modal .detail-backdrop__video {
+  display: none;
+}
+detail-backdrop .detail-backdrop__trailer-modal::backdrop {
+  background-color: rgba(24, 23, 37, 0.5);
   -webkit-backdrop-filter: blur(0.5rem);
           backdrop-filter: blur(0.5rem);
 }
-detail-backdrop .detail-backdrop-trailer {
+detail-backdrop .detail-backdrop__trailer-modal:popover-open {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+detail-backdrop .detail-backdrop__trailer-modal:popover-open .detail-backdrop__video {
+  display: block;
   width: 100%;
-  aspect-ratio: 192/108;
-  top: 50%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+detail-backdrop .detail-backdrop__trailer-modal:popover-open .detail-backdrop__close-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: linear-gradient(180deg, transparent 0%, #000000 100%);
+  padding: 0.5rem;
+  width: 100%;
+  justify-content: right;
+}
+detail-backdrop .detail-backdrop__trailer-modal:popover-open .detail-backdrop__close-button-container .detail-backdrop__close-button {
+  position: relative;
+  color: #f2f2f2;
+  border-color: #f2f2f2;
 }
 
 detail-card .detail-card {
