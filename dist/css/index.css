@@ -603,6 +603,7 @@ detail-card .detail-card__cast-as {
 .content-details {
   position: relative;
   top: -4rem;
+  margin-bottom: -4rem;
 }
 
 detail-meta-list .detail-meta-list__list {
@@ -618,4 +619,19 @@ detail-meta-list .detail-meta-list__meta-item-title {
 }
 detail-meta-list .detail-meta-list__meta-item-value {
   color: light-dark(#110E47, #f2f2f2);
+}
+
+/* Portrait orientation */
+@media screen and (orientation: portrait) {
+  .detail-backdrop__trailer-modal:popover-open {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+/* Landscape orientation */
+@media screen and (orientation: landscape) {
+  .detail-backdrop__trailer-modal:popover-open {
+    width: 100vw;
+    height: 100vh;
+  }
 }/*# sourceMappingURL=index.css.map */
