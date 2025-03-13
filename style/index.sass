@@ -470,3 +470,15 @@ detail-meta-list
             margin-bottom: base.$unit-025x
         &__meta-item-value
             color: light-dark(base.$color-primary-dark, base.$gray-950)
+
+/* Portrait orientation */
+@media screen and (orientation: portrait)
+    .detail-backdrop__trailer-modal:popover-open
+        width: 100vw
+        height: 100vh
+
+/* Landscape orientation */
+@media screen and (orientation: landscape)
+    .detail-backdrop__trailer-modal:popover-open
+        width: 100vw
+        height: 100vh
