@@ -151,6 +151,8 @@ section-subheading
 
     .section-subheading__title
         font: base.$text-subtitle-1
+        &--discover
+            font-size: 0.8rem
 
 movie-rating
     .movie-rating
@@ -222,13 +224,13 @@ movie-card
         ~.movie-card__info-container .movie-card__movie-title
             color: base.$color-primary-mid
 
-movie-list
+card-list
     @include base.fxcol
     position: relative
     gap: base.$unit-2x
     margin-bottom: base.$unit-3x
 
-    .movie-list
+    .card-list
         &__items-container
             display: grid
             padding: base.$unit-2x
@@ -265,7 +267,7 @@ movie-list
                 box-shadow: base.$box-shadow-2x
                 border: 1px solid base.$black-tint-100
 
-#movie-list__items-cast-members
+#card-list__items-cast-members
     @include base.infite-list-horizontal($grid-item-width: 10rem)
     background: base.$gray-950 !important
 

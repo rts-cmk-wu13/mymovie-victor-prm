@@ -235,14 +235,14 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
 })
 
 //MOVIE LIST SECTION
-customElements.define("movie-list", class MovieList extends HTMLElement {
+customElements.define("card-list", class CardList extends HTMLElement {
     constructor() {
         super();
     }
 
     connectedCallback() {
         //HTML ATTRIBUTES
-        this.className = "movie-list"
+        this.className = "card-list"
         this.role = "region"
         this.render();
         this.createCarouselButtons()
@@ -253,14 +253,15 @@ customElements.define("movie-list", class MovieList extends HTMLElement {
         this._sectionTitle = this.getAttribute("section-title")
         this._direction = checkLayoutDirection(this)
         this._containerID = setMovieListID(this.id);
+        this._includeButton = this.hasAttribute("button")
 
         this.ariaLabel = `Category ${this._sectionTitle}`//Setting this here because section title is needed
 
         //TEMPLATE(S)
         let sectionHeader = initElement("section-subheading", {
             'header-title': this._sectionTitle,
-            'button': ""
         })
+        if(this._includeButton) sectionHeader.setAttribute("button","")
         let cardList = initElement("ul", {
             'id': `${this._containerID}`,
             'class': `${this.className}__items-container`,
@@ -363,6 +364,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
                 'class': `${this.className}__title`
             }).ihtml(this._headingTitle)
             hGroup.append(heading)
+            if(window.location.pathname.includes("discover")) heading.classList.add(`${this.className}__title--discover`)
 
             if (this._includeButton) {
                 let button = initElement("button", {
@@ -730,7 +732,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
     }
 
     createCastList() {
-        let castList = initElement("movie-list", {
+        let castList = initElement("card-list", {
             'class': `${this.className}__cast-list`,
             'id': this._castListID,
             'section-title': "Cast",

@@ -29,18 +29,21 @@ function buildSite() {
   let mainElm = initElement("main", {
     'class': "content-main",
   })
-  let nowPlayingElm = initElement("movie-list", {
+  let nowPlayingElm = initElement("card-list", {
     'section-title': "Now Playing",
     'id': now_id,
     'horizontal': "",
+    'button': ""
   })
-  let highestRatedElm = initElement("movie-list", {
+  let highestRatedElm = initElement("card-list", {
     'section-title': "Highest Rated",
     'id': hra_id,
+    'button': ""
   })
-  let popularElm = initElement("movie-list", {
+  let popularElm = initElement("card-list", {
     'section-title': "Popular",
     'id': pop_id,
+    'button': ""
   })
   mainElm.append(nowPlayingElm, highestRatedElm, popularElm)
 

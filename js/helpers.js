@@ -81,12 +81,12 @@ function setLS(key, value) {
 
 function getMovieListID(idModifier) {
     //console.log("get", idModifier);
-    return idModifier ? `movie-list__${idModifier}` : ""
+    return idModifier ? `card-list__${idModifier}` : ""
 }
 
 function setMovieListID(idModifier) {
     //console.log("set", idModifier);
-    return idModifier ? `movie-list__${idModifier}` : ""
+    return idModifier ? `card-list__${idModifier}` : ""
 }
 
 function checkLayoutDirection(thisElm) {

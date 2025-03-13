@@ -228,6 +228,9 @@ section-subheading hgroup {
 section-subheading .section-subheading__title {
   font: 1.25rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
 }
+section-subheading .section-subheading__title--discover {
+  font-size: 0.8rem;
+}
 
 movie-rating .movie-rating__rating {
   display: inline-flex;
@@ -314,14 +317,14 @@ movie-card .clickable-image:hover ~ .movie-card__info-container .movie-card__mov
   color: #3e5b9f;
 }
 
-movie-list {
+card-list {
   display: flex;
   flex-direction: column;
   position: relative;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
-movie-list .movie-list__items-container {
+card-list .card-list__items-container {
   display: grid;
   padding: 1rem;
   gap: 1rem;
@@ -331,7 +334,7 @@ movie-list .movie-list__items-container {
   border: 1px solid #e5e5e5;
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
 }
-movie-list .movie-list__items-container[horizontal] {
+card-list .card-list__items-container[horizontal] {
   grid-auto-flow: column;
   grid-auto-columns: 14rem;
   overflow-x: auto;
@@ -339,17 +342,17 @@ movie-list .movie-list__items-container[horizontal] {
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 }
-movie-list .movie-list__items-container[horizontal] * {
+card-list .card-list__items-container[horizontal] * {
   word-wrap: break-word;
   white-space: normal;
 }
-movie-list .movie-list__items-container[vertical] {
+card-list .card-list__items-container[vertical] {
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   grid-auto-rows: 10rem;
   gap: 1.5rem 1.5rem;
   overflow-y: auto;
 }
-movie-list .movie-list__buttons-container {
+card-list .card-list__buttons-container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -361,7 +364,7 @@ movie-list .movie-list__buttons-container {
   padding: 0 0.75rem;
   top: 45%;
 }
-movie-list .movie-list__buttons-container button {
+card-list .card-list__buttons-container button {
   pointer-events: auto;
   font-size: 0.75rem;
   width: 2rem;
@@ -372,14 +375,14 @@ movie-list .movie-list__buttons-container button {
   border: 1px solid rgba(26, 26, 26, 0.2);
 }
 
-#movie-list__items-cast-members {
+#card-list__items-cast-members {
   grid-auto-flow: column;
   grid-auto-columns: 10rem;
   overflow-x: auto;
   white-space: nowrap;
   background: #f2f2f2 !important;
 }
-#movie-list__items-cast-members * {
+#card-list__items-cast-members * {
   word-wrap: break-word;
   white-space: normal;
 }
