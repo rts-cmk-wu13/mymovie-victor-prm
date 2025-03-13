@@ -2,7 +2,7 @@ let bodyElm = document.body;
 
 const now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
 const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
-const hra_url = 'http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&page=1&vote_count.gte=2000'
+const hra_url = 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&page=1&vote_count.gte=2000'
 const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 const det_base_url = "https://api.themoviedb.org/3/movie/"
 let now_id = "items-now-playing"
