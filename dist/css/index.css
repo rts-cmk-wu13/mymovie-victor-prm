@@ -60,6 +60,8 @@ ul li {
 html {
   animation: fadeIn 0.6s forwards ease-in;
   background: light-dark(#f2f2f2, #333333);
+  transition-property: background;
+  transition-duration: 0.3s;
 }
 
 html[data-darkmode=true] {
@@ -290,7 +292,7 @@ movie-card .movie-card__vote-count {
 movie-card .movie-card__movie-title {
   font: 800 1.15rem/normal Mulish, Arial, Helvetica, sans-serif;
   transition-property: color;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
 }
 movie-card .movie-card__runtime {
   display: inline-flex;
@@ -342,6 +344,8 @@ card-list .card-list__items-container {
   background-color: light-dark(#f2f2f2, #1a1a1a);
   border: 1px solid light-dark(#e5e5e5, rgba(77, 77, 77, 0.33));
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
+  transition-property: background;
+  transition-duration: 0.3s;
 }
 card-list .card-list__items-container[horizontal] {
   grid-auto-flow: column;
@@ -390,6 +394,8 @@ card-list .card-list__buttons-container button {
   overflow-x: auto;
   white-space: nowrap;
   background: #f2f2f2;
+  transition-property: background;
+  transition-duration: 0.5s;
 }
 #card-list__items-cast-members * {
   word-wrap: break-word;
@@ -553,6 +559,8 @@ detail-card .detail-card__content-container {
   background-color: #f2f2f2;
   border: 1px solid light-dark(#e5e5e5, #1a1a1a);
   background: linear-gradient(30deg, #e3e5ea 0%, #edeff5 90%);
+  transition-property: background;
+  transition-duration: 0.3s;
   padding: 1rem 1rem 0;
 }
 detail-card .detail-card__movie-title {
@@ -580,7 +588,7 @@ detail-card .detail-card__cast-item .clickable-image:hover ~ .detail-card__cast-
 detail-card .detail-card__cast-name {
   font: 700 1rem/normal Mulish, Arial, Helvetica, sans-serif;
   transition-property: color;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
 }
 detail-card .detail-card__cast-role {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;

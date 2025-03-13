@@ -6,6 +6,8 @@ $dark-gradient: linear-gradient(30deg, mix(base.$gray-000, base.$color-primary-l
 html
     animation: fadeIn 0.6s forwards ease-in
     background: light-dark(base.$gray-950,base.$gray-200)
+    transition-property: background
+    transition-duration: 0.3s
 
 html[data-darkmode="true"]
     color-scheme: dark
@@ -207,7 +209,7 @@ movie-card
         &__movie-title
             font: base.$text-subtitle-2
             transition-property: color
-            transition-duration: 0.5s
+            transition-duration: 0.3s
         &__runtime
             display: inline-flex
             gap: base.$unit-05x
@@ -248,6 +250,8 @@ card-list
             background-color: light-dark(base.$gray-950,base.$gray-100)
             border: 1px solid light-dark(base.$gray-900,rgba(base.$gray-300,33%))
             background: $light-gradient
+            transition-property: background
+            transition-duration: 0.3s
 
             &[horizontal]
                 @include base.infite-list-horizontal($grid-item-width: 14rem)
@@ -278,6 +282,8 @@ card-list
 #card-list__items-cast-members
     @include base.infite-list-horizontal($grid-item-width: 10rem)
     background: base.$gray-950
+    transition-property: background
+    transition-duration: 0.5s
 
 genre-tags
     .genre-tags
@@ -415,6 +421,8 @@ detail-card
             background-color: base.$gray-950
             border: 1px solid light-dark(base.$gray-900,base.$gray-100)
             background: $light-gradient
+            transition-property: background
+            transition-duration: 0.3s
             padding: base.$unit-2x base.$unit-2x 0
         &__movie-title
             font: base.$text-headline
@@ -436,7 +444,7 @@ detail-card
         &__cast-name
             font: base.$text-subtitle-3
             transition-property: color
-            transition-duration: 0.5s
+            transition-duration: 0.3s
         &__cast-role
             font: base.$text-body-1
         &__cast-as
