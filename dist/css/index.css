@@ -68,10 +68,10 @@ html[data-darkmode=true] {
   color-scheme: dark;
 }
 html[data-darkmode=true] .card-list__items-container {
-  background: linear-gradient(30deg, #2c2d33 0%, #414248 90%);
+  background: linear-gradient(120deg, #2c2d33 0%, #414248 90%);
 }
 html[data-darkmode=true] .detail-card__content-container {
-  background: linear-gradient(30deg, #2c2d33 0%, #414248 90%);
+  background: linear-gradient(120deg, #2c2d33 0%, #414248 90%);
 }
 html[data-darkmode=true] #card-list__items-cast-members {
   background-color: #1a1a1a;
