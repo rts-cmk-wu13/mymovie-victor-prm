@@ -240,5 +240,4 @@ let allGenres = [
         "name": "Western",
         "emoji": "🐴"
     }
-
 ]

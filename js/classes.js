@@ -261,7 +261,7 @@ customElements.define("card-list", class CardList extends HTMLElement {
         let sectionHeader = initElement("section-subheading", {
             'header-title': this._sectionTitle,
         })
-        if(this._includeButton) sectionHeader.setAttribute("button","")
+        if (this._includeButton) sectionHeader.setAttribute("button", "")
         let cardList = initElement("ul", {
             'id': `${this._containerID}`,
             'class': `${this.className}__items-container`,
@@ -364,7 +364,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
                 'class': `${this.className}__title`
             }).ihtml(this._headingTitle)
             hGroup.append(heading)
-            if(window.location.pathname.includes("discover")) heading.classList.add(`${this.className}__title--discover`)
+            if (window.location.pathname.includes("discover")) heading.classList.add(`${this.className}__title--discover`)
 
             if (this._includeButton) {
                 let button = initElement("button", {
@@ -388,12 +388,17 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         this.className = "dark-mode-toggle"
         this.render();
         this.updateIcon();
+        document.documentElement.setAttribute("data-darkmode", this._isDarkMode);
     }
 
 
     render() {
         //CUSTOM ATTRIBUTES
-        let _isDarkMode = getLS("dark-mode")
+        this._toggleID = "dark-mode-input";
+        this._userPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let evaluateDarkMode = getLS("dark-mode")
+        this._isDarkMode = evaluateDarkMode == null ? this._userPreference : evaluateDarkMode
+        console.log("isDarkMode",this._isDarkMode)
 
         //TEMPLATE
         let toggleLabel = initElement("label", {
@@ -408,18 +413,20 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         let toggleInput = initElement("input", {
             'type': "checkbox",
             'role': "switch",
-            'id': "dark-mode-input"
+            'id': this._toggleID
         })
 
         toggleInput.addEventListener("change", () => {
             this.toggleAttribute("checked", toggleInput.checked);
             setLS("dark-mode", toggleInput.checked)
+            document.documentElement.setAttribute("data-darkmode", toggleInput.checked);
             this.updateIcon()
         });
 
+
         //Used for updating icon
         this.iconElm = toggleIcon;
-        toggleInput.checked = _isDarkMode;
+        toggleInput.checked = this._isDarkMode;
 
         //APPEND
         this.append(toggleLabel, toggleInput)
