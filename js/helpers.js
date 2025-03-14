@@ -142,6 +142,25 @@ function convertMinsToHrsMins(mins) {
     return `${h}h ${m}m`;
 }
 
+function topicToNormal(_topic) {
+    return titleCase(_topic.replaceAll("-", " "))
+
+    function titleCase(str) {
+        var splitStr = str.toLowerCase().split(' ');
+        for (var i = 0; i < splitStr.length; i++) {
+            // You do not need to check if i is larger than splitStr length, as your for does that for you
+            // Assign it back to the array
+            splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+        }
+        // Directly return the joined string
+        return splitStr.join(' ');
+    }
+}
+
+function topicToSkewer(_topic) {
+    return _topic.toLowerCase().replaceAll(" ", "-")
+}
+
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
 
 let allGenres = [

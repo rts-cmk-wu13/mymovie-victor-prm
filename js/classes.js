@@ -355,7 +355,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
         //CUSTOM ATTRIBUTES
         this._headingTitle = this.getAttribute("header-title");
         this.ariaLabel = `${this._headingTitle} header group` //Setting this here because section title is needed
-        this._seeMoreTopic = this._headingTitle.toLowerCase().replaceAll(" ", "-")
+        this._seeMoreTopic = topicToSkewer(this._headingTitle);
 
         if (this._headingTitle) {
             let hGroup = initElement("hgroup", {
