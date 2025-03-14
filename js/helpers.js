@@ -18,12 +18,10 @@ function fetchData(url, callBack) {
         .catch(err => console.error(err));
 }
 
-
 function createMovieCard(movieObj, direction) {
     //let itemID = `movie-card__${movieObj.id}`
     let itemDirection = direction ? "horizontal" : "vertical"
-
-
+    
     let item = document.createElement("li");
     item.ariaLabel = movieObj.original_title;
 
@@ -95,7 +93,6 @@ function checkLayoutDirection(thisElm) {
 }
 
 function devOrProd(devValue, prodValue) {
-    ;
     let location = window.location.origin
     let isDev = location.startsWith("http://127.0.0.1");
     return isDev ? devValue : prodValue
@@ -162,6 +159,20 @@ function topicToSkewer(_topic) {
 }
 
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
+
+const det_base_url = "https://api.themoviedb.org/3/movie/"
+function insertCards(_json, _id, _direction) {
+    //Inject Genres
+    let genreItemsElm = document.querySelector(`#${getMovieListID(_id)}`)
+    _json.results.map(movie => {
+        genreItemsElm.append(createMovieCard(movie, _direction))
+        fetchData(det_base_url + movie.id, insertRuntimes)
+    })
+    //fetchData(genres_url, insertGenres);
+    insertGenresLocal(allGenres)
+}
+
+
 
 let allGenres = [
     {
