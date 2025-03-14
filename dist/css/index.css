@@ -304,6 +304,9 @@ movie-card .movie-card__movie-title {
   transition-property: color;
   transition-duration: 0.3s;
 }
+movie-card .movie-card__hgroup {
+  text-wrap: balance;
+}
 movie-card .movie-card__runtime {
   display: inline-flex;
   gap: 0.25rem;
@@ -574,8 +577,18 @@ detail-card .detail-card__content-container {
   transition-duration: 0.3s;
   padding: 1rem 1rem 0;
 }
+detail-card .detail-card__text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 80ch;
+}
 detail-card .detail-card__movie-title {
   font: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+}
+detail-card .detail-card__movie-tagline {
+  margin-top: 0.25rem;
+  color: light-dark(#7f7f7f, #cccccc);
 }
 detail-card .detail-card__meta-information {
   display: flex;
@@ -587,7 +600,6 @@ detail-card .detail-card__movie-description-section {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  max-width: 90ch;
 }
 detail-card .detail-card__movie-description-text {
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;

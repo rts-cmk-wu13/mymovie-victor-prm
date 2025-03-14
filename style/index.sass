@@ -218,6 +218,8 @@ movie-card
             font: base.$text-subtitle-2
             transition-property: color
             transition-duration: 0.3s
+        &__hgroup
+            text-wrap: balance
         &__runtime
             display: inline-flex
             gap: base.$unit-05x
@@ -433,8 +435,15 @@ detail-card
             transition-property: background
             transition-duration: 0.3s
             padding: base.$unit-2x base.$unit-2x 0
+        &__text-container
+            @include base.fxcol
+            gap: base.$unit-2x
+            max-width: 80ch
         &__movie-title
             font: base.$text-headline
+        &__movie-tagline
+            margin-top: base.$unit-05x
+            color: light-dark(base.$gray-500,base.$gray-800)
         &__meta-information
             @include base.fxcol
             gap: base.$unit-2x
@@ -442,7 +451,6 @@ detail-card
         &__movie-description-section
             @include base.fxcol
             gap: base.$unit-05x
-            max-width: 90ch
         &__movie-description-text
             font: base.$text-body-1
             color: light-dark(base.$gray-500,base.$gray-800)
@@ -477,7 +485,6 @@ detail-meta-list
             margin-bottom: base.$unit-025x
         &__meta-item-value
             color: light-dark(base.$color-primary-dark, base.$gray-950)
-
 
 #load-more
     height: 500px

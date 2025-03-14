@@ -689,6 +689,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         this._metaArray = this.createMetaArray();
         this._castArray = this._dataObject.credits.cast
         this._castListID = "items-cast-members";
+        this._releaseYear = this._dataObject.release_date.substr(0, 4);
 
         //Find Trailer
         this._trailer = this._dataObject.videos.results.filter(video => (video.type === "Trailer" && video.site === "YouTube"))[0]?.key || "";
@@ -708,7 +709,11 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let contentContainer = initElement("div", {
             'class': `${this.className}__content-container`
         })
-        contentContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription(), this.createCastList())
+        let textContainer = initElement("div", {
+            'class': `${this.className}__text-container`
+        })
+        textContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription())
+        contentContainer.append(textContainer,this.createCastList())
         this.append(backdrop, contentContainer)
         this.fillCastList();
     }
@@ -720,11 +725,15 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
             'class': `${this.className}__movie-title`
         }).ihtml(this._movieTitle + this._originalTitle)
 
+        let movieYear = initElement("small", {
+            'class': `${this.className}__movie-year`,
+        }).ihtml(this._releaseYear)
+
         let tagline = initElement("p", {
             'class': `${this.className}__movie-tagline`
         }).ihtml(this._movieTagline)
 
-        hGroup.append(movieTitle, tagline)
+        hGroup.append(movieTitle, movieYear, tagline)
         return hGroup;
     }
 
