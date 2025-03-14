@@ -1,7 +1,3 @@
-//TODO
-//Build a generic list for favorites, now playing, genres etc.
-//Maybe w/ post cards (vert) with vert grid
-
 let params = new URLSearchParams(document.location.search);
 /* let id = params.get("id");*/
 
@@ -11,28 +7,35 @@ let bodyElm = document.body;
 
 let page = 1;
 const dis_url = `https://api.themoviedb.org/3/discover/movie?${query}`
-let gen_id = "items-discover"
+let gen_id = "items-collections"
 const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 const det_base_url = "https://api.themoviedb.org/3/movie/"
 
 let topic = params.get("dTopic");
-let test;
-if (query.includes("with_genres")) {
+
+let onGenres = query.includes("with_genres")
+let onActors = query.includes("with_cast")
+let onNowPlaying = query.includes("movie/now_playing")
+let onPopular = query.includes("movie/popular")
+
+console.log(onGenres,onActors,onNowPlaying,onPopular)
+
+if (onGenres) {
   topic = allGenres.find(item => item.id === Number(topic)).name
 }
 
-let discoverTitle = `Movies tagged with '${topic}'`
+let collectionTitle = `Movies tagged with '${topic}'`
 
 
 
 
 
-fetchData(dis_url, insertDiscoverCards)
+fetchData(dis_url, insertCollectionCards)
 function buildSite() {
   //Header
   let headerElm = initElement("header")
   let siteHeaderElm = initElement("site-header", {
-    'header-title': "Discover",
+    'header-title': "Collection",
     'back': "",
     'toggle': "",
   })
@@ -43,7 +46,7 @@ function buildSite() {
     'class': "content-main",
   })
   let listElm = initElement("card-list", {
-    'section-title': discoverTitle,
+    'section-title': collectionTitle,
     'id': gen_id,
   })
   mainElm.append(listElm)
@@ -59,7 +62,7 @@ function buildSite() {
   //mainElm.querySelector(".section-subheader__title").classList.add(`genre-${id}`)
 }
 
-function insertDiscoverCards(json) {
+function insertCollectionCards(json) {
   //Inject Genres
   let genreItemsElm = document.querySelector(`#${getMovieListID(gen_id)}`)
   json.results.map(movie => {

@@ -11,7 +11,7 @@ function fetchData(url, callBack) {
     fetch(url, options)
         .then(res => res.json())
         .then(json => {
-            console.log(json)
+            //console.log(json)
             if (!callBack) return
             return callBack(json);
         })

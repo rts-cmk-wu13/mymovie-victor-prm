@@ -168,7 +168,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     }
 
     createListItem(_genre) {
-        let link = `discover.html?&sort_by=popularity.desc&with_genres=${_genre}&vote_count.gte=50&dTopic=${_genre}`
+        let link = `collections.html?&sort_by=popularity.desc&with_genres=${_genre}&vote_count.gte=50&dTopic=${_genre}`
         let item = initElement("li", {
             'class': `${this.className}__item`
         })
@@ -365,7 +365,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
                 'class': `${this.className}__title`
             }).ihtml(this._headingTitle)
             hGroup.append(heading)
-            if (window.location.pathname.includes("discover")) heading.classList.add(`${this.className}__title--discover`)
+            if (window.location.pathname.includes("collections")) heading.classList.add(`${this.className}__title--collections`)
 
             if (this._includeButton) {
                 let button = initElement("button", {
@@ -761,7 +761,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let castListItem = initElement("li", {
             'class': `${this.className}__cast-item`
         })
-        let actorLink = `discover.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&page=1&with_cast=${crewID}&dTopic=${crewName}`
+        let actorLink = `collections.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&page=1&with_cast=${crewID}&dTopic=${crewName}`
 
         let actorImage = initElement("clickable-image", {
             'image-path': imgPath,
