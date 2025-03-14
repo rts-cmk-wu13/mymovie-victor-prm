@@ -1,7 +1,7 @@
 @use "../style/base"
 
 $light-gradient: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
-$dark-gradient: linear-gradient(120deg, mix(base.$gray-000, base.$color-primary-light, 80%) 0%, mix(base.$gray-100, base.$color-primary-light, 80%) 90%)
+$dark-gradient: linear-gradient(120deg, mix(base.$gray-000, base.$color-primary-light, 85%) 0%, mix(base.$gray-100, base.$color-primary-light, 85%) 90%)
 
 html
     animation: fadeIn 0.6s forwards ease-in
@@ -45,10 +45,10 @@ site-header
     display: grid
     height: base.$unit-8x
     align-items: center
-    padding: 0 base.$unit-2x
+    padding: 0 base.$unit-3x
 
     .site-header__back-link, .site-header__back-link-icon
-        color: base.$color-primary-light
+        color: light-dark(base.$color-primary-dark,base.$color-primary-light)
     *
         width: fit-content
         grid-area: 1/1
@@ -106,6 +106,8 @@ site-header
     z-index: 100
     color: base.$color-primary-light
     background: linear-gradient(0deg, transparent 0%, rgba(mix(base.$color-primary-dark, base.$gray-100, 25%),0.66) 100%)
+    .site-header__back-link, .site-header__back-link-icon
+        color: base.$color-primary-light
 
 clickable-image
     isolation: isolate
@@ -155,14 +157,18 @@ clickable-image
                 opacity: 0.5
 
 section-subheading
-    hgroup
+    .section-subheading__hgroup
         display: flex
         justify-content: space-between
         align-items: center
+        padding: 0 base.$unit-1x
+
+    .section-subheading__hgroup--details
+        padding: 0
 
     .section-subheading__title
         font: base.$text-subtitle-1
-        &--discover
+        &--collections
             font-size: 0.8rem
 
 movie-rating
@@ -239,7 +245,7 @@ movie-card
 card-list
     @include base.fxcol
     position: relative
-    gap: base.$unit-2x
+    gap: base.$unit-1x
     margin-bottom: base.$unit-3x
 
     .card-list
@@ -343,6 +349,7 @@ nav-footer
 
 detail-backdrop
     display: block
+    min-height: 6rem
     .detail-backdrop__backdrop-container
         width: 100%
         position: relative
@@ -471,6 +478,11 @@ detail-meta-list
         &__meta-item-value
             color: light-dark(base.$color-primary-dark, base.$gray-950)
 
+
+#load-more
+    height: 500px
+    background-color: red
+
 /* Portrait orientation */
 @media screen and (orientation: portrait)
     .detail-backdrop__trailer-modal:popover-open
@@ -482,4 +494,3 @@ detail-meta-list
     .detail-backdrop__trailer-modal:popover-open
         width: 100dvw
         height: 100dvh
-        

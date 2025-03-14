@@ -1,4 +1,5 @@
 let imageBasePath = "https://image.tmdb.org/t/p/";
+const det_base_url = "https://api.themoviedb.org/3/movie/"
 
 function fetchData(url, callBack) {
     const options = {
@@ -18,12 +19,10 @@ function fetchData(url, callBack) {
         .catch(err => console.error(err));
 }
 
-
 function createMovieCard(movieObj, direction) {
     //let itemID = `movie-card__${movieObj.id}`
     let itemDirection = direction ? "horizontal" : "vertical"
-
-
+    
     let item = document.createElement("li");
     item.ariaLabel = movieObj.original_title;
 
@@ -95,7 +94,6 @@ function checkLayoutDirection(thisElm) {
 }
 
 function devOrProd(devValue, prodValue) {
-    ;
     let location = window.location.origin
     let isDev = location.startsWith("http://127.0.0.1");
     return isDev ? devValue : prodValue
@@ -142,7 +140,40 @@ function convertMinsToHrsMins(mins) {
     return `${h}h ${m}m`;
 }
 
+function topicToNormal(_topic) {
+    return titleCase(_topic.replaceAll("-", " "))
+
+    function titleCase(str) {
+        var splitStr = str.toLowerCase().split(' ');
+        for (var i = 0; i < splitStr.length; i++) {
+            // You do not need to check if i is larger than splitStr length, as your for does that for you
+            // Assign it back to the array
+            splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+        }
+        // Directly return the joined string
+        return splitStr.join(' ');
+    }
+}
+
+function topicToSkewer(_topic) {
+    return _topic.toLowerCase().replaceAll(" ", "-")
+}
+
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
+
+
+function insertCards(_json, _id, _direction) {
+    //Inject Genres
+    let genreItemsElm = document.querySelector(`#${getMovieListID(_id)}`)
+    _json.results.map(movie => {
+        genreItemsElm.append(createMovieCard(movie, _direction))
+        fetchData(det_base_url + movie.id, insertRuntimes)
+    })
+    //fetchData(genres_url, insertGenres);
+    insertGenresLocal(allGenres)
+}
+
+
 
 let allGenres = [
     {

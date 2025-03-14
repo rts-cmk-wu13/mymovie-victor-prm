@@ -68,16 +68,24 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         this.ariaLabel = "Movie Card"
         this.id = `movie-card--${this._dataObject.id}`
         this.render();
+        
+        //Remove list item container (and self) if no image is found
+        if(!this._imgPath){
+           this.parentElement.remove()
+        }
+       
     }
 
     render() {
         //CUSTOM ATTRIBUTES
         this._imgPath = this._dataObject.poster_path;
         this._movieTitle = this._dataObject.title
+        //console.log(this._movieTitle, this._dataObject.id)
         this._movieRating = this._dataObject.vote_average
         this._voteCount = this._dataObject.vote_count;
         this._genres = JSON.stringify(this._dataObject.genre_ids);
         this._originalTitle = checkOriginalTitle(this._dataObject);
+        this._releaseYear = this._dataObject.release_date.substr(0, 4);
         this._movieID = this._dataObject.id;
 
         //Only include extra info on cards with horizontal layout
@@ -94,7 +102,6 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             this.append(clickableImage)
             this.append(this.createInfoContainer())
         }
-
     }
 
     createInfoContainer() {
@@ -103,16 +110,26 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__info-container`,
         })
 
+        let titleGroup = initElement("hgroup", {
+            'class': `${this.className}__hgroup`,
+        })
+
         let movieTitle = initElement("h3", {
             'class': `${this.className}__movie-title`,
         }).ihtml(this._movieTitle + this._originalTitle)
+
+        let movieYear = initElement("small", {
+            'class': `${this.className}__movie-year`,
+        }).ihtml(this._releaseYear)
+
+        titleGroup.append(movieTitle, movieYear)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
             'movie-rating': this._movieRating,
             'vote-count': this._voteCount,
         })
-        infoContainer.append(movieTitle, movieRating);
+        infoContainer.append(titleGroup, movieRating);
 
         //Extra Info
         if (this._includeExtraInfo) {
@@ -168,7 +185,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     }
 
     createListItem(_genre) {
-        let link = `discover.html?&sort_by=popularity.desc&with_genres=${_genre}&dTopic=${_genre}`
+        let link = `collections.html?&sort_by=popularity.desc&with_genres=${_genre}&vote_count.gte=50&list-topic=${_genre}`
         let item = initElement("li", {
             'class': `${this.className}__item`
         })
@@ -355,23 +372,28 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
         //CUSTOM ATTRIBUTES
         this._headingTitle = this.getAttribute("header-title");
         this.ariaLabel = `${this._headingTitle} header group` //Setting this here because section title is needed
-
+        this._seeMoreTopic = topicToSkewer(this._headingTitle);
 
         if (this._headingTitle) {
             let hGroup = initElement("hgroup", {
-
+                'class': `${this.className}__hgroup`
             })
+            if (window.location.pathname.includes("details")) hGroup.classList.add(`${this.className}__hgroup--details`)
+
             let heading = initElement("h2", {
                 'class': `${this.className}__title`
             }).ihtml(this._headingTitle)
             hGroup.append(heading)
-            if (window.location.pathname.includes("discover")) heading.classList.add(`${this.className}__title--discover`)
+            if (window.location.pathname.includes("collections")) heading.classList.add(`${this.className}__title--collections`)
 
             if (this._includeButton) {
                 let button = initElement("button", {
                     'class': `${this.className}__see-more-btn`
                 }).ihtml("See more")
                 hGroup.append(button)
+                button.addEventListener("click", () => {
+                    window.location = `collections.html?list-topic=${this._seeMoreTopic}`
+                })
             }
             this.append(hGroup)
         }
@@ -399,7 +421,7 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         this._userPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
         let evaluateDarkMode = getLS("dark-mode")
         this._isDarkMode = evaluateDarkMode == null ? this._userPreference : evaluateDarkMode
-        console.log("isDarkMode",this._isDarkMode)
+        //console.log("isDarkMode",this._isDarkMode)
 
         //TEMPLATE
         let toggleLabel = initElement("label", {
@@ -467,13 +489,13 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
         let nowPlayingNav = initElement("a", {
             'class': `${this.className}__nav-link`,
-            'href': "/nowplaying.html",
+            'href': `/collections.html?list-topic=now-playing`,
             'aria-label': "navigate to now playing",
         }).ihtml(`<i class="fa fa-ticket ${this.className}__now-playing-link"></i>`)
 
         let favoritesNav = initElement("a", {
             'class': `${this.className}__nav-link`,
-            'href': "/favorites.html",
+            'href': `/collections.html?list-topic=favorites`,
             'aria-label': "navigate to favorites",
         }).ihtml(`<i class="fas fa-heart ${this.className}__favorites-link"></i>`)
 
@@ -483,11 +505,11 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
     handleCurrentPage() {
         let links = this.querySelectorAll("a");
-        let location = window.location.pathname;
+        let location = window.location.pathname + window.location.search;
         links.forEach(link => {
             let linkRef = link.getAttribute("href");
             if (linkRef === location) {
-                console.log(linkRef)
+                //console.log(linkRef)
                 link.classList.add("nav-current-location")
             } else {
                 link.classList.remove("nav-current-location")
@@ -514,18 +536,20 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         this._imgPath = this.getAttribute("image-path");
         this._imgSource = `${imageBasePath}original${this._imgPath}`;
         this._trailerSource = this.getAttribute("trailer-link");
-        console.log(this._trailerSource)
 
         //TEMPLATE(S)
         let backdropContainer = initElement("div", {
             'class': `${this.className}__backdrop-container`
         })
-        let backdrop = initElement("img", {
-            'src': this._imgSource,
-            'alt': `Backdrop image for ${this._imageTitle}`,
-            'class': `${this.className}__backdrop-img`
-        })
-        backdropContainer.append(backdrop)
+
+        if (this._imgPath != "null") {
+            let backdrop = initElement("img", {
+                'src': this._imgSource,
+                'alt': `Backdrop image for ${this._imageTitle}`,
+                'class': `${this.className}__backdrop-img`
+            })
+            backdropContainer.append(backdrop)
+        }
 
         if (this._trailerSource) {
             let playButtonContainer = initElement("div", {
@@ -667,8 +691,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         this._castListID = "items-cast-members";
 
         //Find Trailer
-        this._trailer = this._dataObject.videos.results.filter(video => (video.type === "Trailer" && video.site === "YouTube"))[0].key;
-        console.log(this._trailer)
+        this._trailer = this._dataObject.videos.results.filter(video => (video.type === "Trailer" && video.site === "YouTube"))[0]?.key || "";
 
         //Format Genres
         this._genres = this._dataObject.genres
@@ -763,7 +786,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let castListItem = initElement("li", {
             'class': `${this.className}__cast-item`
         })
-        let actorLink = `discover.html?language=en-US&sort_by=release_date.asce&page=1&with_cast=${crewID}&dTopic=${crewName}`
+        let actorLink = `collections.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&with_cast=${crewID}&list-topic=${crewName}`
 
         let actorImage = initElement("clickable-image", {
             'image-path': imgPath,
