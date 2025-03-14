@@ -146,7 +146,7 @@ site-header dark-mode-toggle input {
   width: 2em;
   height: 1em;
   box-sizing: content-box;
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 1em;
   vertical-align: text-bottom;
   margin: auto;
@@ -187,6 +187,7 @@ site-header dark-mode-toggle input:checked:before {
 
 clickable-image {
   isolation: isolate;
+  position: relative;
 }
 clickable-image .clickable-image__wrapper {
   width: 100%;
@@ -273,6 +274,19 @@ movie-rating .movie-rating__scale {
 movie-rating .movie-rating__vote-count {
   margin-left: auto;
   font: 0.75rem/normal Mulish, Arial, Helvetica, sans-serif;
+  color: light-dark(#4d4d4d, #999999);
+}
+movie-rating .movie-rating__vote-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+movie-rating .movie-rating__rating-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1rem;
+  height: 1rem;
 }
 
 movie-card {
@@ -319,6 +333,14 @@ movie-card .movie-card__info-container {
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
+  position: relative;
+}
+movie-card .movie-card__voting-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
 }
 movie-card[vertical] {
   display: flex;
@@ -395,8 +417,8 @@ card-list .card-list__buttons-container button {
   font-size: 0.75rem;
   width: 2rem;
   height: 2rem;
-  background-color: rgba(219, 227, 255, 0.75);
-  color: #110E47;
+  background-color: rgba(242, 242, 242, 0.75);
+  color: #333333;
   box-shadow: 0 0 1rem rgba(26, 26, 26, 0.2);
   border: 1px solid rgba(26, 26, 26, 0.2);
 }
@@ -439,6 +461,17 @@ genre-tags .genre-tags__link {
 }
 genre-tags .genre-tags__link :visited {
   color: inherit;
+}
+
+favorite-button {
+  width: -moz-fit-content;
+  width: fit-content;
+  z-index: 20;
+}
+favorite-button .favorite-button__button {
+  background-color: light-dark(rgba(17, 14, 71, 0.075), rgba(219, 227, 255, 0.1));
+  color: light-dark(#110E47, #DBE3FF);
+  border-color: light-dark(rgba(17, 14, 71, 0.25), rgba(219, 227, 255, 0.25));
 }
 
 nav-footer {
@@ -582,6 +615,7 @@ detail-card .detail-card__text-container {
   flex-direction: column;
   gap: 1rem;
   max-width: 80ch;
+  position: relative;
 }
 detail-card .detail-card__movie-title {
   font: 800 1.75rem/normal Mulish, Arial, Helvetica, sans-serif;
@@ -619,6 +653,11 @@ detail-card .detail-card__cast-role {
 detail-card .detail-card__cast-as {
   color: #7f7f7f;
 }
+detail-card .favorite-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
 
 .content-details {
   position: relative;
@@ -639,11 +678,6 @@ detail-meta-list .detail-meta-list__meta-item-title {
 }
 detail-meta-list .detail-meta-list__meta-item-value {
   color: light-dark(#110E47, #f2f2f2);
-}
-
-#load-more {
-  height: 500px;
-  background-color: red;
 }
 
 /* Portrait orientation */

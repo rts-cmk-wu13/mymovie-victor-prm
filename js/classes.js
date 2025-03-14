@@ -68,12 +68,12 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         this.ariaLabel = "Movie Card"
         this.id = `movie-card--${this._dataObject.id}`
         this.render();
-        
+
         //Remove list item container (and self) if no image is found
-        if(!this._imgPath){
-           this.parentElement.remove()
+        if (!this._imgPath) {
+            this.parentElement.remove()
         }
-       
+
     }
 
     render() {
@@ -99,6 +99,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
                 'image-title': this._movieTitle,
                 'link-ref': `details.html?id=${this._movieID}`,
             })
+
             this.append(clickableImage)
             this.append(this.createInfoContainer())
         }
@@ -124,12 +125,24 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 
         titleGroup.append(movieTitle, movieYear)
 
+        let votingContainer = initElement("div",{
+            'class': `${this.className}__voting-container`,
+        })
+
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
             'movie-rating': this._movieRating,
             'vote-count': this._voteCount,
         })
-        infoContainer.append(titleGroup, movieRating);
+
+        let favoriteButton = initElement("favorite-button", {
+            'movie-id': `${this._movieID}`
+        })
+
+        votingContainer.append(movieRating, favoriteButton)
+
+       
+        infoContainer.append(titleGroup, votingContainer);
 
         //Extra Info
         if (this._includeExtraInfo) {
@@ -328,15 +341,23 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         this._voteCount = this.getAttribute("vote-count")
         if (this._voteCount > 1000) this._voteCount = (this._voteCount / 1000).toFixed(1) + "k"
 
+        let ratingContainer = initElement("div", {
+            'class': `${this.className}__rating-container`
+        })
+
         //TEMPLATE(S)
         let rating = initElement("p", {
             'class': `${this.className}__rating`
         })
 
         //Rating Content
+        let starIconContainer = initElement("span", {
+            'class': `${this.className}__rating-icon-container`
+        })
         let starIcon = initElement("i", {
             'class': `fa fa-star ${this.className}__star-icon`
         })
+        starIconContainer.append(starIcon)
 
         let score = initElement("em", {
             'class': `${this.className}__rating-score`
@@ -346,12 +367,27 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
             'class': `${this.className}__scale`
         }).ihtml("/ 10 IMDb");
 
-        let voteCount = initElement("span", {
-            'class': `${this.className}__vote-count`
-        }).ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
 
-        rating.append(starIcon, score, scale, voteCount)
-        this.append(rating)
+
+        let voteContainer = initElement("span", {
+            'class': `${this.className}__vote-container`
+        })
+        let peopleIconContainer = initElement("span", {
+            'class': `${this.className}__rating-icon-container`
+        })
+        let peopleIcon = initElement("i", {
+            'class': `rating-icon fas fa-user ${this.className}__people-icon`
+        })
+        peopleIconContainer.append(peopleIcon)
+        let voteCount = initElement("p", {
+            'class': `${this.className}__vote-count`
+        }).ihtml(`${this._voteCount}`)
+
+
+        rating.append(starIconContainer, score, scale)
+        voteContainer.append(peopleIconContainer, voteCount)
+        ratingContainer.append(rating, voteContainer)
+        this.append(ratingContainer)
     }
 })
 
@@ -679,6 +715,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
+        this._movieID = this._dataObject.id;
         this._imgPath = this._dataObject.backdrop_path;
         this._movieRating = this._dataObject.vote_average
         this._voteCount = this._dataObject.vote_count;
@@ -712,8 +749,12 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let textContainer = initElement("div", {
             'class': `${this.className}__text-container`
         })
-        textContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription())
-        contentContainer.append(textContainer,this.createCastList())
+        let favoriteButton = initElement("favorite-button", {
+            'movie-id': `${this._movieID}`
+        })
+
+        textContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription(), favoriteButton)
+        contentContainer.append(textContainer, this.createCastList())
         this.append(backdrop, contentContainer)
         this.fillCastList();
     }
@@ -841,5 +882,72 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
                 'value': MPA_Rating,
             }])
         //.replaceAll('"', "&quot;")
+    }
+})
+
+
+//DETAIL META LIST
+customElements.define("favorite-button", class FavoriteButton extends HTMLElement {
+    constructor() {
+        super();
+
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "favorite-button"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        this._movieId = this.getAttribute("movie-id")
+        this._favoritesList = getLS("favorites") || []
+        this._liked = this._favoritesList.includes(this._movieId);
+        console.log(this._liked)
+
+
+        //TEMPLATE
+        let button = initElement("button", {
+            'class': `${this.className}__button`,
+        })
+        let icon = initElement("i", {
+            'class': `${this.className}__icon fa-heart`,
+        })
+        this.handleIcon(icon)
+        button.append(icon)
+
+        button.addEventListener("click", () => {
+            this.handleFavorite()
+        })
+
+        this.append(button)
+    }
+
+    handleFavorite() {
+        let currentID = this._movieId;
+        let iconElm = this.querySelector(`.${this.className}__icon`);
+
+        if (!this._liked) {
+            this._favoritesList.push(this._movieId)
+            this._liked = true;
+            this.handleIcon(iconElm)
+        } else {
+            this._favoritesList = this._favoritesList.filter(item => item != currentID)
+            this._liked = false;
+            this.handleIcon(iconElm)
+        }
+        setLS("favorites", this._favoritesList)
+
+        return
+    }
+    handleIcon(_iconElm) {
+        if (this._liked) {
+            _iconElm.classList.add("fas")
+            _iconElm.classList.remove("far")
+        } else {
+            _iconElm.classList.add("far")
+            _iconElm.classList.remove("fas")
+        }
     }
 })
