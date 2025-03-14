@@ -68,12 +68,19 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         this.ariaLabel = "Movie Card"
         this.id = `movie-card--${this._dataObject.id}`
         this.render();
+        
+        //Remove list item container (and self) if no image is found
+        if(!this._imgPath){
+           this.parentElement.remove()
+        }
+       
     }
 
     render() {
         //CUSTOM ATTRIBUTES
         this._imgPath = this._dataObject.poster_path;
         this._movieTitle = this._dataObject.title
+        //console.log(this._movieTitle, this._dataObject.id)
         this._movieRating = this._dataObject.vote_average
         this._voteCount = this._dataObject.vote_count;
         this._genres = JSON.stringify(this._dataObject.genre_ids);
@@ -95,7 +102,6 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             this.append(clickableImage)
             this.append(this.createInfoContainer())
         }
-
     }
 
     createInfoContainer() {
@@ -535,7 +541,7 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         let backdropContainer = initElement("div", {
             'class': `${this.className}__backdrop-container`
         })
-        
+
         if (this._imgPath != "null") {
             let backdrop = initElement("img", {
                 'src': this._imgSource,
@@ -780,7 +786,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let castListItem = initElement("li", {
             'class': `${this.className}__cast-item`
         })
-        let actorLink = `collections.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&page=1&with_cast=${crewID}&list-topic=${crewName}`
+        let actorLink = `collections.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&with_cast=${crewID}&list-topic=${crewName}`
 
         let actorImage = initElement("clickable-image", {
             'image-path': imgPath,

@@ -272,4 +272,3 @@ let allGenres = [
         "emoji": "🐴"
     }
 ]
-

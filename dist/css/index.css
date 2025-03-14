@@ -629,6 +629,11 @@ detail-meta-list .detail-meta-list__meta-item-value {
   color: light-dark(#110E47, #f2f2f2);
 }
 
+#load-more {
+  height: 500px;
+  background-color: red;
+}
+
 /* Portrait orientation */
 @media screen and (orientation: portrait) {
   .detail-backdrop__trailer-modal:popover-open {

@@ -1,18 +1,17 @@
 let params = new URLSearchParams(document.location.search);
 /* let id = params.get("id");*/
-
 let query = document.location.search;
 let bodyElm = document.body;
 /* query.includes("with_cast"), query.includes("genre") */
 
-let page = 1;
-const dis_url = `https://api.themoviedb.org/3/discover/movie?${query}`
-const now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
-const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
-const hra_url = 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&page=1&vote_count.gte=1000'
+let pageNumber = 1;
+let dis_url = `https://api.themoviedb.org/3/discover/movie?${query}`
+let now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US';
+let pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US';
+let hra_url = 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=1000'
 
 let col_id = "items-collections"
-const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
+let genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 
 let topic = params.get("list-topic");
 console.log(topic)
@@ -28,44 +27,41 @@ let onPopular = topic.includes("popular")
 let pageTitle = "Collection";
 let listTitle = ""
 let listTitleModifier = "Collection"
-
+let currentURL = ""
 
 
 if (onGenres) {
   topic = allGenres.find(item => item.id === Number(topic)).name
   pageTitle = "Genres"
   listTitle = `Movies tagged with '${topic}'`
-
-  fetchData(dis_url, (data) => insertCards(data, col_id, "horizontal"))
+  currentURL = dis_url;
 }
 if (onActors) {
   listTitleModifier = topicToNormal(topic)
   pageTitle = "Actors"
   listTitle = `Movies tagged with '${topic}'`
-
-  fetchData(dis_url, (data) => insertCards(data, col_id, "horizontal"))
+  currentURL = dis_url;
 }
 if (onHighestRated) {
   listTitleModifier = topicToNormal(topic)
   pageTitle = listTitleModifier
   listTitle = `All-time critically acclaimed movies`
-
-  fetchData(hra_url, (data) => insertCards(data, col_id, "horizontal"))
+  currentURL = dis_url;
 }
 if (onNowPlaying) {
   listTitleModifier = topicToNormal(topic)
   pageTitle = listTitleModifier
   listTitle = `Movies being shown in a cinema near you`
-
-  fetchData(now_url, (data) => insertCards(data, col_id, "horizontal"))
+  currentURL = now_url;
 }
 if (onPopular) {
   listTitleModifier = topicToNormal(topic)
   pageTitle = listTitleModifier
   listTitle = `Movies trending right now`
-
-  fetchData(pop_url, (data) => insertCards(data, col_id, "horizontal"))
+  currentURL = pop_url;
 }
+
+updateList(currentURL, pageNumber);
 
 listTitleModifier = topicToNormal(topic)
 document.title = `${listTitleModifier} | My Movies`;
@@ -99,5 +95,46 @@ function buildSite() {
 
   //Append to body
   bodyElm.append(headerElm, mainElm, footerElm);
-  //mainElm.querySelector(".section-subheader__title").classList.add(`genre-${id}`)
+}
+
+
+let previousAmount = 0;
+function infiniteScroll() {
+  let targetParentElm = document.querySelector(`#card-list__${col_id}`);
+  let itemsInGrid = targetParentElm.children.length
+  //console.log(itemsInGrid)
+
+  let itemThreshold = 10
+  if (itemsInGrid >= itemThreshold) {
+    let triggerElm = `li:nth-last-child(${itemThreshold})`;
+    const targetElm = document.querySelector(triggerElm);
+    //console.log(targetElm)
+    //targetElm.style.backgroundColor = "red";
+
+    const options = {
+      threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver(function checkVisibility(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          observer.unobserve(targetElm);
+          if (previousAmount != itemsInGrid) {
+            pageNumber++
+            updateList(currentURL, pageNumber);
+            previousAmount = itemsInGrid
+          }
+        }
+      });
+    }, options)
+    observer.observe(targetElm);
+  }
+}
+
+
+function updateList(_currentUrl, _pageNumber) {
+  let url = `${_currentUrl}&page=${_pageNumber}`
+  //console.log(url)
+  fetchData(url, (data) => insertCards(data, col_id, "horizontal"))
+  setTimeout(infiniteScroll, 1000);
 }
