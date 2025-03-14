@@ -168,7 +168,7 @@ customElements.define("genre-tags", class GenreTags extends HTMLElement {
     }
 
     createListItem(_genre) {
-        let link = `collections.html?&sort_by=popularity.desc&with_genres=${_genre}&vote_count.gte=50&dTopic=${_genre}`
+        let link = `collections.html?&sort_by=popularity.desc&with_genres=${_genre}&vote_count.gte=50&list-topic=${_genre}`
         let item = initElement("li", {
             'class': `${this.className}__item`
         })
@@ -355,12 +355,14 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
         //CUSTOM ATTRIBUTES
         this._headingTitle = this.getAttribute("header-title");
         this.ariaLabel = `${this._headingTitle} header group` //Setting this here because section title is needed
-
+        this._seeMoreTopic = this._headingTitle.toLowerCase().replaceAll(" ", "-")
 
         if (this._headingTitle) {
             let hGroup = initElement("hgroup", {
-
+                'class': `${this.className}__hgroup`
             })
+            if (window.location.pathname.includes("details")) hGroup.classList.add(`${this.className}__hgroup--details`)
+
             let heading = initElement("h2", {
                 'class': `${this.className}__title`
             }).ihtml(this._headingTitle)
@@ -372,6 +374,9 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
                     'class': `${this.className}__see-more-btn`
                 }).ihtml("See more")
                 hGroup.append(button)
+                button.addEventListener("click", () =>{
+                    window.location = `collections.html?list-topic=${this._seeMoreTopic}`
+                })
             }
             this.append(hGroup)
         }
@@ -399,7 +404,7 @@ customElements.define("dark-mode-toggle", class DarkModeToggle extends HTMLEleme
         this._userPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
         let evaluateDarkMode = getLS("dark-mode")
         this._isDarkMode = evaluateDarkMode == null ? this._userPreference : evaluateDarkMode
-        console.log("isDarkMode",this._isDarkMode)
+        //console.log("isDarkMode",this._isDarkMode)
 
         //TEMPLATE
         let toggleLabel = initElement("label", {
@@ -467,13 +472,13 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
         let nowPlayingNav = initElement("a", {
             'class': `${this.className}__nav-link`,
-            'href': "/nowplaying.html",
+            'href': `/collections.html?list-topic=now-playing`,
             'aria-label': "navigate to now playing",
         }).ihtml(`<i class="fa fa-ticket ${this.className}__now-playing-link"></i>`)
 
         let favoritesNav = initElement("a", {
             'class': `${this.className}__nav-link`,
-            'href': "/favorites.html",
+            'href': `/collections.html?list-topic=favorites`,
             'aria-label': "navigate to favorites",
         }).ihtml(`<i class="fas fa-heart ${this.className}__favorites-link"></i>`)
 
@@ -483,11 +488,11 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
     handleCurrentPage() {
         let links = this.querySelectorAll("a");
-        let location = window.location.pathname;
+        let location = window.location.pathname+window.location.search;
         links.forEach(link => {
             let linkRef = link.getAttribute("href");
             if (linkRef === location) {
-                console.log(linkRef)
+                //console.log(linkRef)
                 link.classList.add("nav-current-location")
             } else {
                 link.classList.remove("nav-current-location")
@@ -761,7 +766,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let castListItem = initElement("li", {
             'class': `${this.className}__cast-item`
         })
-        let actorLink = `collections.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&page=1&with_cast=${crewID}&dTopic=${crewName}`
+        let actorLink = `collections.html?language=en-US&sort_by=release_date.desc&vote_count.gte=50&page=1&with_cast=${crewID}&list-topic=${crewName}`
 
         let actorImage = initElement("clickable-image", {
             'image-path': imgPath,

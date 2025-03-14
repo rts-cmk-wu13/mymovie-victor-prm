@@ -236,10 +236,14 @@ clickable-image .clickable-image__wrapper:focus-within .clickable-image__shadow-
   opacity: 0.5;
 }
 
-section-subheading hgroup {
+section-subheading .section-subheading__hgroup {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 0.5rem;
+}
+section-subheading .section-subheading__hgroup--details {
+  padding: 0;
 }
 section-subheading .section-subheading__title {
   font: 1.25rem/normal Merriweather, Georgia, "Times New Roman", Times, serif;
@@ -338,7 +342,7 @@ card-list {
   display: flex;
   flex-direction: column;
   position: relative;
-  gap: 1rem;
+  gap: 0.5rem;
   margin-bottom: 1.5rem;
 }
 card-list .card-list__items-container {

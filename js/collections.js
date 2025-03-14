@@ -11,14 +11,16 @@ let gen_id = "items-collections"
 const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 const det_base_url = "https://api.themoviedb.org/3/movie/"
 
-let topic = params.get("dTopic");
+let topic = params.get("list-topic");
+console.log(topic)
 
 let onGenres = query.includes("with_genres")
 let onActors = query.includes("with_cast")
-let onNowPlaying = query.includes("movie/now_playing")
-let onPopular = query.includes("movie/popular")
+let onNowPlaying = topic.includes("now-playing")
+let onPopular = topic.includes("popular")
+let onHighestRated = topic.includes("highest-rated")
 
-console.log(onGenres,onActors,onNowPlaying,onPopular)
+console.log(onGenres,onActors,onNowPlaying,onPopular,onHighestRated)
 
 if (onGenres) {
   topic = allGenres.find(item => item.id === Number(topic)).name

@@ -157,10 +157,14 @@ clickable-image
                 opacity: 0.5
 
 section-subheading
-    hgroup
+    .section-subheading__hgroup
         display: flex
         justify-content: space-between
         align-items: center
+        padding: 0 base.$unit-1x
+
+    .section-subheading__hgroup--details
+        padding: 0
 
     .section-subheading__title
         font: base.$text-subtitle-1
@@ -241,7 +245,7 @@ movie-card
 card-list
     @include base.fxcol
     position: relative
-    gap: base.$unit-2x
+    gap: base.$unit-1x
     margin-bottom: base.$unit-3x
 
     .card-list
