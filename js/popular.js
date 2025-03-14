@@ -1,28 +1,27 @@
 let bodyElm = document.body;
 
-const now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
+const pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
 const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
-const det_base_url = "https://api.themoviedb.org/3/movie/"
-let now_id = "items-now-playing"
-
+const det_base_url = "https://api.themoviedb.org/3/movie/";
+let pop_id = "items-popular"
 
 buildSite();
-fetchData(now_url, insertNowPlaying)
+fetchData(pop_url, insertPopular)
 
 function buildSite() {
   //Header
   let headerElm = initElement("header")
   let siteHeaderElm = initElement("site-header", {
-    'header-title': "Now Playing",
+    'header-title': "Popular",
     'back': "",
     'toggle': "",
   })
   headerElm.append(siteHeaderElm)
 
   //Movie Cards
-  let nowPlayingElm = initElement("card-list", {
+  let popularElm = initElement("card-list", {
     'section-title': "",
-    'id': now_id,
+    'id': pop_id,
   })
 
   //Footer
@@ -31,15 +30,16 @@ function buildSite() {
   footerElm.append(navFooter)
 
   //Append to body
-  bodyElm.append(headerElm, nowPlayingElm, footerElm);
+  bodyElm.append(headerElm, popularElm, footerElm);
 }
 
-function insertNowPlaying(json) {
-  //Inject Now Playing
-  let nowPlayingItemsElm = document.querySelector(`#${getMovieListID(now_id)}`)
+function insertPopular(json) {
+  //Inject Popular
+  let popularItemsElm = document.querySelector(`#${getMovieListID(pop_id)}`)
   json.results.map(movie => {
-    nowPlayingItemsElm.append(createMovieCard(movie, "horizontal"))
+    popularItemsElm.append(createMovieCard(movie, "horizontal"));
     fetchData(det_base_url + movie.id, insertRuntimes)
   })
+  //fetchData(genres_url, insertGenres);
   insertGenresLocal(allGenres)
 }

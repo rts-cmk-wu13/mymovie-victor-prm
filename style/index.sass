@@ -1,7 +1,7 @@
 @use "../style/base"
 
 $light-gradient: linear-gradient(30deg, mix(base.$gray-900, base.$color-primary-light, 80%) 0%, mix(base.$gray-950, base.$color-primary-light, 80%) 90%)
-$dark-gradient: linear-gradient(120deg, mix(base.$gray-000, base.$color-primary-light, 80%) 0%, mix(base.$gray-100, base.$color-primary-light, 80%) 90%)
+$dark-gradient: linear-gradient(120deg, mix(base.$gray-000, base.$color-primary-light, 85%) 0%, mix(base.$gray-100, base.$color-primary-light, 85%) 90%)
 
 html
     animation: fadeIn 0.6s forwards ease-in
@@ -48,7 +48,7 @@ site-header
     padding: 0 base.$unit-2x
 
     .site-header__back-link, .site-header__back-link-icon
-        color: base.$color-primary-light
+        color: light-dark(base.$color-primary-dark,base.$color-primary-light)
     *
         width: fit-content
         grid-area: 1/1
@@ -106,6 +106,8 @@ site-header
     z-index: 100
     color: base.$color-primary-light
     background: linear-gradient(0deg, transparent 0%, rgba(mix(base.$color-primary-dark, base.$gray-100, 25%),0.66) 100%)
+    .site-header__back-link, .site-header__back-link-icon
+        color: base.$color-primary-light
 
 clickable-image
     isolation: isolate
@@ -482,4 +484,3 @@ detail-meta-list
     .detail-backdrop__trailer-modal:popover-open
         width: 100dvw
         height: 100dvh
-        

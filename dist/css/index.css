@@ -68,10 +68,10 @@ html[data-darkmode=true] {
   color-scheme: dark;
 }
 html[data-darkmode=true] .card-list__items-container {
-  background: linear-gradient(120deg, #2c2d33 0%, #414248 90%);
+  background: linear-gradient(120deg, #212226 0%, #37383c 90%);
 }
 html[data-darkmode=true] .detail-card__content-container {
-  background: linear-gradient(120deg, #2c2d33 0%, #414248 90%);
+  background: linear-gradient(120deg, #212226 0%, #37383c 90%);
 }
 html[data-darkmode=true] #card-list__items-cast-members {
   background-color: #1a1a1a;
@@ -118,7 +118,7 @@ site-header {
   padding: 0 1rem;
 }
 site-header .site-header__back-link, site-header .site-header__back-link-icon {
-  color: #DBE3FF;
+  color: light-dark(#110E47, #DBE3FF);
 }
 site-header * {
   width: -moz-fit-content;
@@ -180,6 +180,9 @@ site-header dark-mode-toggle input:checked:before {
   z-index: 100;
   color: #DBE3FF;
   background: linear-gradient(0deg, transparent 0%, rgba(24, 23, 37, 0.66) 100%);
+}
+.site-header--details .site-header__back-link, .site-header--details .site-header__back-link-icon {
+  color: #DBE3FF;
 }
 
 clickable-image {
