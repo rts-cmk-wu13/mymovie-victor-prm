@@ -1,4 +1,5 @@
 let imageBasePath = "https://image.tmdb.org/t/p/";
+const det_base_url = "https://api.themoviedb.org/3/movie/"
 
 function fetchData(url, callBack) {
     const options = {
@@ -160,7 +161,7 @@ function topicToSkewer(_topic) {
 
 console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"))
 
-const det_base_url = "https://api.themoviedb.org/3/movie/"
+
 function insertCards(_json, _id, _direction) {
     //Inject Genres
     let genreItemsElm = document.querySelector(`#${getMovieListID(_id)}`)
@@ -271,3 +272,4 @@ let allGenres = [
         "emoji": "🐴"
     }
 ]
+

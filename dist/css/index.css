@@ -371,7 +371,7 @@ card-list .card-list__items-container[horizontal] * {
 }
 card-list .card-list__items-container[vertical] {
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  grid-auto-rows: 10rem;
+  grid-auto-rows: 12rem;
   gap: 1.5rem 1.5rem;
   overflow-y: auto;
 }

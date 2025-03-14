@@ -78,6 +78,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         this._voteCount = this._dataObject.vote_count;
         this._genres = JSON.stringify(this._dataObject.genre_ids);
         this._originalTitle = checkOriginalTitle(this._dataObject);
+        this._releaseYear = this._dataObject.release_date.substr(0, 4);
         this._movieID = this._dataObject.id;
 
         //Only include extra info on cards with horizontal layout
@@ -103,16 +104,26 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__info-container`,
         })
 
+        let titleGroup = initElement("hgroup",{
+            'class': `${this.className}__hgroup`,
+        })
+
         let movieTitle = initElement("h3", {
             'class': `${this.className}__movie-title`,
         }).ihtml(this._movieTitle + this._originalTitle)
+
+        let movieYear = initElement("small", {
+            'class': `${this.className}__movie-year`,
+        }).ihtml(this._releaseYear)
+
+        titleGroup.append(movieTitle,movieYear)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
             'movie-rating': this._movieRating,
             'vote-count': this._voteCount,
         })
-        infoContainer.append(movieTitle, movieRating);
+        infoContainer.append(titleGroup, movieRating);
 
         //Extra Info
         if (this._includeExtraInfo) {
@@ -374,7 +385,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
                     'class': `${this.className}__see-more-btn`
                 }).ihtml("See more")
                 hGroup.append(button)
-                button.addEventListener("click", () =>{
+                button.addEventListener("click", () => {
                     window.location = `collections.html?list-topic=${this._seeMoreTopic}`
                 })
             }
@@ -488,7 +499,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
     handleCurrentPage() {
         let links = this.querySelectorAll("a");
-        let location = window.location.pathname+window.location.search;
+        let location = window.location.pathname + window.location.search;
         links.forEach(link => {
             let linkRef = link.getAttribute("href");
             if (linkRef === location) {
