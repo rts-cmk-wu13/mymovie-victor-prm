@@ -104,7 +104,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__info-container`,
         })
 
-        let titleGroup = initElement("hgroup",{
+        let titleGroup = initElement("hgroup", {
             'class': `${this.className}__hgroup`,
         })
 
@@ -116,7 +116,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__movie-year`,
         }).ihtml(this._releaseYear)
 
-        titleGroup.append(movieTitle,movieYear)
+        titleGroup.append(movieTitle, movieYear)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
@@ -535,12 +535,15 @@ customElements.define("detail-backdrop", class DetailBackdrop extends HTMLElemen
         let backdropContainer = initElement("div", {
             'class': `${this.className}__backdrop-container`
         })
-        let backdrop = initElement("img", {
-            'src': this._imgSource,
-            'alt': `Backdrop image for ${this._imageTitle}`,
-            'class': `${this.className}__backdrop-img`
-        })
-        backdropContainer.append(backdrop)
+        
+        if (this._imgPath != "null") {
+            let backdrop = initElement("img", {
+                'src': this._imgSource,
+                'alt': `Backdrop image for ${this._imageTitle}`,
+                'class': `${this.className}__backdrop-img`
+            })
+            backdropContainer.append(backdrop)
+        }
 
         if (this._trailerSource) {
             let playButtonContainer = initElement("div", {

@@ -474,6 +474,7 @@ nav-footer .nav-footer__nav-link.nav-current-location {
 
 detail-backdrop {
   display: block;
+  min-height: 6rem;
 }
 detail-backdrop .detail-backdrop__backdrop-container {
   width: 100%;
