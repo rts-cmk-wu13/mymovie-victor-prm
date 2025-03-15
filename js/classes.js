@@ -925,20 +925,21 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
 
 
         //TEMPLATE
-        let button = initElement("button", {
+        this.button = initElement("button", {
             'class': `${this.className}__button`,
         })
         let icon = initElement("i", {
             'class': `${this.className}__icon fa-heart`,
         })
         this.handleIcon(icon)
-        button.append(icon)
+        this.button.append(icon)
 
-        button.addEventListener("click", () => {
+        this.button.addEventListener("click", () => {
             this.handleFavorite()
+            this.button.style.animationPlayState = "running"
         })
 
-        this.append(button)
+        this.append(this.button)
     }
 
     handleFavorite() {
@@ -965,9 +966,11 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
         if (this._liked) {
             _iconElm.classList.add("fas")
             _iconElm.classList.remove("far")
+            this.button.classList.add("bounce-4")
         } else {
             _iconElm.classList.add("far")
             _iconElm.classList.remove("fas")
+            this.button.classList.remove("bounce-4")
         }
 
         //Update other instances of like icon associated with given movie, e.g. on index page
@@ -1009,6 +1012,6 @@ customElements.define("genre-section", class GenreSection extends HTMLElement {
 
 
 
-        this.append(title,genreTags)
+        this.append(title, genreTags)
     }
 })
