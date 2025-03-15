@@ -90,8 +90,8 @@ button {
   padding: 0.25rem 0.5rem;
   font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
   background: transparent;
-  border: 1px solid light-dark(#4d4d4d, #DBE3FF);
-  color: light-dark(#4d4d4d, #DBE3FF);
+  border: 1px solid light-dark(#110E47, #DBE3FF);
+  color: light-dark(#110E47, #DBE3FF);
 }
 
 .content-main {
@@ -310,7 +310,6 @@ movie-card {
   gap: 0.5rem;
   position: relative;
   height: 100%;
-  scroll-snap-align: center;
 }
 movie-card .movie-card__rating {
   display: inline-flex;
@@ -351,6 +350,7 @@ movie-card .movie-card__info-container {
 movie-card[vertical] {
   display: flex;
   flex-direction: column;
+  scroll-snap-align: center;
 }
 movie-card[horizontal] {
   display: flex;
@@ -493,9 +493,12 @@ favorite-button {
   width: fit-content;
 }
 favorite-button .favorite-button__button {
-  background-color: light-dark(rgba(17, 14, 71, 0.075), rgba(219, 227, 255, 0.1));
+  animation-play-state: paused;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  background-color: light-dark(rgba(87, 118, 193, 0.1), rgba(219, 227, 255, 0.1));
   color: light-dark(#110E47, #DBE3FF);
-  border-color: light-dark(rgba(17, 14, 71, 0.25), rgba(219, 227, 255, 0.25));
+  border-color: light-dark(rgba(17, 14, 71, 0.5), rgba(219, 227, 255, 0.25));
 }
 
 nav-footer {
@@ -711,5 +714,26 @@ detail-meta-list .detail-meta-list__meta-item-value {
   .detail-backdrop__trailer-modal:popover-open {
     width: 100dvw;
     height: 100dvh;
+  }
+}
+.bounce-4 {
+  animation-name: bounce-4;
+  animation-timing-function: ease;
+}
+@keyframes bounce-4 {
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    transform: scale(1.1, 0.9) translateY(0);
+  }
+  30% {
+    transform: scale(0.9, 1.1) translateY(-0.5rem);
+  }
+  50% {
+    transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
   }
 }/*# sourceMappingURL=index.css.map */

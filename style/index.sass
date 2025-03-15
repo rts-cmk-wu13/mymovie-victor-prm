@@ -225,8 +225,6 @@ movie-card
     position: relative
     height: 100%
 
-    scroll-snap-align: center
-
     .movie-card
         &__rating
             display: inline-flex
@@ -259,6 +257,7 @@ movie-card
 
     &[vertical]
         @include base.fxcol
+        scroll-snap-align: center
     &[horizontal]
         @include base.fxrow
         width: 100%
@@ -356,14 +355,16 @@ genre-section
             background-color: rgba(base.$color-primary-light,0.25)
         .genre-tag--emoji
             font-size: 1rem
- 
 
 favorite-button
     width: fit-content
     .favorite-button__button
-        background-color: light-dark(rgba(base.$color-primary-dark,0.075),rgba(base.$color-primary-light,0.1))
+        animation-play-state: paused
+        animation-duration: 2s
+        animation-iteration-count: 1
+        background-color: light-dark(rgba(base.$color-primary-mid,0.1),rgba(base.$color-primary-light,0.1))
         color: light-dark(base.$color-primary-dark,base.$color-primary-light)
-        border-color: light-dark(rgba(base.$color-primary-dark,0.25),rgba(base.$color-primary-light,0.25))
+        border-color: light-dark(rgba(base.$color-primary-dark,0.5),rgba(base.$color-primary-light,0.25))
 
 nav-footer
     @include base.fxrow
@@ -545,3 +546,19 @@ detail-meta-list
     .detail-backdrop__trailer-modal:popover-open
         width: 100dvw
         height: 100dvh
+
+.bounce-4
+    animation-name: bounce-4
+    animation-timing-function: ease
+
+    @keyframes bounce-4
+        0%
+            transform: scale(1,1) translateY(0)
+        10%
+            transform: scale(1.1,.9) translateY(0)
+        30%
+            transform: scale(.9,1.1) translateY(- base.$unit-1x)
+        50%
+            transform: scale(1,1) translateY(0)
+        100%
+            transform: scale(1,1) translateY(0)

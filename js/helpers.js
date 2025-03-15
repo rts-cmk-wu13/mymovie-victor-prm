@@ -200,8 +200,6 @@ function fetchFavorites(_favoriteArray, _favID) {
 }
 
 
-
-
 let allGenres = [
     {
         "id": 28,
