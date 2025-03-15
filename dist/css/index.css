@@ -541,7 +541,7 @@ nav-footer .nav-footer__back-to-top {
   position: absolute;
   right: 0.5rem;
   top: -75%;
-  background: #edeff5;
+  background: light-dark(#edeff5, #414248);
   box-shadow: 0 0 1rem rgba(26, 26, 26, 0.2);
   display: block;
   transition-property: opacity, visibility, top;
