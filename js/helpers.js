@@ -115,7 +115,17 @@ function insertGenresLocal(arr) {
     arr.map(genre => {
         let list = document.querySelectorAll(`.genre-${genre.id}`);
         //Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
-        Array.from(list).map(item => item.innerHTML = genre.name)
+        Array.from(list).map(item => {
+
+            if(genre.name == "Science Fiction") genre.name = "Sci-Fi"
+
+            if(item.offsetParent.className == "genre-section"){
+                item.innerHTML =  `<span class="genre-tag--emoji">${genre.emoji}</span>${genre.name}`
+                item.classList.add("genre-tag--large")
+            }else{
+                item.innerHTML = genre.name
+            }
+        })
     })
 }
 

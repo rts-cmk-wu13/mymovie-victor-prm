@@ -343,6 +343,21 @@ genre-tags
         :visited
             color: inherit
 
+genre-section
+    @include base.fxcol
+    position: relative
+    ul
+        margin-bottom: base.$unit-3x
+        padding: base.$unit-1x
+        .genre-tag--large
+            @include base.fxrow
+            gap: base.$unit-05x
+            align-items: center
+            background-color: rgba(base.$color-primary-light,0.25)
+        .genre-tag--emoji
+            font-size: 1rem
+ 
+
 favorite-button
     width: fit-content
     .favorite-button__button

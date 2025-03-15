@@ -467,6 +467,27 @@ genre-tags .genre-tags__link :visited {
   color: inherit;
 }
 
+genre-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+genre-section ul {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+}
+genre-section ul .genre-tag--large {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.25rem;
+  align-items: center;
+  background-color: rgba(219, 227, 255, 0.25);
+}
+genre-section ul .genre-tag--emoji {
+  font-size: 1rem;
+}
+
 favorite-button {
   width: -moz-fit-content;
   width: fit-content;
