@@ -570,8 +570,36 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
             'aria-label': "navigate to favorites",
         }).ihtml(`<i class="fas fa-heart ${this.className}__favorites-link"></i>`)
 
+        let backToTop = initElement("button", {
+            'class': `${this.className}__back-to-top hidden`,
+        }).ihtml(`Back to top <i class="fas fa-arrow-up"></i> `)
+        this.handleScrollPosition(backToTop)
+
         //APPEND
-        this.append(homeNav, nowPlayingNav, favoritesNav)
+        this.append(homeNav, nowPlayingNav, favoritesNav, backToTop)
+    }
+
+    handleScrollPosition(_buttonElm) {
+        let prevScrollpos = window.pageYOffset;
+        window.onscroll = function () {
+            let currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > 800) {
+                _buttonElm.classList.remove("hidden")
+                 if (prevScrollpos > currentScrollPos) {
+                    _buttonElm.classList.remove("hidden")
+                } else {
+                    _buttonElm.classList.add("hidden")
+                }
+            } else {
+                _buttonElm.classList.add("hidden")
+            }
+            prevScrollpos = currentScrollPos;
+        }
+        _buttonElm.onclick = () => {
+            console.log("hej")
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
     }
 
     handleCurrentPage() {

@@ -8,6 +8,7 @@ html
     background: light-dark(mix(base.$gray-950, base.$color-primary-light, 95%),mix(base.$gray-000, base.$color-primary-light, 85%))
     transition-property: background
     transition-duration: 0.3s
+    scroll-behavior: smooth
 
 html[data-darkmode="true"]
     color-scheme: dark
@@ -396,6 +397,23 @@ nav-footer
 
         &.nav-current-location
             color: base.$color-primary-mid
+
+    .nav-footer__back-to-top
+        position: absolute
+        right: base.$unit-1x
+        top: -75%
+        background: mix(base.$gray-950,base.$color-primary-light,80%)
+        box-shadow: base.$box-shadow-2x
+        display: block
+        transition-property: opacity, visibility, top
+        transition-duration: 1s
+        transition-behavior: allow-discrete
+        &.hidden
+            opacity: 0
+            top: -25%
+            visibility: hidden
+        i
+            margin-left: base.$unit-05x
 
 detail-backdrop
     display: block
