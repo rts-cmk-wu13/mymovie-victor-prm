@@ -131,7 +131,7 @@ function insertGenresLocal(arr) {
 
 function checkOriginalTitle(json) {
     //console.log(json)
-    let originalTitle = json.original_language != "en" ? ` <span class="movie__original-title">${json.original_title}</span>` : "";
+    let originalTitle = json.original_language != "en" && json.original_title != json.title? json.original_title : "";
     return originalTitle;
 }
 

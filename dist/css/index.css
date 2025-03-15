@@ -291,6 +291,10 @@ movie-title .movie-title__title {
   transition-duration: 0.3s;
 }
 movie-title .movie-title__hgroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.25rem;
   text-wrap: balance;
 }
 movie-title .movie-title__hgroup h1 {
@@ -300,10 +304,9 @@ movie-title .movie-title__movie-tagline {
   margin-top: 0.25rem;
   color: light-dark(#666666, #cccccc);
 }
-movie-title .movie__original-title {
-  font-weight: 200;
-  white-space: nowrap;
-  font-size: 0.75rem;
+movie-title .movie-title__original-title {
+  font: 800 0.575rem/normal Mulish, Arial, Helvetica, sans-serif;
+  font-weight: 600;
   color: light-dark(#666666, #cccccc);
 }
 

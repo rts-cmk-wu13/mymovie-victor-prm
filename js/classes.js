@@ -161,7 +161,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
 })
 
 
-//GENRE TAGS
+//MOVIE TITLE
 customElements.define("movie-title", class MovieTitle extends HTMLElement {
     constructor() {
         super();
@@ -189,12 +189,21 @@ customElements.define("movie-title", class MovieTitle extends HTMLElement {
 
         let movieTitle = initElement(`h${this._hSize}`, {
             'class': `${this.className}__title`,
-        }).ihtml(this._movieTitle + this._originalTitle)
+        }).ihtml(this._movieTitle)
+        titleGroup.append(movieTitle)
+
+        if (this._originalTitle) {
+            let originalTitle = initElement("p", {
+                'class': `${this.className}__original-title`,
+            }).ihtml(this._originalTitle)
+            titleGroup.append(originalTitle)
+        }
+
 
         let movieYear = initElement("small", {
             'class': `${this.className}__movie-year`,
         }).ihtml(this._releaseYear)
-        titleGroup.append(movieTitle, movieYear)
+        titleGroup.append(movieYear)
 
         if (this._movieTagline) {
             let movieTagline = initElement("p", {
@@ -271,12 +280,12 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
     render() {
         //CUSTOM ATTRIBUTES
         this._imgModifier = "w300"
-        if(getDeviceType() == "Tablet") this._imgModifier = "w400";
-        if(getDeviceType() == "Desktop") this._imgModifier = "w500";
+        if (getDeviceType() == "Tablet") this._imgModifier = "w400";
+        if (getDeviceType() == "Desktop") this._imgModifier = "w500";
         this._imgPath = this.getAttribute("image-path");
         this._linkRef = this.getAttribute("link-ref");
         this._fallBackImageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019";
-        this._imgSource = this._imgPath === "null" ? this._fallBackImageSrc : `${imageBasePath}${devOrProd("w300",this._imgModifier)}${this._imgPath}`
+        this._imgSource = this._imgPath === "null" ? this._fallBackImageSrc : `${imageBasePath}${devOrProd("w300", this._imgModifier)}${this._imgPath}`
         this._movieTitle = this.getAttribute("image-title");
         this._shadowSrc = this._imgSource.replace("/w500", "/w200");
         console.log(this._imgSource, this._shadowSrc)
