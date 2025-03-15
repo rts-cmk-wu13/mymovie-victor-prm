@@ -111,22 +111,11 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__info-container`,
         })
 
-        let titleGroup = initElement("hgroup", {
-            'class': `${this.className}__hgroup`,
-        })
-
-        let movieTitle = initElement("h3", {
-            'class': `${this.className}__movie-title`,
-        }).ihtml(this._movieTitle + this._originalTitle)
-
-        let movieYear = initElement("small", {
-            'class': `${this.className}__movie-year`,
-        }).ihtml(this._releaseYear)
-
-        titleGroup.append(movieTitle, movieYear)
-
-        let votingContainer = initElement("div",{
-            'class': `${this.className}__voting-container`,
+        let movieTitle = initElement("movie-title",{
+            'movie-id': this._movieID,
+            'movie-title': this._movieTitle,
+            'movie-title-org': this._originalTitle,
+            'movie-year': this._releaseYear
         })
 
         let movieRating = initElement("movie-rating", {
@@ -135,21 +124,15 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'vote-count': this._voteCount,
         })
 
-        let favoriteButton = initElement("favorite-button", {
-            'movie-id': `${this._movieID}`
-        })
 
-        votingContainer.append(movieRating, favoriteButton)
-
-       
-        infoContainer.append(titleGroup, votingContainer);
+        infoContainer.append(movieTitle, movieRating);
 
         //Extra Info
         if (this._includeExtraInfo) {
             let genreTags = initElement("genre-tags", {
                 'genres': this._genres,
             })
-            infoContainer.append(genreTags, this.createRuntime());
+            infoContainer.append(this.createRuntime(),genreTags);
         }
         //Append
         return infoContainer;
@@ -170,6 +153,62 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         return runtime;
     }
 })
+
+
+//GENRE TAGS
+customElements.define("movie-title", class MovieTitle extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "movie-title"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        this._movieID = this.getAttribute("movie-id")    
+        this._movieTitle = this.getAttribute("movie-title") 
+        this._originalTitle = this.getAttribute("movie-title-org") 
+        this._releaseYear = this.getAttribute("movie-year")
+        this._movieTagline = this.getAttribute("movie-tagline")
+        this._hSize = this.getAttribute("h-size") || 3;
+
+        //TEMPLATE
+        let titleGroup = initElement("hgroup", {
+            'class': `${this.className}__hgroup`,
+        })
+
+        let movieTitle = initElement(`h${this._hSize}`, {
+            'class': `${this.className}__title`,
+        }).ihtml(this._movieTitle + this._originalTitle)
+
+        let movieYear = initElement("small", {
+            'class': `${this.className}__movie-year`,
+        }).ihtml(this._releaseYear)
+        titleGroup.append(movieTitle, movieYear)
+        
+        if(this._movieTagline){
+            let movieTagline = initElement("p",{
+                'class': `${this.className}__movie-tagline`,
+            }).ihtml(this._movieTagline)
+            titleGroup.append(movieTagline)
+        }
+
+        let favoriteButton = initElement("favorite-button", {
+            'movie-id': `${this._movieID}`
+        })
+
+        
+        this.append(titleGroup, favoriteButton)
+    }
+
+})
+
+
+
 
 //GENRE TAGS
 customElements.define("genre-tags", class GenreTags extends HTMLElement {
@@ -341,23 +380,15 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         this._voteCount = this.getAttribute("vote-count")
         if (this._voteCount > 1000) this._voteCount = (this._voteCount / 1000).toFixed(1) + "k"
 
-        let ratingContainer = initElement("div", {
-            'class': `${this.className}__rating-container`
-        })
-
         //TEMPLATE(S)
         let rating = initElement("p", {
             'class': `${this.className}__rating`
         })
 
         //Rating Content
-        let starIconContainer = initElement("span", {
-            'class': `${this.className}__rating-icon-container`
-        })
         let starIcon = initElement("i", {
             'class': `fa fa-star ${this.className}__star-icon`
         })
-        starIconContainer.append(starIcon)
 
         let score = initElement("em", {
             'class': `${this.className}__rating-score`
@@ -368,26 +399,23 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         }).ihtml("/ 10 IMDb");
 
 
-
         let voteContainer = initElement("span", {
-            'class': `${this.className}__vote-container`
+            'class': `${this.className}__vote-container`,
         })
-        let peopleIconContainer = initElement("span", {
-            'class': `${this.className}__rating-icon-container`
-        })
-        let peopleIcon = initElement("i", {
-            'class': `rating-icon fas fa-user ${this.className}__people-icon`
-        })
-        peopleIconContainer.append(peopleIcon)
+
         let voteCount = initElement("p", {
             'class': `${this.className}__vote-count`
         }).ihtml(`${this._voteCount}`)
+     
+        let peopleIcon = initElement("i", {
+            'class': `fas fa-user ${this.className}__people-icon`
+        })
+        voteContainer.append(voteCount,peopleIcon)
+   
 
 
-        rating.append(starIconContainer, score, scale)
-        voteContainer.append(peopleIconContainer, voteCount)
-        ratingContainer.append(rating, voteContainer)
-        this.append(ratingContainer)
+        rating.append(starIcon, score, scale, voteContainer)
+        this.append(rating)
     }
 })
 
@@ -691,11 +719,6 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
 
 
 
-
-
-
-
-
 //DETAIL CARD
 customElements.define("detail-card", class DetailCard extends HTMLElement {
     constructor() {
@@ -749,33 +772,20 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let textContainer = initElement("div", {
             'class': `${this.className}__text-container`
         })
-        let favoriteButton = initElement("favorite-button", {
-            'movie-id': `${this._movieID}`
+
+        let movieTitle = initElement("movie-title",{
+            'movie-id': this._movieID,
+            'movie-title': this._movieTitle,
+            'movie-title-org': this._originalTitle,
+            'movie-year': this._releaseYear,
+            'movie-tagline': this._movieTagline,
+            'h-size': 1
         })
 
-        textContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription(), favoriteButton)
+        textContainer.append(movieTitle, this.createMetaInfo(), this.createDescription())
         contentContainer.append(textContainer, this.createCastList())
         this.append(backdrop, contentContainer)
         this.fillCastList();
-    }
-
-
-    createHeading() {
-        let hGroup = initElement("hgroup")
-        let movieTitle = initElement("h1", {
-            'class': `${this.className}__movie-title`
-        }).ihtml(this._movieTitle + this._originalTitle)
-
-        let movieYear = initElement("small", {
-            'class': `${this.className}__movie-year`,
-        }).ihtml(this._releaseYear)
-
-        let tagline = initElement("p", {
-            'class': `${this.className}__movie-tagline`
-        }).ihtml(this._movieTagline)
-
-        hGroup.append(movieTitle, movieYear, tagline)
-        return hGroup;
     }
 
     createMetaInfo() {
