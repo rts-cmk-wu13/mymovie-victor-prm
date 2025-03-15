@@ -5,7 +5,7 @@ $dark-gradient: linear-gradient(120deg, mix(base.$gray-000, base.$color-primary-
 
 html
     animation: fadeIn 0.6s forwards ease-in
-    background: light-dark(base.$gray-950,base.$gray-200)
+    background: light-dark(mix(base.$gray-950, base.$color-primary-light, 95%),mix(base.$gray-000, base.$color-primary-light, 85%))
     transition-property: background
     transition-duration: 0.3s
 
@@ -301,11 +301,10 @@ card-list
             @include base.fxrow
             pointer-events: none
             position: absolute
-            z-index: 100
             width: 100%
             justify-content: space-between
             padding: 0 0.75rem
-            top: 45%
+            top: 40%
             button
                 pointer-events: auto
                 font-size: 0.75rem

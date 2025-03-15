@@ -83,10 +83,16 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         //console.log(this._movieTitle, this._dataObject.id)
         this._movieRating = this._dataObject.vote_average
         this._voteCount = this._dataObject.vote_count;
-        this._genres = JSON.stringify(this._dataObject.genre_ids);
         this._originalTitle = checkOriginalTitle(this._dataObject);
         this._releaseYear = this._dataObject.release_date.substr(0, 4);
         this._movieID = this._dataObject.id;
+
+        this._genres = ""
+        if (this._dataObject.genres) {
+            this._genres = JSON.stringify(this._dataObject.genres.map(genre => genre.id))
+        } else {
+            this._genres = JSON.stringify(this._dataObject.genre_ids);
+        }
 
         //Only include extra info on cards with horizontal layout
         this._includeExtraInfo = this.hasAttribute("horizontal");
@@ -111,7 +117,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__info-container`,
         })
 
-        let movieTitle = initElement("movie-title",{
+        let movieTitle = initElement("movie-title", {
             'movie-id': this._movieID,
             'movie-title': this._movieTitle,
             'movie-title-org': this._originalTitle,
@@ -132,7 +138,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             let genreTags = initElement("genre-tags", {
                 'genres': this._genres,
             })
-            infoContainer.append(this.createRuntime(),genreTags);
+            infoContainer.append(this.createRuntime(), genreTags);
         }
         //Append
         return infoContainer;
@@ -169,9 +175,9 @@ customElements.define("movie-title", class MovieTitle extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
-        this._movieID = this.getAttribute("movie-id")    
-        this._movieTitle = this.getAttribute("movie-title") 
-        this._originalTitle = this.getAttribute("movie-title-org") 
+        this._movieID = this.getAttribute("movie-id")
+        this._movieTitle = this.getAttribute("movie-title")
+        this._originalTitle = this.getAttribute("movie-title-org")
         this._releaseYear = this.getAttribute("movie-year")
         this._movieTagline = this.getAttribute("movie-tagline")
         this._hSize = this.getAttribute("h-size") || 3;
@@ -189,9 +195,9 @@ customElements.define("movie-title", class MovieTitle extends HTMLElement {
             'class': `${this.className}__movie-year`,
         }).ihtml(this._releaseYear)
         titleGroup.append(movieTitle, movieYear)
-        
-        if(this._movieTagline){
-            let movieTagline = initElement("p",{
+
+        if (this._movieTagline) {
+            let movieTagline = initElement("p", {
                 'class': `${this.className}__movie-tagline`,
             }).ihtml(this._movieTagline)
             titleGroup.append(movieTagline)
@@ -201,7 +207,7 @@ customElements.define("movie-title", class MovieTitle extends HTMLElement {
             'movie-id': `${this._movieID}`
         })
 
-        
+
         this.append(titleGroup, favoriteButton)
     }
 
@@ -406,12 +412,12 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
         let voteCount = initElement("p", {
             'class': `${this.className}__vote-count`
         }).ihtml(`${this._voteCount}`)
-     
+
         let peopleIcon = initElement("i", {
             'class': `fas fa-user ${this.className}__people-icon`
         })
-        voteContainer.append(voteCount,peopleIcon)
-   
+        voteContainer.append(voteCount, peopleIcon)
+
 
 
         rating.append(starIcon, score, scale, voteContainer)
@@ -449,6 +455,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
             }).ihtml(this._headingTitle)
             hGroup.append(heading)
             if (window.location.pathname.includes("collections")) heading.classList.add(`${this.className}__title--collections`)
+            if (window.location.pathname.includes("favorites")) heading.classList.add(`${this.className}__title--collections`)
 
             if (this._includeButton) {
                 let button = initElement("button", {
@@ -559,7 +566,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
         let favoritesNav = initElement("a", {
             'class': `${this.className}__nav-link`,
-            'href': `/collections.html?list-topic=favorites`,
+            'href': `/favorites.html`,
             'aria-label': "navigate to favorites",
         }).ihtml(`<i class="fas fa-heart ${this.className}__favorites-link"></i>`)
 
@@ -773,7 +780,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
             'class': `${this.className}__text-container`
         })
 
-        let movieTitle = initElement("movie-title",{
+        let movieTitle = initElement("movie-title", {
             'movie-id': this._movieID,
             'movie-title': this._movieTitle,
             'movie-title-org': this._originalTitle,
@@ -896,7 +903,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 })
 
 
-//DETAIL META LIST
+//FAVORITE BUTTON
 customElements.define("favorite-button", class FavoriteButton extends HTMLElement {
     constructor() {
         super();
@@ -914,7 +921,7 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
         this._movieId = this.getAttribute("movie-id")
         this._favoritesList = getLS("favorites") || []
         this._liked = this._favoritesList.includes(this._movieId);
-        console.log(this._liked)
+        //console.log(this._liked)
 
 
         //TEMPLATE
@@ -937,8 +944,8 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
     handleFavorite() {
         let currentID = this._movieId;
         let iconElm = this.querySelector(`.${this.className}__icon`);
-
-        if (!this._liked) {
+        this._favoritesList = getLS("favorites") || []
+        if (!this._favoritesList.includes(this._movieId)) {
             this._favoritesList.push(this._movieId)
             this._liked = true;
             this.handleIcon(iconElm)
@@ -948,7 +955,10 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
             this.handleIcon(iconElm)
         }
         setLS("favorites", this._favoritesList)
+        if (window.location.pathname == "/favorites.html") {
 
+            updateAndRenderFavorites()
+        }
         return
     }
     handleIcon(_iconElm) {
@@ -959,5 +969,10 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
             _iconElm.classList.add("far")
             _iconElm.classList.remove("fas")
         }
+
+        //Update other instances of like icon associated with given movie, e.g. on index page
+        let currentClass = Array.from(_iconElm.classList).join(" ")
+        let allLikeIconsForMovie = document.querySelectorAll(`favorite-button[movie-id='${this._movieId}'] i`)
+        allLikeIconsForMovie.forEach(icon => icon.className = currentClass)
     }
 })
