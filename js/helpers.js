@@ -117,12 +117,12 @@ function insertGenresLocal(arr) {
         //Array.from(list).map(item => item.innerHTML = genre.name + " " + genre.emoji)
         Array.from(list).map(item => {
 
-            if(genre.name == "Science Fiction") genre.name = "Sci-Fi"
+            if (genre.name == "Science Fiction") genre.name = "Sci-Fi"
 
-            if(item.offsetParent.className == "genre-section"){
-                item.innerHTML =  `<span class="genre-tag--emoji">${genre.emoji}</span>${genre.name}`
+            if (item.offsetParent.className == "genre-section") {
+                item.innerHTML = `<span class="genre-tag--emoji">${genre.emoji}</span>${genre.name}`
                 item.classList.add("genre-tag--large")
-            }else{
+            } else {
                 item.innerHTML = genre.name
             }
         })
@@ -186,7 +186,7 @@ function insertCards(_json, _id, _direction) {
 function fetchFavorites(_favoriteArray, _favID) {
     const promises = [];
     _favoriteArray.forEach(favorite => {
-        const url = det_base_url+favorite;
+        const url = det_base_url + favorite;
         promises.push(fetch(url).then((res) => res.json()));
     })
 
@@ -195,8 +195,19 @@ function fetchFavorites(_favoriteArray, _favID) {
         let dataObj = {
             results: data
         }
-        insertCards(dataObj,_favID,"horizontal")
+        insertCards(dataObj, _favID, "horizontal")
     })
+}
+
+function getDeviceType() {
+    const userAgent = navigator.userAgent;
+    if (/Mobi|Android/i.test(userAgent)) {
+        return "Mobile";
+    } else if (/Tablet|iPad/i.test(userAgent)) {
+        return "Tablet";
+    } else {
+        return "Desktop";
+    }
 }
 
 

@@ -270,12 +270,16 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
 
     render() {
         //CUSTOM ATTRIBUTES
+        this._imgModifier = "w300"
+        if(getDeviceType() == "Tablet") this._imgModifier = "w400";
+        if(getDeviceType() == "Desktop") this._imgModifier = "w500";
         this._imgPath = this.getAttribute("image-path");
         this._linkRef = this.getAttribute("link-ref");
         this._fallBackImageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019";
-        this._imgSource = this._imgPath === "null" ? this._fallBackImageSrc : `${imageBasePath}${devOrProd("w300", "w500")}${this._imgPath}`
+        this._imgSource = this._imgPath === "null" ? this._fallBackImageSrc : `${imageBasePath}${devOrProd("w300",this._imgModifier)}${this._imgPath}`
         this._movieTitle = this.getAttribute("image-title");
-        this._shadowSrc = this._imgSource.replace("/w500/", "/w200");
+        this._shadowSrc = this._imgSource.replace("/w500", "/w200");
+        console.log(this._imgSource, this._shadowSrc)
 
         //TEMPLATE(S)
         let wrapper = initElement("div", {
@@ -293,7 +297,8 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         shadowWrapper.append(initElement("img", {
             'class': `${this.className}__shadow`,
             'src': this._shadowSrc,
-            'alt': "shadow for movie poster"
+            'alt': "shadow for movie poster",
+            'loading': "lazy"
         }))
         return shadowWrapper
     }
@@ -304,7 +309,8 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         })
         imageLink.append(initElement("img", {
             'src': this._imgSource,
-            'alt': `Poster for movie ${this._movieTitle}`
+            'alt': `Poster for movie ${this._movieTitle}`,
+            'loading': "lazy"
         }))
         return imageLink
     }
@@ -585,7 +591,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
             let currentScrollPos = window.pageYOffset;
             if (prevScrollpos > 800) {
                 _buttonElm.classList.remove("hidden")
-                 if (prevScrollpos > currentScrollPos) {
+                if (prevScrollpos > currentScrollPos) {
                     _buttonElm.classList.remove("hidden")
                 } else {
                     _buttonElm.classList.add("hidden")
