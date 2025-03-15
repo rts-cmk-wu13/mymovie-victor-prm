@@ -417,6 +417,7 @@ card-list .card-list__buttons-container {
   justify-content: space-between;
   padding: 0 0.75rem;
   top: 40%;
+  z-index: 20;
 }
 card-list .card-list__buttons-container button {
   pointer-events: auto;
@@ -521,6 +522,7 @@ nav-footer {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
+  z-index: 1000;
 }
 nav-footer .nav-footer__nav-link {
   width: 4rem;
