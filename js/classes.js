@@ -68,12 +68,12 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         this.ariaLabel = "Movie Card"
         this.id = `movie-card--${this._dataObject.id}`
         this.render();
-        
+
         //Remove list item container (and self) if no image is found
-        if(!this._imgPath){
-           this.parentElement.remove()
+        if (!this._imgPath) {
+            this.parentElement.remove()
         }
-       
+
     }
 
     render() {
@@ -83,10 +83,16 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         //console.log(this._movieTitle, this._dataObject.id)
         this._movieRating = this._dataObject.vote_average
         this._voteCount = this._dataObject.vote_count;
-        this._genres = JSON.stringify(this._dataObject.genre_ids);
         this._originalTitle = checkOriginalTitle(this._dataObject);
         this._releaseYear = this._dataObject.release_date.substr(0, 4);
         this._movieID = this._dataObject.id;
+
+        this._genres = ""
+        if (this._dataObject.genres) {
+            this._genres = JSON.stringify(this._dataObject.genres.map(genre => genre.id))
+        } else {
+            this._genres = JSON.stringify(this._dataObject.genre_ids);
+        }
 
         //Only include extra info on cards with horizontal layout
         this._includeExtraInfo = this.hasAttribute("horizontal");
@@ -99,6 +105,7 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
                 'image-title': this._movieTitle,
                 'link-ref': `details.html?id=${this._movieID}`,
             })
+
             this.append(clickableImage)
             this.append(this.createInfoContainer())
         }
@@ -110,33 +117,28 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
             'class': `${this.className}__info-container`,
         })
 
-        let titleGroup = initElement("hgroup", {
-            'class': `${this.className}__hgroup`,
+        let movieTitle = initElement("movie-title", {
+            'movie-id': this._movieID,
+            'movie-title': this._movieTitle,
+            'movie-title-org': this._originalTitle,
+            'movie-year': this._releaseYear
         })
-
-        let movieTitle = initElement("h3", {
-            'class': `${this.className}__movie-title`,
-        }).ihtml(this._movieTitle + this._originalTitle)
-
-        let movieYear = initElement("small", {
-            'class': `${this.className}__movie-year`,
-        }).ihtml(this._releaseYear)
-
-        titleGroup.append(movieTitle, movieYear)
 
         let movieRating = initElement("movie-rating", {
             'parent-class': this.className,
             'movie-rating': this._movieRating,
             'vote-count': this._voteCount,
         })
-        infoContainer.append(titleGroup, movieRating);
+
+
+        infoContainer.append(movieTitle, movieRating);
 
         //Extra Info
         if (this._includeExtraInfo) {
             let genreTags = initElement("genre-tags", {
                 'genres': this._genres,
             })
-            infoContainer.append(genreTags, this.createRuntime());
+            infoContainer.append(this.createRuntime(), genreTags);
         }
         //Append
         return infoContainer;
@@ -157,6 +159,62 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
         return runtime;
     }
 })
+
+
+//GENRE TAGS
+customElements.define("movie-title", class MovieTitle extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "movie-title"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        this._movieID = this.getAttribute("movie-id")
+        this._movieTitle = this.getAttribute("movie-title")
+        this._originalTitle = this.getAttribute("movie-title-org")
+        this._releaseYear = this.getAttribute("movie-year")
+        this._movieTagline = this.getAttribute("movie-tagline")
+        this._hSize = this.getAttribute("h-size") || 3;
+
+        //TEMPLATE
+        let titleGroup = initElement("hgroup", {
+            'class': `${this.className}__hgroup`,
+        })
+
+        let movieTitle = initElement(`h${this._hSize}`, {
+            'class': `${this.className}__title`,
+        }).ihtml(this._movieTitle + this._originalTitle)
+
+        let movieYear = initElement("small", {
+            'class': `${this.className}__movie-year`,
+        }).ihtml(this._releaseYear)
+        titleGroup.append(movieTitle, movieYear)
+
+        if (this._movieTagline) {
+            let movieTagline = initElement("p", {
+                'class': `${this.className}__movie-tagline`,
+            }).ihtml(this._movieTagline)
+            titleGroup.append(movieTagline)
+        }
+
+        let favoriteButton = initElement("favorite-button", {
+            'movie-id': `${this._movieID}`
+        })
+
+
+        this.append(titleGroup, favoriteButton)
+    }
+
+})
+
+
+
 
 //GENRE TAGS
 customElements.define("genre-tags", class GenreTags extends HTMLElement {
@@ -346,11 +404,23 @@ customElements.define("movie-rating", class MovieRating extends HTMLElement {
             'class': `${this.className}__scale`
         }).ihtml("/ 10 IMDb");
 
-        let voteCount = initElement("span", {
-            'class': `${this.className}__vote-count`
-        }).ihtml(`${this._voteCount} <i class='fas fa-user'></i>`)
 
-        rating.append(starIcon, score, scale, voteCount)
+        let voteContainer = initElement("span", {
+            'class': `${this.className}__vote-container`,
+        })
+
+        let voteCount = initElement("p", {
+            'class': `${this.className}__vote-count`
+        }).ihtml(`${this._voteCount}`)
+
+        let peopleIcon = initElement("i", {
+            'class': `fas fa-user ${this.className}__people-icon`
+        })
+        voteContainer.append(voteCount, peopleIcon)
+
+
+
+        rating.append(starIcon, score, scale, voteContainer)
         this.append(rating)
     }
 })
@@ -385,6 +455,7 @@ customElements.define("section-subheading", class Sectionsubheading extends HTML
             }).ihtml(this._headingTitle)
             hGroup.append(heading)
             if (window.location.pathname.includes("collections")) heading.classList.add(`${this.className}__title--collections`)
+            if (window.location.pathname.includes("favorites")) heading.classList.add(`${this.className}__title--collections`)
 
             if (this._includeButton) {
                 let button = initElement("button", {
@@ -495,7 +566,7 @@ customElements.define("nav-footer", class NavFooter extends HTMLElement {
 
         let favoritesNav = initElement("a", {
             'class': `${this.className}__nav-link`,
-            'href': `/collections.html?list-topic=favorites`,
+            'href': `/favorites.html`,
             'aria-label': "navigate to favorites",
         }).ihtml(`<i class="fas fa-heart ${this.className}__favorites-link"></i>`)
 
@@ -655,11 +726,6 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
 
 
 
-
-
-
-
-
 //DETAIL CARD
 customElements.define("detail-card", class DetailCard extends HTMLElement {
     constructor() {
@@ -679,6 +745,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
 
     render() {
         //CUSTOM ATTRIBUTES
+        this._movieID = this._dataObject.id;
         this._imgPath = this._dataObject.backdrop_path;
         this._movieRating = this._dataObject.vote_average
         this._voteCount = this._dataObject.vote_count;
@@ -689,6 +756,7 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         this._metaArray = this.createMetaArray();
         this._castArray = this._dataObject.credits.cast
         this._castListID = "items-cast-members";
+        this._releaseYear = this._dataObject.release_date.substr(0, 4);
 
         //Find Trailer
         this._trailer = this._dataObject.videos.results.filter(video => (video.type === "Trailer" && video.site === "YouTube"))[0]?.key || "";
@@ -708,24 +776,23 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         let contentContainer = initElement("div", {
             'class': `${this.className}__content-container`
         })
-        contentContainer.append(this.createHeading(), this.createMetaInfo(), this.createDescription(), this.createCastList())
+        let textContainer = initElement("div", {
+            'class': `${this.className}__text-container`
+        })
+
+        let movieTitle = initElement("movie-title", {
+            'movie-id': this._movieID,
+            'movie-title': this._movieTitle,
+            'movie-title-org': this._originalTitle,
+            'movie-year': this._releaseYear,
+            'movie-tagline': this._movieTagline,
+            'h-size': 1
+        })
+
+        textContainer.append(movieTitle, this.createMetaInfo(), this.createDescription())
+        contentContainer.append(textContainer, this.createCastList())
         this.append(backdrop, contentContainer)
         this.fillCastList();
-    }
-
-
-    createHeading() {
-        let hGroup = initElement("hgroup")
-        let movieTitle = initElement("h1", {
-            'class': `${this.className}__movie-title`
-        }).ihtml(this._movieTitle + this._originalTitle)
-
-        let tagline = initElement("p", {
-            'class': `${this.className}__movie-tagline`
-        }).ihtml(this._movieTagline)
-
-        hGroup.append(movieTitle, tagline)
-        return hGroup;
     }
 
     createMetaInfo() {
@@ -832,5 +899,80 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
                 'value': MPA_Rating,
             }])
         //.replaceAll('"', "&quot;")
+    }
+})
+
+
+//FAVORITE BUTTON
+customElements.define("favorite-button", class FavoriteButton extends HTMLElement {
+    constructor() {
+        super();
+
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "favorite-button"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        this._movieId = this.getAttribute("movie-id")
+        this._favoritesList = getLS("favorites") || []
+        this._liked = this._favoritesList.includes(this._movieId);
+        //console.log(this._liked)
+
+
+        //TEMPLATE
+        let button = initElement("button", {
+            'class': `${this.className}__button`,
+        })
+        let icon = initElement("i", {
+            'class': `${this.className}__icon fa-heart`,
+        })
+        this.handleIcon(icon)
+        button.append(icon)
+
+        button.addEventListener("click", () => {
+            this.handleFavorite()
+        })
+
+        this.append(button)
+    }
+
+    handleFavorite() {
+        let currentID = this._movieId;
+        let iconElm = this.querySelector(`.${this.className}__icon`);
+        this._favoritesList = getLS("favorites") || []
+        if (!this._favoritesList.includes(this._movieId)) {
+            this._favoritesList.push(this._movieId)
+            this._liked = true;
+            this.handleIcon(iconElm)
+        } else {
+            this._favoritesList = this._favoritesList.filter(item => item != currentID)
+            this._liked = false;
+            this.handleIcon(iconElm)
+        }
+        setLS("favorites", this._favoritesList)
+        if (window.location.pathname == "/favorites.html") {
+
+            updateAndRenderFavorites()
+        }
+        return
+    }
+    handleIcon(_iconElm) {
+        if (this._liked) {
+            _iconElm.classList.add("fas")
+            _iconElm.classList.remove("far")
+        } else {
+            _iconElm.classList.add("far")
+            _iconElm.classList.remove("fas")
+        }
+
+        //Update other instances of like icon associated with given movie, e.g. on index page
+        let currentClass = Array.from(_iconElm.classList).join(" ")
+        let allLikeIconsForMovie = document.querySelectorAll(`favorite-button[movie-id='${this._movieId}'] i`)
+        allLikeIconsForMovie.forEach(icon => icon.className = currentClass)
     }
 })

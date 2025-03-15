@@ -5,7 +5,7 @@ $dark-gradient: linear-gradient(120deg, mix(base.$gray-000, base.$color-primary-
 
 html
     animation: fadeIn 0.6s forwards ease-in
-    background: light-dark(base.$gray-950,base.$gray-200)
+    background: light-dark(mix(base.$gray-950, base.$color-primary-light, 95%),mix(base.$gray-000, base.$color-primary-light, 85%))
     transition-property: background
     transition-duration: 0.3s
 
@@ -35,11 +35,6 @@ button
     @include base.fxcol
     gap: base.$unit-2x
     margin: 0 base.$unit-2x
-
-.movie__original-title
-    white-space: nowrap
-    font-size: 0.75rem
-    color: light-dark(base.$gray-500,base.$gray-700)
 
 site-header
     display: grid
@@ -73,7 +68,7 @@ site-header
             width: 2em
             height: 1em
             box-sizing: content-box
-            border: 2px solid
+            border: 1px solid
             border-radius: 1em
             vertical-align: text-bottom
             margin: auto
@@ -111,6 +106,7 @@ site-header
 
 clickable-image
     isolation: isolate
+    position: relative
 
     .clickable-image__wrapper
         width: 100%
@@ -191,6 +187,38 @@ movie-rating
         &__vote-count
             margin-left: auto
             font: base.$text-body-1
+            color: light-dark(base.$gray-300,base.$gray-600)
+        &__vote-container
+            display: inline-flex
+            align-items: center
+            gap: base.$unit-05x
+            margin-left: auto
+    .movie-rating__people-icon
+        padding-right: base.$unit-1x
+        color: light-dark(base.$color-primary-dark,base.$color-primary-light)
+
+movie-title
+    @include base.fxrow
+    justify-content: space-between
+    gap: base.$unit-1x
+    .movie-title
+        &__title
+            font: base.$text-subtitle-3
+            transition-property: color
+            transition-duration: 0.3s
+        &__hgroup
+            text-wrap: balance
+            h1
+                font: base.$text-headline
+        &__movie-tagline
+            margin-top: base.$unit-05x
+            color: light-dark(base.$gray-400,base.$gray-800)
+
+    .movie__original-title
+        font-weight: 200
+        white-space: nowrap
+        font-size: 0.75rem
+        color: light-dark(base.$gray-400,base.$gray-800)
 
 movie-card
     gap: base.$unit-1x
@@ -214,20 +242,21 @@ movie-card
         &__vote-count
             margin-left: auto
             font: base.$text-body-1
-        &__movie-title
-            font: base.$text-subtitle-2
-            transition-property: color
-            transition-duration: 0.3s
         &__runtime
             display: inline-flex
             gap: base.$unit-05x
             align-items: center
             font: base.$text-body-2
             color: light-dark(base.$gray-300,base.$gray-600)
-    .movie-card__info-container
-        @include base.fxcol
-        gap: base.$unit-1x
-        width: 100%
+            padding-left: 2px
+            &-icon
+                color: light-dark(base.$color-primary-dark,base.$color-primary-light)
+        &__info-container
+            @include base.fxcol
+            gap: base.$unit-1x
+            width: 100%
+            position: relative
+
     &[vertical]
         @include base.fxcol
     &[horizontal]
@@ -239,7 +268,7 @@ movie-card
         .clickable-image__wrapper
             height: 100%
     .clickable-image:hover,.clickable-image:focus-within
-        ~.movie-card__info-container .movie-card__movie-title
+        ~.movie-card__info-container .movie-title__title
             color: base.$color-primary-mid
 
 card-list
@@ -272,18 +301,17 @@ card-list
             @include base.fxrow
             pointer-events: none
             position: absolute
-            z-index: 100
             width: 100%
             justify-content: space-between
             padding: 0 0.75rem
-            top: 45%
+            top: 40%
             button
                 pointer-events: auto
                 font-size: 0.75rem
                 width: 2rem
                 height: 2rem
-                background-color: rgba(base.$color-primary-light,0.75)
-                color: base.$color-primary-dark
+                background-color: rgba(base.$gray-950,0.75)
+                color: base.$gray-200
                 box-shadow: base.$box-shadow-2x
                 border: 1px solid base.$black-tint-100
 
@@ -307,14 +335,20 @@ genre-tags
         width: 100%
         padding: base.$unit-025x base.$unit-1x
         background-color: light-dark(base.$color-primary-light, base.$color-primary-mid)
-        color: light-dark(base.$color-primary-mid, base.$color-primary-dark)
-        box-shadow: base.$box-shadow-2x
+        color: light-dark(base.$color-primary-mid, base.$color-primary-light)
         border-radius: base.$unit-2x
-        border: 1px solid rgba(base.$gray-500,33%)
+        border: 1px solid light-dark(rgba(base.$color-primary-mid,0.5), rgba(base.$color-primary-light,0.25))
         font: base.$text-caption
 
         :visited
             color: inherit
+
+favorite-button
+    width: fit-content
+    .favorite-button__button
+        background-color: light-dark(rgba(base.$color-primary-dark,0.075),rgba(base.$color-primary-light,0.1))
+        color: light-dark(base.$color-primary-dark,base.$color-primary-light)
+        border-color: light-dark(rgba(base.$color-primary-dark,0.25),rgba(base.$color-primary-light,0.25))
 
 nav-footer
     @include base.fxrow
@@ -338,14 +372,14 @@ nav-footer
     .nav-footer__nav-link
         width: 4rem
         text-align: center
-        color: light-dark(base.$gray-500,base.$gray-800)
+        color: light-dark(base.$gray-400,base.$gray-800)
         font-size: 1.25rem
         border: none
         .site-footer__favorites-link
             font-size: 1rem
 
         &.nav-current-location
-            color: light-dark(base.$color-primary-dark,base.$color-primary-mid)
+            color: base.$color-primary-mid
 
 detail-backdrop
     display: block
@@ -433,8 +467,11 @@ detail-card
             transition-property: background
             transition-duration: 0.3s
             padding: base.$unit-2x base.$unit-2x 0
-        &__movie-title
-            font: base.$text-headline
+        &__text-container
+            @include base.fxcol
+            gap: base.$unit-2x
+            max-width: 75ch
+            position: relative
         &__meta-information
             @include base.fxcol
             gap: base.$unit-2x
@@ -442,10 +479,10 @@ detail-card
         &__movie-description-section
             @include base.fxcol
             gap: base.$unit-05x
-            max-width: 90ch
         &__movie-description-text
             font: base.$text-body-1
-            color: light-dark(base.$gray-500,base.$gray-800)
+            color: light-dark(base.$gray-400,base.$gray-800)
+            text-wrap: pretty
         &__cast-item
             .clickable-image:hover,.clickable-image:focus-within
                 ~.detail-card__cast-name
@@ -458,6 +495,10 @@ detail-card
             font: base.$text-body-1
         &__cast-as
             color: base.$gray-500
+    favorite-button
+        margin: base.$unit-1x
+    .movie-rating__vote-container
+        margin-left: base.$unit-4x
 
 .content-details
     position: relative
@@ -471,17 +512,12 @@ detail-meta-list
             grid-template-columns: 1fr 1fr 1fr
             font: base.$text-body-1
         &__meta-item-title
-            color: base.$gray-600
+            color: light-dark(base.$color-primary-dark, base.$color-primary-light)
             font-weight: 700
             font-style: normal
             margin-bottom: base.$unit-025x
         &__meta-item-value
-            color: light-dark(base.$color-primary-dark, base.$gray-950)
-
-
-#load-more
-    height: 500px
-    background-color: red
+            color: light-dark(base.$gray-400,base.$gray-800)
 
 /* Portrait orientation */
 @media screen and (orientation: portrait)

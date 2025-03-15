@@ -22,7 +22,7 @@ function fetchData(url, callBack) {
 function createMovieCard(movieObj, direction) {
     //let itemID = `movie-card__${movieObj.id}`
     let itemDirection = direction ? "horizontal" : "vertical"
-    
+
     let item = document.createElement("li");
     item.ariaLabel = movieObj.original_title;
 
@@ -163,15 +163,32 @@ console.log(devOrProd("Dev", "Prod: Check devOrProd-values if any errors appear"
 
 
 function insertCards(_json, _id, _direction) {
-    //Inject Genres
-    let genreItemsElm = document.querySelector(`#${getMovieListID(_id)}`)
+    //Inject Items
+    let itemListElm = document.querySelector(`#${getMovieListID(_id)}`)
     _json.results.map(movie => {
-        genreItemsElm.append(createMovieCard(movie, _direction))
+        itemListElm.append(createMovieCard(movie, _direction))
         fetchData(det_base_url + movie.id, insertRuntimes)
     })
     //fetchData(genres_url, insertGenres);
     insertGenresLocal(allGenres)
 }
+
+function fetchFavorites(_favoriteArray, _favID) {
+    const promises = [];
+    _favoriteArray.forEach(favorite => {
+        const url = det_base_url+favorite;
+        promises.push(fetch(url).then((res) => res.json()));
+    })
+
+    Promise.all(promises).then((data) => {
+        //console.log(data)
+        let dataObj = {
+            results: data
+        }
+        insertCards(dataObj,_favID,"horizontal")
+    })
+}
+
 
 
 
