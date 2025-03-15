@@ -32,6 +32,9 @@ function buildSite() {
     'horizontal': "",
     'button': ""
   })
+  let genresElm = initElement("genre-section", {
+    'section-title': "Browse genres",
+  })
   let highestRatedElm = initElement("card-list", {
     'section-title': "Highest Rated",
     'id': hra_id,
@@ -42,7 +45,7 @@ function buildSite() {
     'id': pop_id,
     'button': ""
   })
-  mainElm.append(nowPlayingElm, highestRatedElm, popularElm)
+  mainElm.append(nowPlayingElm, genresElm,highestRatedElm, popularElm)
 
   //Footer
   let footerElm = initElement("footer")

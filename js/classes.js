@@ -976,3 +976,39 @@ customElements.define("favorite-button", class FavoriteButton extends HTMLElemen
         allLikeIconsForMovie.forEach(icon => icon.className = currentClass)
     }
 })
+
+//GENRE SECTION
+customElements.define("genre-section", class GenreSection extends HTMLElement {
+    constructor() {
+        super();
+
+    }
+
+    connectedCallback() {
+        //HTML ATTRIBUTES
+        this.className = "genre-section"
+        this.render();
+    }
+
+    render() {
+        //CUSTOM ATTRIBUTES
+        this._sectionTitle = this.getAttribute("section-title")
+        this._genres = JSON.stringify(allGenres.map(genre => genre.id))
+        console.log(this._sectionTitle)
+
+
+        //TEMPLATE
+        let title = initElement("section-subheading", {
+            'class': `${this.className}__title`,
+            'header-title': this._sectionTitle,
+        })
+        let genreTags = initElement("genre-tags", {
+            'class': `${this.className}__genre-tags`,
+            'genres': this._genres,
+        })
+
+
+
+        this.append(title,genreTags)
+    }
+})
