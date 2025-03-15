@@ -90,8 +90,8 @@ button {
   padding: 0.25rem 0.5rem;
   font: 0.625rem/normal Mulish, Arial, Helvetica, sans-serif;
   background: transparent;
-  border: 1px solid light-dark(#4d4d4d, #DBE3FF);
-  color: light-dark(#4d4d4d, #DBE3FF);
+  border: 1px solid light-dark(#110E47, #DBE3FF);
+  color: light-dark(#110E47, #DBE3FF);
 }
 
 .content-main {
@@ -310,7 +310,6 @@ movie-card {
   gap: 0.5rem;
   position: relative;
   height: 100%;
-  scroll-snap-align: center;
 }
 movie-card .movie-card__rating {
   display: inline-flex;
@@ -351,6 +350,7 @@ movie-card .movie-card__info-container {
 movie-card[vertical] {
   display: flex;
   flex-direction: column;
+  scroll-snap-align: center;
 }
 movie-card[horizontal] {
   display: flex;
@@ -493,9 +493,9 @@ favorite-button {
   width: fit-content;
 }
 favorite-button .favorite-button__button {
-  background-color: light-dark(rgba(17, 14, 71, 0.075), rgba(219, 227, 255, 0.1));
+  background-color: light-dark(rgba(87, 118, 193, 0.1), rgba(219, 227, 255, 0.1));
   color: light-dark(#110E47, #DBE3FF);
-  border-color: light-dark(rgba(17, 14, 71, 0.25), rgba(219, 227, 255, 0.25));
+  border-color: light-dark(rgba(17, 14, 71, 0.5), rgba(219, 227, 255, 0.25));
 }
 
 nav-footer {

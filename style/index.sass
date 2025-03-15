@@ -225,8 +225,6 @@ movie-card
     position: relative
     height: 100%
 
-    scroll-snap-align: center
-
     .movie-card
         &__rating
             display: inline-flex
@@ -259,6 +257,7 @@ movie-card
 
     &[vertical]
         @include base.fxcol
+        scroll-snap-align: center
     &[horizontal]
         @include base.fxrow
         width: 100%
@@ -361,9 +360,9 @@ genre-section
 favorite-button
     width: fit-content
     .favorite-button__button
-        background-color: light-dark(rgba(base.$color-primary-dark,0.075),rgba(base.$color-primary-light,0.1))
+        background-color: light-dark(rgba(base.$color-primary-mid,0.1),rgba(base.$color-primary-light,0.1))
         color: light-dark(base.$color-primary-dark,base.$color-primary-light)
-        border-color: light-dark(rgba(base.$color-primary-dark,0.25),rgba(base.$color-primary-light,0.25))
+        border-color: light-dark(rgba(base.$color-primary-dark,0.5),rgba(base.$color-primary-light,0.25))
 
 nav-footer
     @include base.fxrow
