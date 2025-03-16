@@ -2,19 +2,13 @@ let params = new URLSearchParams(document.location.search);
 /* let id = params.get("id");*/
 let query = document.location.search;
 let bodyElm = document.body;
-/* query.includes("with_cast"), query.includes("genre") */
 
 let pageNumber = 1;
 let dis_url = `https://api.themoviedb.org/3/discover/movie?${query}`
-let now_url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US';
-let pop_url = 'https://api.themoviedb.org/3/movie/popular?language=en-US';
-let hra_url = 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=1000'
-
 let col_id = "items-collections"
-let genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 
 let topic = params.get("list-topic");
-console.log(topic)
+//console.log(topic)
 
 let onGenres = query.includes("with_genres")
 let onActors = query.includes("with_cast")
@@ -46,7 +40,7 @@ if (onHighestRated) {
   listTitleModifier = topicToNormal(topic)
   pageTitle = listTitleModifier
   listTitle = `All-time critically acclaimed movies`
-  currentURL = dis_url;
+  currentURL = hra_url;
 }
 if (onNowPlaying) {
   listTitleModifier = topicToNormal(topic)

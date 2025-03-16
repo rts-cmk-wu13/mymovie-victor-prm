@@ -208,6 +208,9 @@ movie-title
             transition-property: color
             transition-duration: 0.3s
         &__hgroup
+            @include base.fxcol
+            justify-content: space-between
+            gap: base.$unit-05x
             text-wrap: balance
             h1
                 font: base.$text-headline
@@ -215,11 +218,10 @@ movie-title
             margin-top: base.$unit-05x
             color: light-dark(base.$gray-400,base.$gray-800)
 
-    .movie__original-title
-        font-weight: 200
-        white-space: nowrap
-        font-size: 0.75rem
-        color: light-dark(base.$gray-400,base.$gray-800)
+        &__original-title
+            font: base.$text-caption
+            font-weight: 600
+            color: light-dark(base.$gray-400,base.$gray-800)
 
 movie-card
     gap: base.$unit-1x

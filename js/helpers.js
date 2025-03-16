@@ -1,5 +1,11 @@
-let imageBasePath = "https://image.tmdb.org/t/p/";
+let now_url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc&vote_count.gte=25&with_release_type=2|3&primary_release_date.gte=${getMaxDate()}&primary_release_date.lte=${getToday()}`;
+let pop_url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc&vote_count.gte=25';
+let hra_url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=500'
+const genres_url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
+
 const det_base_url = "https://api.themoviedb.org/3/movie/"
+let imageBasePath = "https://image.tmdb.org/t/p/";
+
 
 function fetchData(url, callBack) {
     const options = {
@@ -131,7 +137,7 @@ function insertGenresLocal(arr) {
 
 function checkOriginalTitle(json) {
     //console.log(json)
-    let originalTitle = json.original_language != "en" ? ` <span class="movie__original-title">${json.original_title}</span>` : "";
+    let originalTitle = json.original_language != "en" && json.original_title != json.title ? json.original_title : "";
     return originalTitle;
 }
 
@@ -148,6 +154,17 @@ function convertMinsToHrsMins(mins) {
     //h = h < 10 ? '0' + h : h; // (or alternatively) h = String(h).padStart(2, '0')
     m = m < 10 ? '0' + m : m; // (or alternatively) m = String(m).padStart(2, '0')
     return `${h}h ${m}m`;
+}
+
+function getMaxDate() {
+    let d = new Date();
+    d.setMonth(d.getMonth() - 3);
+    return d.toLocaleDateString("en-CA");
+}
+
+function getToday(){
+    let d = new Date();
+    return d.toLocaleDateString("en-CA");
 }
 
 function topicToNormal(_topic) {
