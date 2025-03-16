@@ -288,7 +288,7 @@ customElements.define("clickable-image", class ClickableImage extends HTMLElemen
         this._imgSource = this._imgPath === "null" ? this._fallBackImageSrc : `${imageBasePath}${devOrProd("w300", this._imgModifier)}${this._imgPath}`
         this._movieTitle = this.getAttribute("image-title");
         this._shadowSrc = this._imgSource.replace("/w500", "/w200");
-        console.log(this._imgSource, this._shadowSrc)
+        //console.log(this._imgSource, this._shadowSrc)
 
         //TEMPLATE(S)
         let wrapper = initElement("div", {
@@ -1040,7 +1040,7 @@ customElements.define("genre-section", class GenreSection extends HTMLElement {
         //CUSTOM ATTRIBUTES
         this._sectionTitle = this.getAttribute("section-title")
         this._genres = JSON.stringify(allGenres.map(genre => genre.id))
-        console.log(this._sectionTitle)
+        //console.log(this._sectionTitle)
 
 
         //TEMPLATE
