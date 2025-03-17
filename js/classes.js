@@ -160,7 +160,6 @@ customElements.define("movie-card", class MovieCard extends HTMLElement {
     }
 })
 
-
 //MOVIE TITLE
 customElements.define("movie-title", class MovieTitle extends HTMLElement {
     constructor() {
@@ -221,9 +220,6 @@ customElements.define("movie-title", class MovieTitle extends HTMLElement {
     }
 
 })
-
-
-
 
 //GENRE TAGS
 customElements.define("genre-tags", class GenreTags extends HTMLElement {
@@ -766,9 +762,6 @@ customElements.define("detail-meta-list", class DetailMetaList extends HTMLEleme
     }
 })
 
-
-
-
 //DETAIL CARD
 customElements.define("detail-card", class DetailCard extends HTMLElement {
     constructor() {
@@ -944,7 +937,6 @@ customElements.define("detail-card", class DetailCard extends HTMLElement {
         //.replaceAll('"', "&quot;")
     }
 })
-
 
 //FAVORITE BUTTON
 customElements.define("favorite-button", class FavoriteButton extends HTMLElement {
